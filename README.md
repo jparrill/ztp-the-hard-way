@@ -16,11 +16,11 @@ On a high level view we have 2 scenarios, the connected world and the disconnect
 
 ### Disconnected ZTP Flow
 
-![](https://i.imgur.com/eCLCzpA.png)
+![](/assets/ztp-flow-disconnected.png)
 
 ### Connected ZTP Flow
 
-![](https://i.imgur.com/0BqWhRk.png)
+![](/assets/ztp-flow-connected.png)
 
 
 These are the steps 1-by-1 that we need to follow in order to deploy every element of ZTP, including the Hub and the Spoke cluster. As you see, there are some differencies between those but mostly on the pre-requisites side.
