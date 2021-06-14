@@ -42,5 +42,5 @@ Here we will need some basic components, the OCP Hub cluster will need at least:
 
 Well, we can discover how to deal with ZTP following these steps:
 
-1. [Disconnected ZTP Flow Hub deployment](/VXdpEt6oQXaWYp7Wy4wgnQ)
-2. [Connected ZTP Flow Hub deployment](/kqY-xh5mQGqIoKGGAVWTng)
+1. [Disconnected ZTP Flow Hub deployment](/docs/disconnected-ZTP-flow-hub-deployment.md)
+2. [Connected ZTP Flow Hub deployment](/docs/connected-ZTP-flow-hub-deployment.md)
