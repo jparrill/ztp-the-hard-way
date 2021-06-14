@@ -421,3 +421,10 @@ oc get agentclusterinstall -o yaml
 
 6. Edit the agent/s registered, changing the `hostname` and approving them.
 7. The deployment will be self triggered.
+
+
+---
+
+With that I think we can say that the flow should finish in a right way, but if the deployment does not finishes or maybe we see some issues on the `AgentClusterInstall` CR created, we can take a look to the troubleshooting documentation.
+
+
