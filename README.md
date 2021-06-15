@@ -24,7 +24,7 @@ ZTP stands for Zero Touch Provisioning, a project to deploy and deliver OpenShif
 
 ## Context on ZTP architecture
 
-On a high level view we have two scenarios, the connected world and the disconnected world which means, that your OpenShift nodes can access directly to Internet or not. From here we need to separate them in two ways to follow. the disconnected one will need to fill some prerequisites before the action starts, let's take a look to some diagrams:
+On a high level view, we have two scenarios, the connected world and the disconnected world which means, that your OpenShift nodes can access directly to the Internet or not. From here we need to separate them in two ways to follow. the disconnected one will need to fill some pre-requisites before the action starts, let's take a look to some diagrams:
 
 ### Disconnected ZTP Flow
 
