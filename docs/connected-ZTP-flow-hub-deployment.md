@@ -20,7 +20,7 @@ To do it in a standard way, we just need to go to the OpenShift Marketplace and 
 
 We will follow the connected diagram we've seen before:
 
-![](https://i.imgur.com/JpoupQT.png)
+![](../assets/ztp-flow-connected.png)
 
 Once the ACM deployment finishes, the first two steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure, let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
