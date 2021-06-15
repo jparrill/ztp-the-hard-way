@@ -15,8 +15,17 @@ To do it in a regular manner and as a pre-requirement for the OCP deployment we 
 - Open Firewall rules to allow external host to access the hosted data
 - Ensure DNS Entries are placed and DHCP is well configured
 
-If you did this in a previous step to deploy the Hub, perfect, if not you need to do this before to deploy the Hub cluster (The Hub cluster is the one that will manage the other OCP clusters, we can call it, the father)
+If you did this in a previous step to deploy the Hub, perfect, if not, you will need to do this before to deploy the Hub cluster (The Hub cluster is the one that will manage the other OCP clusters, we can call it, the father)
 
+We will point to the right resource to go through all these pre-requisites in order to help you understand the procedure and how it works.
+
+- [**Host Internal resources (Registry and HTTPD)**](./prerequirements/host-internal-resources.md): Contains the necessary things to raise up a HTTPD, Internal Registry and Download the ISO's and RootFS files to be hosted in the node
+- [**Mirror OCP Release**](./prerequirements/mirror-ocp-release.md): Contains the way to mirror an OCP Release.
+- [**Mirror OLM Marketplace**](./prerequirements/mirror-olm.md): Contains the way to mirror the OLM in order to see it in a disconnected environment.
+
+After going through these steps, we can continue with the tipical flow.
+
+---
 
 ## ACM Deployment in a disconnected Environment
 
