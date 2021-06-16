@@ -1,27 +1,38 @@
+Table of contents:
+
+<!-- TOC depthfrom:1 orderedlist:false -->
+
+- [Host Internal resources](#host-internal-resources)
+  - [HTTPD Server deployment and Configuration](#httpd-server-deployment-and-configuration)
+  - [Internal Registry Deployment and Configuration](#internal-registry-deployment-and-configuration)
+  - [Download the desired OpenShift ISO and RootFS](#download-the-desired-openshift-iso-and-rootfs)
+
+<!-- /TOC -->
+
 # Host Internal resources
 
 In this section we will cover:
 
 - HTTPD Server deployment and Configuration
 - Internal Registry Deployment and Configuration
-- Download the desired Openshift ISOs and host them
+- Download the desired OpenShift ISOs and host them
 
 ## HTTPD Server deployment and Configuration
 
 For that it's a quite easy step, we just need to install the HTTPD server and raise up the service:
 
-```
+```sh
 sudo dnf install httpd -y
-systemctl enable --now httpd 
+systemctl enable --now httpd
 firewall-cmd --add-service http --permanent
 firewall-cmd --reload
 ```
 
 ## Internal Registry Deployment and Configuration
 
-For this task we need to create the certificate for our Internal Registry, to do that we just need to fill the variables on this script and execute it:
+For this task, we need to create the certificate for our Internal Registry, to do that we just need to fill the variables on this script and execute it:
 
-```
+```sh
 #!/bin/bash
 
 ## Variables to fill
@@ -53,11 +64,11 @@ sudo update-ca-trust extract
 htpasswd -bBc ${path}/auth/htpasswd dummy dummy
 ```
 
-This execution will create a certificate and load it into our host ca-trust bundle, in order to trust it as a CA, then it will create the htpasswd file with the user password `dummy` that will be the authentication needed on your Pull Secret to access the registry.
+This execution will create a certificate and load it into our host `ca-trust` bundle, in order to trust it as a CA, then it will create the htpasswd file with the user password `dummy` that will be the authentication needed on your Pull Secret to access the registry.
 
-After that we need to create our podman regsitry container to host the OCP and OLM Container Images, to do that we need to execute this script:
+After that we need to create our podman registry container to host the OCP and OLM Container Images, to do that we need to execute this script:
 
-```
+```sh
 #!/bin/bash
 
 host_fqdn=$( hostname --long )
@@ -88,7 +99,7 @@ firewall-cmd --add-port 5000/tcp --permanent
 firewall-cmd --reload
 ```
 
-To check that the regitry it's up and running, we need to write down the `pull_secret.json`:
+To check that the registry it's up and running, we need to write down the `pull_secret.json`:
 
 ```
 {
@@ -100,39 +111,40 @@ To check that the regitry it's up and running, we need to write down the `pull_s
 }
 ```
 
-**NOTE**: Ensure you change the hostname.
+**NOTE**: Ensure you change the `hostname`.
 
-then try to mirror an image manually using skopeo:
+then try to mirror an image manually using `skopeo`:
 
-```
+```sh
 skopeo copy --authfile ${PULL_SECRET_JSON} --all docker://quay.io/jparrill/busybox:1.28 docker://xenomorph.localdomain:5000/jparrill/busybox:1.28
 ```
 
 The image it's a sample and public one and we need to change the `${PULL_SECRET_JSON}` by our PullSecret file path.
 
-## Download the desired Openshift ISO and RootFS
+## Download the desired OpenShift ISO and RootFS
 
-To download the right ISO and RootFS we just need to go to the published versions of Openshift:
+To download the right ISO and RootFS we just need to go to the published versions of OpenShift:
 
 - Here for Internal Builds: https://openshift-release.apps.ci.l2s4.p1.openshiftapps.com/
 - Here for External and Public builds: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-release/
 
 So with that just download them into the right folder
 
-```
+```sh
 sudo wget https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-release/latest-4.8/rhcos-4.8.0-fc.9-x86_64-live-rootfs.x86_64.img -O /var/www/html/rhcos-4.8.0-fc.9-x86_64-live-rootfs.x86_64.img
 sudo wget https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-release/latest-4.8/rhcos-4.8.0-fc.9-x86_64-live.x86_64.iso -O /var/www/html/rhcos-4.8.0-fc.9-x86_64-live.x86_64.iso
 ```
 
 That should be it, you can check it with a curl command:
 
-```
+```sh
 curl http://$(hostname)/rhcos-4.8.0-fc.9-x86_64-live-rootfs.x86_64.img
 ```
 
 And the output should be something like:
-```
-Warning: Binary output can mess up your terminal. Use "--output -" to tell 
-Warning: curl to output it to your terminal anyway, or consider "--output 
+
+```console
+Warning: Binary output can mess up your terminal. Use "--output -" to tell
+Warning: curl to output it to your terminal anyway, or consider "--output
 Warning: <FILE>" to save to a file.
 ```

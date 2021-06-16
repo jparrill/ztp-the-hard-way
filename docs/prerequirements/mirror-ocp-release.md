@@ -1,3 +1,11 @@
+Table of contents:
+
+<!-- TOC depthfrom:1 orderedlist:false -->
+
+- [Mirror the OCP Release](#mirror-the-ocp-release)
+
+<!-- /TOC -->
+
 # Mirror the OCP Release
 
 I think you already did this for the Hub cluster deployment but let's review it.
@@ -8,7 +16,7 @@ Said that let's go through the process.
 
 First thing we need it's the `oc` client, to best way to do it's downloading from [here](https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/oc/), but if you have already one even if it's outdated, you can use this script:
 
-```
+```sh
 #!/bin/bash
 
 ## Variables
@@ -44,4 +52,4 @@ download_oc_client
 ocp_mirror_release
 ```
 
-Executing this script should be ok to download and update the `oc` client and also mirror the Openshift Release, so ensure you add the relevant ImageContentSourcePolicies to your InstallConfig for the Hub deployment and also for the Spoke deployments that we will explain in a later section.
+Executing this script should be ok to download and update the `oc` client and also mirror the OpenShift Release, so ensure you add the relevant `ImageContentSourcePolicies` to your `InstallConfig` for the Hub deployment and also for the Spoke deployments that we will explain in a later section.
