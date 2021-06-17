@@ -5,7 +5,7 @@ Also the Disconnected world is not easy so we will try to explain which are the 
 
 ## Pre Requirements Phase
 
-To do it in a regular manner and as a pre-requirement for the OCP deployment we need to:
+To do it in a regular manner and as a pre-requirement for the OCP deployment we need to (The links bellow points you to the official documentation):
 
 - [Deploy an HTTP server](https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/8/html/deploying_different_types_of_servers/setting-apache-http-server_deploying-different-types-of-servers)
 - [Deploy an Internal Registry server](https://docs.openshift.com/container-platform/4.7/installing/installing_bare_metal_ipi/ipi-install-installation-workflow.html#ipi-install-creating-a-disconnected-registry_ipi-install-configuration-files)
@@ -17,7 +17,7 @@ To do it in a regular manner and as a pre-requirement for the OCP deployment we 
 
 If you did this in a previous step to deploy the Hub, perfect, if not, you will need to do this before to deploy the Hub cluster (The Hub cluster is the one that will manage the other OCP clusters, we can call it, the father)
 
-We will point to the right resource to go through all these pre-requisites in order to help you understand the procedure and how it works.
+We will point to the right resource to go through all these pre-requisites in order to help you understand the procedure and how it works (The links points to every step 1-by-1 in the documentation of this repository).
 
 - [**Host Internal resources (Registry and HTTPD)**](./prerequirements/host-internal-resources.md): Contains the necessary things to raise up a HTTPD, Internal Registry and Download the ISO's and RootFS files to be hosted in the node
 - [**Mirror OCP Release**](./prerequirements/mirror-ocp-release.md): Contains the way to mirror an OCP Release.
