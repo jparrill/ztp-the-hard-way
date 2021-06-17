@@ -54,7 +54,8 @@ This will generate a folder like (sample) `community-operator-index-manifests` t
 - `ImageContentSourcePolicies` (ICSP): This OCP object creates an entry in the `/etc/containers/registries.conf` of every node (that allows user workloads) to use a mirror instead of go the source registry, following that precedence, first the mirror, then the source. After that, the MachineConfigOperator will restart the `crio` and the `kubelet` by himself.
 
 **NOTE**: If you modifies the `/etc/containers/registries.conf` file by hand it will only be used by Crio when you restarts the `crio` and `kubelet` processes. Also if you modifies it by hand will put the MachineConfigOperator in degraded state.
-**NOTE**: Another important thing, the default behaviour of applying a ICSP is, that `crio` will only go to pull that image from the Mirror if you are trying to pull an image with the **digest** instead of the **tag**: tag: `quay.io/jparrill/busybox:1.28` digest: `quay.io/jparrill/busybox@sha256:4f0f2624a6e45db32bdf62511fe247af6666cd5689dbd5c43459c1bf765a6a5a`
+
+**NOTE**: Another important thing, the default behaviour of applying a ICSP is, that `crio` will only go to pull that image from the Mirror if you are trying to pull an image with the **digest** instead of the **tag**: tag: `quay.io/jparrill/busybox:1.28` digest: `quay.io/jparrill/busybox@sha256:4f0f2624a6e45db32bdf62511fe247af6666cd5689dbd5c43459c1bf765a6a5a`.
 
 This is a sample of an ICSP:
 ```
