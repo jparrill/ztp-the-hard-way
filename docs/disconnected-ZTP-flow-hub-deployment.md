@@ -31,9 +31,11 @@ After going through these steps, we can continue with the tipical flow.
 
 go to the Openshift Marketplace and look for the "Red Hat Advance Cluster Management" operator and the deploy will start. It takes a while to finish, so please be patience.
 
-We will follow the disconnected diagram we've seen before:
+This time we will follow the disconnected diagram we've seen before:
 
 ![](../assets/ztp-flow-disconnected.png)
+
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel #forum-acm. If you already has permissions to do this, you will need to do some extra steps [explained here](./prerequirements/acm-downstream-deployment.md)
 
 Once the ACM deployment finishes, the first 2 steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
@@ -56,7 +58,11 @@ spec:
   targetNamespace: hive
 ```
 
-**NOTE**: If this is not the same content as you have already in your HiveConfig CR, please ensure that you apply this manifests, if not another CRD called ClusterDeployment will fail in future steps.
+**NOTE**: If this is not the same content as you have already in your HiveConfig CR, please ensure that you apply this manifests, if not another CRD called ClusterDeployment will fail in future steps. You can also use a `patch` command:
+
+```
+oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","logLevel":"debug","featureGates":{"custom":{"enabled":["AlphaAgentInstallStrategy"]},"featureSet":"Custom"}}}'
+```
 
 ## Manifest Creation Phase
 
@@ -73,7 +79,7 @@ metadata:
   name: openshift-v4.8.0
   namespace: open-cluster-management
 spec:
-  releaseImage: quay.io/openshift-release-dev/ocp-release:4.8.0-fc.8-x86_64
+  releaseImage: quay.io/openshift-release-dev/ocp-release:4.8.0-fc.9-x86_64
 ```
 
 - **AsistedServiceConfig**: This is an **optional** ConfigMap that could be used to customize the Assisted Service pod deployment using an annotation in the Operand (we will go deep in this topic later).
@@ -87,7 +93,6 @@ metadata:
   labels:
     app: assisted-service
 data:
-  CONTROLLER_IMAGE: quay.io/ocpmetal/assisted-installer-controller@sha256:93f193d97556711dce20b2f11f9e2793ae26eb25ad34a23b93d74484bc497ecc
   LOG_LEVEL: "debug"
 ```
 
@@ -118,17 +123,16 @@ spec:
     resources:
       requests:
         storage: 40Gi
-### This is a ConfigMap that only will make sense on Disconnected environments
   mirrorRegistryRef:
     name: 'lab-index-mirror'
-###
   osImages:
     - openshiftVersion: "4.8"
-      version: "48.84.202106070419-0"
-      url: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live.x86_64.iso"
-      rootFSUrl: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live-rootfs.x86_64.img"
+      version: "48.84.202106102231-0"
+      url: "http://[2620:52:0:1303::1]/rhcos-4.8.0-fc.9-x86_64-live.x86_64.iso"
+      rootFSUrl: "http://[2620:52:0:1303::1]/rhcos-live-rootfs.x86_64.img"
 ```
 
+**NOTE**: Ensure you put the right IP or name of the server you are hosting from the ISO and the RootFS.
 
 - **Private Key**: This is a Secret created that contains the private key that will be used by Assisted Service pod.
 
@@ -163,6 +167,54 @@ metadata:
 stringData:
   .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
 ```
+
+- **Mirror Configuration**: This is a ConfigMap that contains the data to be injected on the DiscoveryImage and also in the PointerIgnition that happens after writting the OSTREE image to the OCP Node disk. It includes 2 parts:
+
+  - `data.ca-bundle.crt`: Which contains the CA Certificate of our Internal Registry
+  - `data.registries.conf`: Which contains the file that will be injected in the `/etc/containers/registries.conf` path and will act as a ICSP
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hyper1-mirror-config
+  namespace: open-cluster-management
+  labels:
+    app: assisted-service
+data:
+  ca-bundle.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIGJzCCBA+gAwIBAgIUcuRdl0sEsCZMPWuE44snY/MLgcowDQYJKoZIhvcNAQEL
+    BQAwgYgxCzAJBgNVBAYTAlVTMRYwFAYDVQQIDA1NYXNzYWNodXNldHRzMREwDwYD
+    VQQHDAhXZXN0Zm9yZDEPMA0GA1UECgwGUmVkSGF0MQ0wCwYDVQQLDARNR01UMS4w
+    ...
+    ...
+       GGfmDnicADMISxGIDnfhPUf+GllZtEn8D+c6WyfnDQMfqy9A56stxHWmwdlTf+UM
+    6Rf1YNZC6XaR2GzJTz8mdiyG4L/cG6um65TigWOjaAOfD5ecei+d0maqmw==
+    -----END CERTIFICATE-----
+  registries.conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io/acm-d"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io/ocpmetal"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal"
+...
+...
+```
+
+Once created all of these manifests we can continue with the next section.
 
 From here we will create the manifest that regards the spoke clusters, these above ones are only necessary for the Hub cluster.
 

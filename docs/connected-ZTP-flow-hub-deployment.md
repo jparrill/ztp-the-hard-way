@@ -46,7 +46,11 @@ spec:
   targetNamespace: hive
 ```
 
-**NOTE**: If this is not the same content as you have already in your HiveConfig CR, please ensure that you apply this manifests, if not another CRD called ClusterDeployment will fail in future steps.
+**NOTE**: If this is not the same content as you have already in your HiveConfig CR, please ensure that you apply this manifests, if not another CRD called ClusterDeployment will fail in future steps. You can also use a `patch` command:
+
+```
+oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","logLevel":"debug","featureGates":{"custom":{"enabled":["AlphaAgentInstallStrategy"]},"featureSet":"Custom"}}}'
+```
 
 ## Manifest Creation Phase
 
@@ -77,7 +81,6 @@ metadata:
   labels:
     app: assisted-service
 data:
-  CONTROLLER_IMAGE: quay.io/ocpmetal/assisted-installer-controller@sha256:93f193d97556711dce20b2f11f9e2793ae26eb25ad34a23b93d74484bc497ecc
   LOG_LEVEL: "debug"
 ```
 
