@@ -1,4 +1,23 @@
+Table of contents:
+
+<!-- TOC depthfrom:1 orderedlist:false -->
+
+- [Disconnected ZTP Flow Hub deployment](#disconnected-ztp-flow-hub-deployment)
+  - [Pre Requirements Phase](#pre-requirements-phase)
+  - [ACM Deployment in a disconnected Environment](#acm-deployment-in-a-disconnected-environment)
+  - [Manifest Creation Phase](#manifest-creation-phase)
+    - [Hub Basic elements creation](#hub-basic-elements-creation)
+    - [Spoke cluster definition](#spoke-cluster-definition)
+      - [SNO Cluster Definition](#sno-cluster-definition)
+      - [Multi Node Cluster Definition](#multi-node-cluster-definition)
+    - [Spoke cluster deployment](#spoke-cluster-deployment)
+      - [Fully Automated ZTP](#fully-automated-ztp)
+      - [Manual Spoke cluster deployment](#manual-spoke-cluster-deployment)
+
+<!-- /TOC -->
+
 # Disconnected ZTP Flow Hub deployment
+
 In an ideal world we try just pull the ACM Operator image from the OperatorHub platform once mirrored from Internet, but here in the real world, the ACM v2.3.0 is not released yet, so we need to follow [these instructions](https://github.com/open-cluster-management/deploy#lets-get-started) in order to deploy a non-released ACM version.
 
 Also the Disconnected world is not easy so we will try to explain which are the steps to do it in a right way and following supported procedures.
@@ -9,7 +28,7 @@ To do it in a regular manner and as a pre-requirement for the OCP deployment we 
 
 - [Deploy an HTTP server](https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/8/html/deploying_different_types_of_servers/setting-apache-http-server_deploying-different-types-of-servers)
 - [Deploy an Internal Registry server](https://docs.openshift.com/container-platform/4.7/installing/installing_bare_metal_ipi/ipi-install-installation-workflow.html#ipi-install-creating-a-disconnected-registry_ipi-install-configuration-files)
-- [Mirror the OCP Release for the Spoke Clusters and host it in an Internal Registry](https://docs.openshift.com/container-platform/4.7/installing/installing-mirroring-installation-images.html#installing-mirroring-installation-images)
+- [Mirror the OpenShift Container Platform Release for the Spoke Clusters and host it in an Internal Registry](https://docs.openshift.com/container-platform/4.7/installing/installing-mirroring-installation-images.html#installing-mirroring-installation-images)
 - [Mirror the OLM into your brand new Internal Registry](https://docs.openshift.com/container-platform/4.7/operators/admin/olm-restricted-networks.html)
 - [Download and Host the RHCOS LiveISO and RootFS on a HTTP server](https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/)
 - Open Firewall rules to allow external host to access the hosted data
@@ -23,23 +42,23 @@ We will point to the right resource to go through all these pre-requisites in or
 - [**Mirror OCP Release**](./prerequirements/mirror-ocp-release.md): Contains the way to mirror an OCP Release.
 - [**Mirror OLM Marketplace**](./prerequirements/mirror-olm.md): Contains the way to mirror the OLM in order to see it in a disconnected environment.
 
-After going through these steps, we can continue with the tipical flow.
+After going through these steps, we can continue with the typical flow.
 
 ---
 
 ## ACM Deployment in a disconnected Environment
 
-go to the Openshift Marketplace and look for the "Red Hat Advance Cluster Management" operator and the deploy will start. It takes a while to finish, so please be patience.
+go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and the deploy will start. It takes a while to finish, so please be patience.
 
 This time we will follow the disconnected diagram we've seen before:
 
 ![](../assets/ztp-flow-disconnected.png)
 
-**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel #forum-acm. If you already has permissions to do this, you will need to do some extra steps [explained here](./prerequirements/acm-downstream-deployment.md)
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps [explained here](./prerequirements/acm-downstream-deployment.md)
 
-Once the ACM deployment finishes, the first 2 steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure let's check a couple of things (Ensure you have your KUBECONFIG loaded)
+Once the ACM deployment finishes, the first two steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
-```
+```yaml
 oc get HiveConfig -o yaml
 
 # Should show something like this
@@ -72,7 +91,7 @@ This phase could be done in an automated way but we want to explain 1-by-1 what 
 
 - **ClusterImageSet**: This manifest should contain a reachable OCP version that will be pulled from Hive and Assisted Installer in order to deploy an Spoke cluster, and this is how looks like:
 
-```
+```yaml
 apiVersion: hive.openshift.io/v1
 kind: ClusterImageSet
 metadata:
@@ -84,7 +103,7 @@ spec:
 
 - **AsistedServiceConfig**: This is an **optional** ConfigMap that could be used to customize the Assisted Service pod deployment using an annotation in the Operand (we will go deep in this topic later).
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -100,31 +119,32 @@ data:
 
 - **AgentServiceConfig**: This is the Operand, the Assisted Service pod that handles the spoke clusters deployment's.
 
-```
+```yaml
 apiVersion: agent-install.openshift.io/v1beta1
 kind: AgentServiceConfig
 metadata:
   name: agent
   namespace: open-cluster-management
-### This is the annotation that injects modifications in the Assisted Service pod
+  ### This is the annotation that injects modifications in the Assisted Service pod
   annotations:
-    unsupported.agent-install.openshift.io/assisted-service-configmap: 'assisted-service-config'
+    unsupported.agent-install.openshift.io/assisted-service-configmap: "assisted-service-config"
 ###
 spec:
   databaseStorage:
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 40Gi
   filesystemStorage:
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 40Gi
+
   mirrorRegistryRef:
-    name: 'lab-index-mirror'
+    name: "lab-index-mirror"
   osImages:
     - openshiftVersion: "4.8"
       version: "48.84.202106102231-0"
@@ -136,7 +156,7 @@ spec:
 
 - **Private Key**: This is a Secret created that contains the private key that will be used by Assisted Service pod.
 
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -158,7 +178,7 @@ type: Opaque
 
 - **Pull Secret**: This is a Secret that contains the access credentials for the Registry access (Internal or External)
 
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -168,7 +188,7 @@ stringData:
   .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
 ```
 
-- **Mirror Configuration**: This is a ConfigMap that contains the data to be injected on the DiscoveryImage and also in the PointerIgnition that happens after writting the OSTREE image to the OCP Node disk. It includes 2 parts:
+- **Mirror Configuration**: This is a ConfigMap that contains the data to be injected on the `DiscoveryImage` and also in the `PointerIgnition` that happens after writing the `OSTREE` image to the OCP Node disk. It includes two parts:
 
   - `data.ca-bundle.crt`: Which contains the CA Certificate of our Internal Registry
   - `data.registries.conf`: Which contains the file that will be injected in the `/etc/containers/registries.conf` path and will act as a ICSP
@@ -194,20 +214,20 @@ data:
     -----END CERTIFICATE-----
   registries.conf: |
     unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
-    
+
     [[registry]]
       prefix = ""
       location = "quay.io/acm-d"
       mirror-by-digest-only = true
-    
+
       [[registry.mirror]]
         location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
-    
+
     [[registry]]
       prefix = ""
       location = "quay.io/ocpmetal"
       mirror-by-digest-only = true
-    
+
       [[registry.mirror]]
         location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal"
 ...
@@ -222,11 +242,11 @@ From here we will create the manifest that regards the spoke clusters, these abo
 
 In the Manifest creation phase we still need to define the relevant CR's that will represent our spoke cluster, said that we will continue with the relevant elements for the managed clusters.
 
-- **AgentClusterInstall**: This is one of the most important elements to define, the first thing is to decide which kind of deployment you need to do. If it's SNO vs Multinode is really important here so let's focus in both cases
+- **AgentClusterInstall**: This is one of the most important elements to define, the first thing is to decide which kind of deployment you need to do. If it's SNO versus Multinode is really important here so let's focus in both cases
 
 #### SNO Cluster Definition
 
-For Single Node Openshift we need to specify the next things:
+For Single Node OpenShift we need to specify the next things:
 
 - `spec.provisionRequirements.controlPlaneAgents`: Set to **1**, this means that we just want a ControlPlane based on 1 Master node.
 - `spec.imageSetRef`: This will reference the ClusterImageSet created in previous steps, so ensure that those are related between them using the name.
@@ -238,7 +258,7 @@ For Single Node Openshift we need to specify the next things:
 
 This is a sample as how should looks like on a IPv6 environment
 
-```
+```yaml
 apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
@@ -259,12 +279,12 @@ spec:
       - cidr: "2620:52:0:1302::/64"
   provisionRequirements:
     controlPlaneAgents: 1
-  sshPublicKey: 'ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx'
+  sshPublicKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
 ```
 
 #### Multi Node Cluster Definition
 
-For Multi Node Openshift we need to specify the next things:
+For Multi Node OpenShift we need to specify the next things:
 
 - `spec.provisionRequirements.controlPlaneAgents`: Set to **3**, this means that we just want a ControlPlane based on 3 Master nodes.
 - `spec.imageSetRef`: This will reference the ClusterImageSet created in previous steps, so ensure that those are related between them using the name.
@@ -276,7 +296,7 @@ For Multi Node Openshift we need to specify the next things:
 
 This is a sample as how should looks like on a IPv6 environment
 
-```
+```yaml
 apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
@@ -297,7 +317,7 @@ spec:
       - "fd02::/112"
   provisionRequirements:
     controlPlaneAgents: 3
-  sshPublicKey: 'ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx'
+  sshPublicKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
 ```
 
 **NOTE**: This is also the CR where you will diagnose the issues in the deployment when you trigger it up, more concretely in the field `status.conditions` are all the relevant fields on the deployment status side.
@@ -308,7 +328,7 @@ Continuing with the **Spoke cluster definition and deployment** components, the 
 
 - **ClusterDeployment**: This element represent a Cluster as you use to see on the SaaS UI of Assisted Installer, and it's referenced from the `AgentClusterInstall` CR that contains the details regarding addressing, name, nodes, etc... . Also this CR belongs to Hive API as an extension, it will need to have access to a **FeatureGate** mentioned in a past section called `AlphaAgentInstallStrategy`, so be sure that it's already enabled, if not you can do it using this patch:
 
-```
+```sh
 oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","logLevel":"debug","featureGates":{"custom":{"enabled":["AlphaAgentInstallStrategy"]},"featureSet":"Custom"}}}'
 ```
 
@@ -320,7 +340,7 @@ The most important fields on this CR are the next:
 
 This is a sample as how should looks like on a IPv6 environment
 
-```
+```yaml
 apiVersion: hive.openshift.io/v1
 kind: ClusterDeployment
 metadata:
@@ -350,7 +370,7 @@ spec:
 
 This is a sample as how should looks like on a IPv6 environment
 
-```
+```yaml
 apiVersion: agent-install.openshift.io/v1beta1
 kind: NMStateConfig
 metadata:
@@ -395,7 +415,7 @@ The most important fields on this CR are the next:
 
 This is a sample as how should looks like.
 
-```
+```yaml
 apiVersion: agent-install.openshift.io/v1beta1
 kind: InfraEnv
 metadata:
@@ -405,7 +425,7 @@ spec:
   clusterRef:
     name: lab-cluster
     namespace: open-cluster-management
-  sshAuthorizedKey: 'ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx'
+  sshAuthorizedKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
   agentLabelSelector:
     matchLabels:
       bla: "aaa"
@@ -429,7 +449,7 @@ oc get pod -A | grep metal3
 
 This first flow will orchestrated from Ironic and Metal3 containers and the CRD involved will be the `BareMetalHost`. As a pre-step we need to ensure that Metal3 pod can check other namespaces and look for BareMetalHost outside of their own one, to allow that, you need to execute this:
 
-```
+```sh
 oc patch provisioning provisioning-configuration --type merge -p '{"spec":{"watchAllNamespaces": true}}'
 ```
 
@@ -437,7 +457,7 @@ Once done we will need to create our new BareMetalHosts on the same Namespace as
 
 First we will need to create a Secret that contains the credentials for the BMC (Baseboard Management Controller), for that we need a secret like this:
 
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -461,7 +481,7 @@ And these are the most important fields into the BareMetalHost CRD:
 
 So, with that let's take a look to a BareMetalHost CR sample
 
-```
+```yaml
 apiVersion: metal3.io/v1alpha1
 kind: BareMetalHost
 metadata:
@@ -486,20 +506,22 @@ spec:
 This flow is easier but it's fully manual:
 
 1. We need to get the ISO URL from the InfraEnv CR with this command:
+
 ```
 oc get infraenv lab-env -o jsonpath={.status.isoDownloadURL}
 ```
+
 2. Then download and host it in a HTTPD server.
 3. Access to the BMC and try to mount the ISO hosted
-4. Boot the node and wait for it to be self-registered agains the Assisted Service.
+4. Boot the node and wait for it to be self-registered against the Assisted Service.
 5. Now we need to check the AgentClusterInstall to verify that on the `.status.conditions` all the requirements are met.
+
 ```
 oc get agentclusterinstall -o yaml
 ```
 
 6. Edit the agent/s registered, changing the `hostname` and approving them.
 7. The deployment will be self triggered.
-
 
 ---
 

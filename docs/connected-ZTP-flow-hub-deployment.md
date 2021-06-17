@@ -169,10 +169,10 @@ In the Manifest creation phase, we still need to define the relevant CR's that w
 For Single Node OpenShift we need to specify the next values:
 
 - `spec.provisionRequirements.controlPlaneAgents`: Set to **1**, this means that we just want a ControlPlane based on 1 Master node.
-- `spec.imageSetRef`: This will reference the ClusterImageSet created in previous steps, so ensure that those are related between them using the name.
+- `spec.imageSetRef`: This will reference the `ClusterImageSet` created in previous steps, so ensure that those are related between them using the name.
 - `spec.clusterDeploymentRef.name`: This represents the name of our ClusterDeployment, which will be created in the next step, so just catch the name and reflect it here.
 - `spec.networking.clusterNetwork` and `spec.networking.serviceNetwork` are references to internal communication, so ensure that there is no overlap between them.
-- `spec.networking.machineNetwork.cidr`: Represents the network range for external communication, so ensure you use the same range as your node will use to communicate with outside world.
+- `spec.networking.machineNetwork.cidr`: Represents the network range for external communication, so make sure same range as your node will use to communicate with outside is used.
 
 **NOTE**: We **DON'T** need the API and Ingress VIP for this kind of cluster, Assisted Service will figure it out using the `spec.networking.machineNetwork.cidr` element in the CR.
 
@@ -208,7 +208,7 @@ For Multi Node OpenShift we need to specify the next values:
 
 - `spec.provisionRequirements.controlPlaneAgents`: Set to **3**, this means that we just want a ControlPlane based on 3 Master nodes.
 - `spec.imageSetRef`: This will reference the ClusterImageSet created in previous steps, so ensure that those are related between them using the name.
-- `spec.clusterDeploymentRef.name`: This represent the name of our ClusterDeployment, will be created in the next step, so just catch the name and reflect it here.
+- `spec.clusterDeploymentRef.name`: This represents the name of our ClusterDeployment, will be created in the next step, so just catch the name and reflect it here.
 - `spec.networking.clusterNetwork` and `spec.networking.serviceNetwork` are references to internal communication, so ensure that there is no overlap between them.
 - `spec.apiVIP` and `spec.ingressVIP`: These elements reference the API and Ingress addresses for the OpenShift Spoke cluster, ensure that are not the same as you hub cluster.
 
