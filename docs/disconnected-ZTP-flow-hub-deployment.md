@@ -54,9 +54,9 @@ This time we will follow the disconnected diagram we've seen before:
 
 ![](../assets/ztp-flow-disconnected.png)
 
-**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel #forum-acm. If you already has permissions to do this, you will need to do some extra steps [explained here](./prerequirements/acm-downstream-deployment.md)
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps [explained here](./prerequirements/acm-downstream-deployment.md)
 
-Once the ACM deployment finishes, the first 2 steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure let's check a couple of things (Ensure you have your KUBECONFIG loaded)
+Once the ACM deployment finishes, the first two steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
 ```yaml
 oc get HiveConfig -o yaml
@@ -144,7 +144,7 @@ spec:
         storage: 40Gi
 
   mirrorRegistryRef:
-    name: 'lab-index-mirror'
+    name: "lab-index-mirror"
   osImages:
     - openshiftVersion: "4.8"
       version: "48.84.202106102231-0"
@@ -188,7 +188,7 @@ stringData:
   .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
 ```
 
-- **Mirror Configuration**: This is a ConfigMap that contains the data to be injected on the DiscoveryImage and also in the PointerIgnition that happens after writting the OSTREE image to the OCP Node disk. It includes 2 parts:
+- **Mirror Configuration**: This is a ConfigMap that contains the data to be injected on the `DiscoveryImage` and also in the `PointerIgnition` that happens after writing the `OSTREE` image to the OCP Node disk. It includes two parts:
 
   - `data.ca-bundle.crt`: Which contains the CA Certificate of our Internal Registry
   - `data.registries.conf`: Which contains the file that will be injected in the `/etc/containers/registries.conf` path and will act as a ICSP
@@ -214,20 +214,20 @@ data:
     -----END CERTIFICATE-----
   registries.conf: |
     unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
-    
+
     [[registry]]
       prefix = ""
       location = "quay.io/acm-d"
       mirror-by-digest-only = true
-    
+
       [[registry.mirror]]
         location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
-    
+
     [[registry]]
       prefix = ""
       location = "quay.io/ocpmetal"
       mirror-by-digest-only = true
-    
+
       [[registry.mirror]]
         location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal"
 ...

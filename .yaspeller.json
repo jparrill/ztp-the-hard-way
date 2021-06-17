@@ -57,6 +57,8 @@
     "ZTP",
     "Lifecycle",
     "ICSP",
-    "workaround"
+    "workaround",
+    "QE",
+    "DEV"
   ]
 }

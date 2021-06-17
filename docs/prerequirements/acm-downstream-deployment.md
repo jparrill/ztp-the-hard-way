@@ -10,7 +10,7 @@ If that works should be ok to start with the ACM Image Mirroring of downstream b
 
 ## ACM Downstream Image Mirroring
 
-To do that you will need to follow [this steps](https://gist.github.com/cdoan1/c6b83cb30110ef981fbca71e1e04a596) originally written down by Chris Doan but here it's an alternative script I've created to help you in a more automated way:
+To do that, you will need to follow [this steps](https://gist.github.com/cdoan1/c6b83cb30110ef981fbca71e1e04a596) originally written down by `Chris Doan` but here it's an alternative script I've created to help you in a more automated way:
 
 ```
 #!/bin/bash
@@ -53,22 +53,23 @@ This takes like 30 mins maybe less and you need to check this 2 resources to fil
 - The ACM Index image which is called `acm-custom-regsitry`: https://quay.io/repository/acm-d/acm-custom-registry?tab=tags
 - The ACM Operator Bundle which is called `acm-operator-bundle`: https://quay.io/repository/acm-d/acm-operator-bundle?tag=latest&tab=tags
 
-Check both and get the ones that makes sense for your deployment, a hint to relate between the index and the bundle could be the `LAST MODIFIED` field on Quay.io.
+Check both and get the ones that makes sense for your deployment, a hint to relate between the index and the bundle could be the `LAST MODIFIED` field on `Quay.io`.
 
 Take note of the right tags for both and put them on the script variables.
 
 Also ensure that:
- - `PULL_SECRET_JSON` are in place and is the right one
- - `LOCAL_REGISTRY` is your internal registry and it's reachable
- - `SNAPSHOT` points to the `acm-custom-regsitry` desired tag
- - `ACM_OP_BUNDLE` points to the desired `acm-operator-bundle` desired tag
- - You have loaded your Kubeconfig file as `KUBECONFIG` env var with `export KUBECONFIG=/path/to/the/kubeconfig`
 
- Then after that we can execute the script:
+- `PULL_SECRET_JSON` are in place and is the right one
+- `LOCAL_REGISTRY` is your internal registry and it's reachable
+- `SNAPSHOT` points to the `acm-custom-regsitry` desired tag
+- `ACM_OP_BUNDLE` points to the desired `acm-operator-bundle` desired tag
+- You have loaded your `Kubeconfig` file as `KUBECONFIG` environment variable with `export KUBECONFIG=/path/to/the/kubeconfig`
 
- ```
+Then after that we can execute the script:
+
+```
 ./acm-image-sync.sh
- ```
+```
 
 ## ACM Downstream deployment
 
@@ -76,11 +77,12 @@ To deploy an ACM Downstream version you will need this repository: **https://git
 
 **NOTE**: We are following the same procedure they follows in the `README.md` file from the deployment repository all the things are well explained there, so if you have some doubts that is the right place (even including to [deploy a ACM downstream version](https://github.com/open-cluster-management/deploy#deploying-downstream-builds-snapshots-for-product-quality-engineering) .
 
-So now we need to follow this steps:
+So now we need to follow these steps:
 
-- After clonning it and enter into the `deploy` folder, you need to modify the file called `snapshot.ver` with the version you wanna deploy
-- Then ensure you have 3 PVs (at least) available to be bound 
+- After cloning it and enter into the `deploy` folder, you need to modify the file called `snapshot.ver` with the version you wanna deploy
+- Then ensure you have 3 PVs (at least) available to be bound
 - You will need to export some variables to the Environment
+
 ```
 export DEFAULT_SNAPSHOT="<Desired SNAPSHOT version>"
 export KUBECONFIG=<kubeconfig path>
@@ -90,6 +92,7 @@ export DEBUG=true
 ```
 
 In my case is something like:
+
 ```
 export DEFAULT_SNAPSHOT="2.3.0-DOWNSTREAM-2021-06-16-09-34-33"
 export KUBECONFIG=/home/kni/ipv6/mgmt-hub/auth/kubeconfig
@@ -100,10 +103,10 @@ export DEBUG=true
 
 - Now we just need to execute the deployment script called `start.sh`
 
-When it finishes we just need to check that all pods are in running state and the installation process take some time to finish so be pacient.
+When it finishes, we just need to check that all pods are in running state and the installation process take some time to finish so be patient.
 
 ## ACM Uninstall process
 
-In the tipical situation you just need to delete the subscription and that's it but here it's a bit different so be aware.
+In the typical situation you just need to delete the subscription and that's it but here it's a bit different so be aware.
 
 Using the same deploy repository we've seen before, and with the same variables loaded into the environment we just need to execute the `uninstall.sh` script and eventually it will get uninstalled.
