@@ -22,6 +22,10 @@ In an ideal world we try just pull the ACM Operator image from the OperatorHub p
 
 Also the Disconnected world is not easy so we will try to explain which are the steps to do it in a right way and following supported procedures.
 
+This time we will follow the disconnected diagram we've seen before:
+
+![](../assets/ztp-flow-disconnected.png)
+
 ## Pre Requirements Phase
 
 To do it in a regular manner and as a pre-requirement for the OCP deployment we need to (The links bellow points you to the official documentation):
@@ -49,10 +53,6 @@ After going through these steps, we can continue with the typical flow.
 ## ACM Deployment in a disconnected Environment
 
 go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and the deploy will start. It takes a while to finish, so please be patience.
-
-This time we will follow the disconnected diagram we've seen before:
-
-![](../assets/ztp-flow-disconnected.png)
 
 **NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps [explained here](./prerequirements/acm-downstream-deployment.md)
 
