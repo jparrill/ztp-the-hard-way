@@ -16,11 +16,20 @@
 
 In an ideal world, we try to just pull the ACM Operator image from the OperatorHub platform, but here, in the real world, the ACM v2.3.0 is not released yet, so we need to follow [these instructions](https://github.com/open-cluster-management/deploy#lets-get-started) in order to deploy a non-released ACM version.
 
-To do it in a standard way, we just need to go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and trigger the deploy. It will take a while to finish, so please be patient.
-
 We will follow the connected diagram we've seen before:
 
-![](../assets/ztp-flow-connected.png)
+![](/assets/ztp-flow-connected.png)
+
+But first we need to deploy the Openshift Hub:
+
+- if you already did this step, continue on [ACM Deployment](#acm-deployment)
+- If not, please go here and follow the [instructions for the Openshift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md)
+
+## ACM Deployment
+
+To do it in a standard way, we just need to go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and trigger the deploy. It will take a while to finish, so please be patient.
+
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps **[explained here](/docs/prerequirements/acm-downstream-deployment.md)**.
 
 Once the ACM deployment finishes, the first two steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure, let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 

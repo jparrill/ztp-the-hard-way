@@ -24,7 +24,7 @@ Also the Disconnected world is not easy so we will try to explain which are the 
 
 This time we will follow the disconnected diagram we've seen before:
 
-![](../assets/ztp-flow-disconnected.png)
+![](/assets/ztp-flow-disconnected.png)
 
 ## Pre Requirements Phase
 
@@ -42,11 +42,16 @@ If you did this in a previous step to deploy the Hub, perfect, if not, you will 
 
 We will point to the right resource to go through all these pre-requisites in order to help you understand the procedure and how it works (The links points to every step 1-by-1 in the documentation of this repository).
 
-- [**Host Internal resources (Registry and HTTPD)**](./prerequirements/host-internal-resources.md): Contains the necessary things to raise up a HTTPD, Internal Registry and Download the ISO's and RootFS files to be hosted in the node
-- [**Mirror OCP Release**](./prerequirements/mirror-ocp-release.md): Contains the way to mirror an OCP Release.
-- [**Mirror OLM Marketplace**](./prerequirements/mirror-olm.md): Contains the way to mirror the OLM in order to see it in a disconnected environment.
+- [**Host Internal resources (Registry and HTTPD)**](/docs/prerequirements/host-internal-resources.md): Contains the necessary things to raise up a HTTPD, Internal Registry and Download the ISO's and RootFS files to be hosted in the node
+- [**Mirror OCP Release**](/docs/prerequirements/mirror-ocp-release.md): Contains the way to mirror an OCP Release.
+- [**Mirror OLM Marketplace**](/docs/prerequirements/mirror-olm.md): Contains the way to mirror the OLM in order to see it in a disconnected environment.
 
 After going through these steps, we can continue with the typical flow.
+
+But first we need to deploy the Openshift Hub:
+
+- if you already did this step, continue on [ACM Deployment](#acm-deployment-in-a-disconnected-environment)
+- If not, please go here and follow the [instructions for the Openshift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md)
 
 ---
 
@@ -54,7 +59,7 @@ After going through these steps, we can continue with the typical flow.
 
 go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and the deploy will start. It takes a while to finish, so please be patience.
 
-**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps [explained here](./prerequirements/acm-downstream-deployment.md)
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps **[explained here](/docs/prerequirements/acm-downstream-deployment.md)**.
 
 Once the ACM deployment finishes, the first two steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
