@@ -66,6 +66,33 @@ htpasswd -bBc ${path}/auth/htpasswd dummy dummy
 
 This execution will create a certificate and load it into our host `ca-trust` bundle, in order to trust it as a CA, then it will create the htpasswd file with the user password `dummy` that will be the authentication needed on your Pull Secret to access the registry.
 
+Now we will create the registry configuration, for that we will use something this one:
+```
+version: 0.1
+log:
+  fields:
+    service: registry
+storage:
+  cache:
+    blobdescriptor: inmemory
+  filesystem:
+    rootdirectory: /var/lib/registry
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
+compatibility:
+  schema1:
+    enabled: true
+```
+
+**NOTE**: One of the most important parts it's the scheme compatibility, without that, the mirroring proccess will not work.
+
 After that we need to create our podman registry container to host the OCP and OLM Container Images, to do that we need to execute this script:
 
 ```sh
@@ -87,6 +114,7 @@ podman create \
   -v ${path}/data:/var/lib/registry:z \
   -v ${path}/auth:/auth:z \
   -v ${path}/certs:/certs:z \
+  -v ${path}/conf/config.yml:/etc/docker/registry/config.yml:z \
   docker.io/library/registry:2
 
 podman start ocpdiscon-registry
