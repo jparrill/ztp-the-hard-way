@@ -1,8 +1,19 @@
+Table of contents:
+
+<!-- TOC depthfrom:1 orderedlist:false -->
+
+- [ACM Downstream Deployment](#acm-downstream-deployment)
+  - [ACM Downstream Image Mirroring](#acm-downstream-image-mirroring)
+  - [ACM Downstream deployment](#acm-downstream-deployment-1)
+  - [ACM Uninstall process](#acm-uninstall-process)
+
+<!-- /TOC -->
+
 # ACM Downstream Deployment
 
 First thing we need to do is ensure we have permissions, to do that you can use this command:
 
-```
+```sh
 podman pull --authfile ${PULL_SECRET} quay.io/acm-d/acm-custom-registry:2.3.0-DOWNSTREAM-2021-06-13-16-46-23
 ```
 
@@ -12,7 +23,7 @@ If that works should be ok to start with the ACM Image Mirroring of downstream b
 
 To do that, you will need to follow [this steps](https://gist.github.com/cdoan1/c6b83cb30110ef981fbca71e1e04a596) originally written down by `Chris Doan` but here it's an alternative script I've created to help you in a more automated way:
 
-```
+```sh
 #!/bin/bash
 export PULL_SECRET_JSON=/home/kni/jparrill/pull_secret_acm.json
 export LOCAL_REGISTRY=$(hostname):5000
@@ -61,13 +72,13 @@ Also ensure that:
 
 - `PULL_SECRET_JSON` are in place and is the right one
 - `LOCAL_REGISTRY` is your internal registry and it's reachable
-- `SNAPSHOT` points to the `acm-custom-regsitry` desired tag
+- `SNAPSHOT` points to the `acm-custom-registry` desired tag
 - `ACM_OP_BUNDLE` points to the desired `acm-operator-bundle` desired tag
 - You have loaded your `Kubeconfig` file as `KUBECONFIG` environment variable with `export KUBECONFIG=/path/to/the/kubeconfig`
 
 Then after that we can execute the script:
 
-```
+```sh
 ./acm-image-sync.sh
 ```
 
@@ -83,7 +94,7 @@ So now we need to follow these steps:
 - Then ensure you have 3 PVs (at least) available to be bound
 - You will need to export some variables to the Environment
 
-```
+```sh
 export DEFAULT_SNAPSHOT="<Desired SNAPSHOT version>"
 export KUBECONFIG=<kubeconfig path>
 export CUSTOM_REGISTRY_REPO=<internal_registry>:<port>/rhacm2
@@ -93,7 +104,7 @@ export DEBUG=true
 
 In my case is something like:
 
-```
+```sh
 export DEFAULT_SNAPSHOT="2.3.0-DOWNSTREAM-2021-06-16-09-34-33"
 export KUBECONFIG=/home/kni/ipv6/mgmt-hub/auth/kubeconfig
 export CUSTOM_REGISTRY_REPO=bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
@@ -107,6 +118,6 @@ When it finishes, we just need to check that all pods are in running state and t
 
 ## ACM Uninstall process
 
-In the typical situation you just need to delete the subscription and that's it but here it's a bit different so be aware.
+In the typical situation, you just need to delete the subscription and that's it but here it's a bit different so be aware.
 
 Using the same deploy repository we've seen before, and with the same variables loaded into the environment we just need to execute the `uninstall.sh` script and eventually it will get uninstalled.

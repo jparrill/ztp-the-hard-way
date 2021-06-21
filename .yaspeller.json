@@ -59,6 +59,9 @@
     "ICSP",
     "workaround",
     "QE",
-    "DEV"
+    "DEV",
+    "Baremetal",
+    "OpenStack",
+    "QEMU"
   ]
 }
