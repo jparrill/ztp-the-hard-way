@@ -48,10 +48,10 @@ We will point to the right resource to go through all these pre-requisites in or
 
 After going through these steps, we can continue with the typical flow.
 
-But first we need to deploy the Openshift Hub:
+But first we need to deploy the OpenShift Hub:
 
 - if you already did this step, continue on [ACM Deployment](#acm-deployment-in-a-disconnected-environment)
-- If not, please go here and follow the [instructions for the Openshift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md)
+- If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md)
 
 ---
 

@@ -1,6 +1,7 @@
 <!-- TOC depthfrom:1 orderedlist:false -->
 
 - [Connected ZTP Flow Hub deployment](#connected-ztp-flow-hub-deployment)
+  - [ACM Deployment](#acm-deployment)
   - [Manifest Creation Phase](#manifest-creation-phase)
     - [Hub Basic elements creation](#hub-basic-elements-creation)
     - [Spoke cluster definition](#spoke-cluster-definition)
@@ -20,16 +21,16 @@ We will follow the connected diagram we've seen before:
 
 ![](/assets/ztp-flow-connected.png)
 
-But first we need to deploy the Openshift Hub:
+But first we need to deploy the OpenShift Hub:
 
 - if you already did this step, continue on [ACM Deployment](#acm-deployment)
-- If not, please go here and follow the [instructions for the Openshift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md)
+- If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md)
 
 ## ACM Deployment
 
 To do it in a standard way, we just need to go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and trigger the deploy. It will take a while to finish, so please be patient.
 
-**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps **[explained here](/docs/prerequirements/acm-downstream-deployment.md)**.
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstream versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps **[explained here](/docs/prerequirements/acm-downstream-deployment.md)**.
 
 Once the ACM deployment finishes, the first two steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure, let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
@@ -57,7 +58,7 @@ spec:
 
 **NOTE**: If this is not the same content as you have already in your HiveConfig CR, please ensure that you apply this manifests, if not another CRD called ClusterDeployment will fail in future steps. You can also use a `patch` command:
 
-```
+```sh
 oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","logLevel":"debug","featureGates":{"custom":{"enabled":["AlphaAgentInstallStrategy"]},"featureSet":"Custom"}}}'
 ```
 
