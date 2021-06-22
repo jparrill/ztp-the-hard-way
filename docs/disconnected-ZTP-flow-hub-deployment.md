@@ -147,9 +147,8 @@ spec:
     resources:
       requests:
         storage: 40Gi
-
   mirrorRegistryRef:
-    name: "lab-index-mirror"
+    name: "hyper1-mirror-config"
   osImages:
     - openshiftVersion: "4.8"
       version: "48.84.202106102231-0"
