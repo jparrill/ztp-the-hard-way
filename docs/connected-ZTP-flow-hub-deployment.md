@@ -296,19 +296,19 @@ spec:
     name: assisted-deployment-pull-secret
 ```
 
-- **NMState Config**: This is an **optional** configuration that you want to add when the Network configuration needs some adjustments like work with Bonding or use a concrete VLAN or just declaring a Static IP. The NMState is a generic/standard configuration that could be used in a separate way of Assisted Installer/ACM and the [documentation can be found here](https://github.com/nmstate/nmstate) and [here are some examples](https://nmstate.io/examples.html). 
+- **NMState Config**: This is an **optional** configuration that you want to add when the Network configuration needs some adjustments like work with Bonding or use a concrete VLAN or just declaring a Static IP. The NMState is a generic/standard configuration that could be used in a separate way of Assisted Installer/ACM and the [documentation can be found here](https://github.com/nmstate/nmstate) and [here are some examples](https://nmstate.io/examples.html).
 
-Each NMStateConfig is labeled with a key:value label, and this label will be referenced from the InfraEnv (check the next step) object used to configure this cluster.
+Each `NMStateConfig` is labeled with a key:value label, and this label will be referenced from the InfraEnv (check the next step) object used to configure this cluster.
 
 **Notes**:
 
-- An array of interfaces is provided to each NMStateConfig, for each interface the user must provide a name and the mac address which identifies the interface.
+- An array of interfaces is provided to each `NMStateConfig`, for each interface the user must provide a name and the mac address which identifies the interface.
 
 - The configuration for the interface will be provided in the `spec.config.interfaces` section.
 
-- Multiple NMStateConfig can have the same label, so they'll apply to the same cluster with the InfraEnv set to that specific label. The assisted-installer will inject these configurations to all the nodes in this cluster, but the configuration will only be applied to the interfaces with the matching mac address.
+- Multiple `NMStateConfig` can have the same label, so they'll apply to the same cluster with the InfraEnv set to that specific label. The assisted-installer will inject these configurations to all the nodes in this cluster, but the configuration will only be applied to the interfaces with the matching mac address.
 
-- Having multiple NMStateConfig for the same cluster, the user must make sure to provide only one configuration per interface. Otherwise this would result in unpredictable configurations, failures or bugs.
+- Having multiple `NMStateConfig` for the same cluster, the user must make sure to provide only one configuration per interface. Otherwise this would result in unpredictable configurations, failures or bugs.
 
 This is a sample as to how should it look like on an IPv6 environment:
 
@@ -344,7 +344,7 @@ spec:
       macAddress: "02:00:00:80:12:15"
 ```
 
-In a Single Node Openshift IPv4 environment, the NMStateConfig would look like this:
+In a Single Node OpenShift IPv4 environment, the `NMStateConfig` would look like this:
 
 ```yaml
 apiVersion: agent-install.openshift.io/v1beta1
@@ -362,10 +362,10 @@ spec:
         link-aggregation:
           mode: active-backup
           options:
-            miimon: '140'
+            miimon: "140"
           slaves:
-          - eth0
-          - eth1
+            - eth0
+            - eth1
         state: up
         ipv4:
           enabled: true
@@ -392,9 +392,9 @@ spec:
       macAddress: "00:00:00:00:00:11"
 ```
 
-In a multimaster environment three NMStateConfig will be provided, each of these configs must be configured specifically for each one of the masters. Make sure to provide the correct MAC addresses.
+In a multi-master environment, three `NMStateConfig` will be provided, each of these configurations must be set specifically for each one of the masters. Make sure to provide the correct MAC addresses.
 
-In this example we configure three masters, where each one of them have a bond0 with a static ip.
+In this example, we configure three masters, where each one of them have a bond0 with a static ip.
 
 For the first master:
 
@@ -414,10 +414,10 @@ spec:
         link-aggregation:
           mode: active-backup
           options:
-            miimon: '140'
+            miimon: "140"
           slaves:
-          - eth0
-          - eth1
+            - eth0
+            - eth1
         state: up
         ipv4:
           enabled: true
@@ -450,10 +450,10 @@ spec:
         link-aggregation:
           mode: active-backup
           options:
-            miimon: '140'
+            miimon: "140"
           slaves:
-          - eth0
-          - eth1
+            - eth0
+            - eth1
         state: up
         ipv4:
           enabled: true
@@ -486,10 +486,10 @@ spec:
         link-aggregation:
           mode: active-backup
           options:
-            miimon: '140'
+            miimon: "140"
           slaves:
-          - eth0
-          - eth1
+            - eth0
+            - eth1
         state: up
         ipv4:
           enabled: true
@@ -504,7 +504,7 @@ spec:
       macAddress: "00:00:00:00:00:55"
 ```
 
-Notice that we've created three NMStateConfig with the same label, so assisted-installer will inject this three configurations on each master but will apply only the corresponding configuration to interfaces based on MAC addresses.
+Notice that we've created three `NMStateConfig` with the same label, so assisted-installer will inject this three configurations on each master but will apply only the corresponding configuration to interfaces based on MAC addresses.
 
 - **InfraEnv**: When you creates this CR, you are telling the Assisted Service that you want to create the final ISO to be mounted on the destination nodes, so this is the final step of the Manifest creation phase.
 
