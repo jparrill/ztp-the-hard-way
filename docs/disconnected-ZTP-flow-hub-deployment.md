@@ -103,7 +103,7 @@ metadata:
   name: openshift-v4.8.0
   namespace: open-cluster-management
 spec:
-  releaseImage: quay.io/openshift-release-dev/ocp-release:4.8.0-fc.9-x86_64
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.0-fc.9-x86_64
 ```
 
 - **AsistedServiceConfig**: This is an **optional** ConfigMap that could be used to customize the Assisted Service pod deployment using an annotation in the Operand (we will go deep in this topic later).
@@ -426,6 +426,8 @@ metadata:
   name: lab-env
   namespace: open-cluster-management
 spec:
+  additionalNTPSources:
+    - clock.redhat.com
   clusterRef:
     name: lab-cluster
     namespace: open-cluster-management
