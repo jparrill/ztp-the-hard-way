@@ -4,6 +4,8 @@ Ok, if you are here means that you already mirrored all the images of an OpenShi
 
 It will be based on IPI deployment on Baremetal, IPv6/Disconnected.
 
+## Downloading RHCOS and OCP Resources
+
 You can use this script to Mirror Images and Download the relevant binaries (`oc` client and `openshift-baremetal-install`)
 
 The script will do four things:
@@ -28,6 +30,7 @@ export OCP_REGISTRY=quay.io/openshift-release-dev/ocp-release
 
 # Functional
 function ocp_mirror_release() {
+  echo "----> Mirroring OCP Release: ${OCP_RELEASE}"
   oc adm -a ${PULL_SECRET_JSON} release mirror \
          --from=${OCP_REGISTRY}:${OCP_RELEASE} \
          --to=${LOCAL_REGISTRY}/${LOCAL_REPOSITORY} \
@@ -35,10 +38,11 @@ function ocp_mirror_release() {
 }
 
 function download_oc_client() {
+  echo "----> Downloading OC Client"
   oc adm --registry-config ${PULL_SECRET_JSON} release extract \
-	--command=oc \
-	--from=${OCP_REGISTRY}:${OCP_RELEASE} \
-	--to .
+        --command=oc \
+        --from=${OCP_REGISTRY}:${OCP_RELEASE} \
+        --to .
 
   if [[ ! -f oc ]];then
     echo "OC Client wasn't extracted, exiting..."
@@ -49,10 +53,11 @@ function download_oc_client() {
 }
 
 function download_ipi_installer() {
+  echo "----> Downloading IPI Installer"
   oc adm --registry-config ${PULL_SECRET_JSON} release extract \
-	--command=openshift-baremetal-install \
-	--from=${OCP_REGISTRY}:${OCP_RELEASE} \
-	--to .
+        --command=openshift-baremetal-install \
+        --from=${OCP_REGISTRY}:${OCP_RELEASE} \
+        --to .
 
   if [[ ! -f openshift-baremetal-install ]];then
     echo "OCP Installer wasn't extracted, exiting..."
@@ -62,26 +67,40 @@ function download_ipi_installer() {
   sudo mv openshift-baremetal-install /usr/bin/openshift-baremetal-install
 }
 
-
 function download_rhcos() {
-  export COMMIT_ID=$(openshift-baremetal-install version | grep '^built from commit' | awk '{print $4}')
-  export RHCOS_OPENSTACK_URI=$(curl -s -S https://raw.githubusercontent.com/openshift/installer/$COMMIT_ID/data/data/rhcos.json  | jq -r .images.openstack.path)
-  export RHCOS_QEMU_URI=$(curl -s -S https://raw.githubusercontent.com/openshift/installer/$COMMIT_ID/data/data/rhcos.json  | jq -r .images.qemu.path)
-  export RHCOS_PATH=$(curl -s -S https://raw.githubusercontent.com/openshift/installer/$COMMIT_ID/data/data/rhcos.json | jq -r .baseURI)
-  export RHCOS_QEMU_SHA_UNCOMPRESSED=$(curl -s -S https://raw.githubusercontent.com/openshift/installer/$COMMIT_ID/data/data/rhcos.json  | jq -r '.images.qemu["uncompressed-sha256"]')
-  export RHCOS_OPENSTACK_SHA_COMPRESSED=$(curl -s -S https://raw.githubusercontent.com/openshift/installer/$COMMIT_ID/data/data/rhcos.json  | jq -r '.images.openstack.sha256')
+  export RHCOS_VERSION=$(openshift-baremetal-install coreos print-stream-json | jq -r '.["architectures"]["x86_64"]["artifacts"]["metal"]["release"]')
+  export RHCOS_ISO_URI=$(openshift-baremetal-install coreos print-stream-json | jq -r '.["architectures"]["x86_64"]["artifacts"]["metal"]["formats"]["iso"]["disk"]["location"]')
+  export RHCOS_ROOT_FS=$(openshift-baremetal-install coreos print-stream-json | jq -r '.["architectures"]["x86_64"]["artifacts"]["metal"]["formats"]["pxe"]["rootfs"]["location"]')
+  export RHCOS_QEMU_URI=$(openshift-baremetal-install coreos print-stream-json | jq -r '.["architectures"]["x86_64"]["artifacts"]["qemu"]["formats"]["qcow2.gz"]["disk"]["location"]')
+  export RHCOS_QEMU_SHA_UNCOMPRESSED=$(openshift-baremetal-install coreos print-stream-json | jq -r '.["architectures"]["x86_64"]["artifacts"]["qemu"]["formats"]["qcow2.gz"]["disk"]["uncompressed-sha256"]')
+  export RHCOS_OPENSTACK_URI=$(openshift-baremetal-install coreos print-stream-json | jq -r '.["architectures"]["x86_64"]["artifacts"]["openstack"]["formats"]["qcow2.gz"]["disk"]["location"]')
+  export RHCOS_OPENSTACK_SHA_COMPRESSED=$(openshift-baremetal-install coreos print-stream-json | jq -r '.["architectures"]["x86_64"]["artifacts"]["openstack"]["formats"]["qcow2.gz"]["disk"]["sha256"]')
+  export OCP_RELEASE_DOWN_PATH=/var/www/html/$OCP_RELEASE
 
-  echo "COMMIT_ID: $COMMIT_ID"
+  echo "RHCOS_VERSION: $RHCOS_VERSION"
   echo "RHCOS_OPENSTACK_URI: $RHCOS_OPENSTACK_URI"
-  echo "RHCOS_QEMU_URI: $RHCOS_QEMU_URI"
-  echo "RHCOS_PATH: $RHCOS_PATH"
-  echo "RHCOS_QEMU_SHA_UNCOMPRESSED: $RHCOS_QEMU_SHA_UNCOMPRESSED"
   echo "RHCOS_OPENSTACK_SHA_COMPRESSED: ${RHCOS_OPENSTACK_SHA_COMPRESSED}"
-  echo "I that right? if not press crtl-c"
+  echo "RHCOS_QEMU_URI: $RHCOS_QEMU_URI"
+  echo "RHCOS_QEMU_SHA_UNCOMPRESSED: $RHCOS_QEMU_SHA_UNCOMPRESSED"
+  echo "RHCOS_ISO_URI: $RHCOS_ISO_URI"
+  echo "RHCOS_ROOT_FS: $RHCOS_ROOT_FS"
+  echo "Press crtl-c to cancel download"
   read
 
-  sudo curl -L -o /var/www/html/$RHCOS_QEMU_URI ${RHCOS_PATH}${RHCOS_QEMU_URI}
-  sudo curl -L -o /var/www/html/$RHCOS_OPENSTACK_URI ${RHCOS_PATH}${RHCOS_OPENSTACK_URI}
+  if [[ ! -d ${OCP_RELEASE_DOWN_PATH} ]]; then
+    echo "----> Downloading RHCOS resources to ${OCP_RELEASE_DOWN_PATH}"
+    sudo mkdir -p ${OCP_RELEASE_DOWN_PATH}
+    echo "--> Downloading RHCOS resources: RHCOS QEMU Image"
+    sudo curl -s -L -o ${OCP_RELEASE_DOWN_PATH}/$(echo $RHCOS_QEMU_URI | xargs basename) ${RHCOS_QEMU_URI}
+    echo "--> Downloading RHCOS resources: RHCOS Openstack Image"
+    sudo curl -s -L -o ${OCP_RELEASE_DOWN_PATH}/$(echo $RHCOS_OPENSTACK_URI | xargs basename) ${RHCOS_OPENSTACK_URI}
+    echo "--> Downloading RHCOS resources: RHCOS ISO"
+    sudo curl -s -L -o ${OCP_RELEASE_DOWN_PATH}/$(echo $RHCOS_ISO_URI | xargs basename) ${RHCOS_ISO_URI}
+    echo "--> Downloading RHCOS resources: RHCOS RootFS"
+    sudo curl -s -L -o ${OCP_RELEASE_DOWN_PATH}/$(echo $RHCOS_ROOT_FS | xargs basename) ${RHCOS_ROOT_FS}
+  else
+    echo "The folder already exist, so delete it if you want to re-download the RHCOS resources"
+  fi
 }
 
 download_oc_client
@@ -89,6 +108,8 @@ download_ipi_installer
 ocp_mirror_release
 download_rhcos
 ```
+
+## Openshift 4 IPI  Baremetal Deployment
 
 Ok, we already have the `oc` client, the Baremetal-Installer according the OCP release, so now we need to fill our `InstallConfig` file. In a disconnected/IPv6 environment we should have some things in mind but `TL;DR` should be something like this:
 

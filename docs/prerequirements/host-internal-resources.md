@@ -164,6 +164,8 @@ sudo wget https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-r
 sudo wget https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-release/latest-4.8/rhcos-4.8.0-fc.9-x86_64-live.x86_64.iso -O /var/www/html/rhcos-4.8.0-fc.9-x86_64-live.x86_64.iso
 ```
 
+**NOTE**: This script will make your life easier to Download all the required resources for an OCP4 and RHCOS concrete version: [Link](/docs/prerequirements/ocp4-ipi-deployment.md#downloading-rhcos-and-ocp-resources)
+
 That should be it, you can check it with a curl command:
 
 ```sh
