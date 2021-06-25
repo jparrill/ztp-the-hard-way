@@ -12,7 +12,7 @@ The script will do four things:
 
 - First is updating the `oc` client extracting it from the release you will pull from external registry.
 - Second, extract the `openshift-baremetal-install` binary also from the release image of the external registry
-- Third, execute the OCP Mirror release
+- Third, execute the OCP Mirror release (Maybe you already did this part)
 - Fourth, download the associated RHCOS version and host it our HTTPD server. This last step will try to download that RHCOS QEMU and OpenStack images, ensure you take note of the values to put it on the `install-config.yaml` file.
 
 - `ocp_mirror.sh`
