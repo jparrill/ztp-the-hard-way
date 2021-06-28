@@ -66,7 +66,7 @@ oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","log
 
 ### Hub Basic elements creation
 
-This phase could be done in an automated way, but we want to explain 1-by-1 what we are creating here.
+This phase could be done in an automated way, but we want to explain 1-by-1 what we are creating herelu
 
 - **ClusterImageSet**: This manifest should contain a reachable OpenShift Container Platform version that will be pulled from Hive and Assisted Installer in order to deploy a Spoke cluster, and this is how it looks like:
 
@@ -95,6 +95,40 @@ data:
 ```
 
 **NOTE**: We don't recommend using this functionality in production environments as it's not supported.
+
+- **Private Key**: This is a Secret created that contains the private key that will be used by Assisted Service pod.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: assisted-deployment-ssh-private-key
+  namespace: open-cluster-management
+stringData:
+  ssh-privatekey: |-
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn
+    xe+m0Tg8fgoEdogPgx6W0T30Y9b1lytPZKr3gBhKdEGD79by/vjIulP2CqkeNBCfdmIHts
+    ...
+    ...
+    ...
+    KnSXpjTZqJen9KAoSl9+U6hJ9mh8uBKAT4B74g4JtjILKiXiKkyWI75PpWb05RXxBxzUYX
+    4qqJ4OPv/pnjM7UAAAAXcm9vdEBxY3QtZDE0dTExLnZsYW4yMDgBAgME
+    -----END OPENSSH PRIVATE KEY-----
+type: Opaque
+```
+
+- **Pull Secret**: This is a Secret that contains the access credentials for the Registry access (Internal or External)
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: assisted-deployment-pull-secret
+  namespace: open-cluster-management
+stringData:
+  .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
+```
 
 - **AgentServiceConfig**: This is the Operand, the Assisted Service pod that handles the spoke clusters deployment.
 
@@ -132,45 +166,26 @@ spec:
       rootFSUrl: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live-rootfs.x86_64.img"
 ```
 
-- **Private Key**: This is a Secret created that contains the private key that will be used by Assisted Service pod.
+**NOTE**: Ensure you put the right IP or name of the server you are hosting from the ISO and the RootFS.
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: assisted-deployment-ssh-private-key
-  namespace: open-cluster-management
-stringData:
-  ssh-privatekey: |-
-    -----BEGIN OPENSSH PRIVATE KEY-----
-    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn
-    xe+m0Tg8fgoEdogPgx6W0T30Y9b1lytPZKr3gBhKdEGD79by/vjIulP2CqkeNBCfdmIHts
-    ...
-    ...
-    ...
-    KnSXpjTZqJen9KAoSl9+U6hJ9mh8uBKAT4B74g4JtjILKiXiKkyWI75PpWb05RXxBxzUYX
-    4qqJ4OPv/pnjM7UAAAAXcm9vdEBxY3QtZDE0dTExLnZsYW4yMDgBAgME
-    -----END OPENSSH PRIVATE KEY-----
-type: Opaque
-```
-
-- **Pull Secret**: This is a Secret that contains the access credentials for the Registry access (Internal or External)
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: assisted-deployment-pull-secret
-  namespace: open-cluster-management
-stringData:
-  .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
-```
+Once created all of these manifests we need to wait until a pod similar to `assisted-service-XXxxxXXX-XXXxxxx` is created and in READY state.
 
 From here, we will create the manifest that regards the spoke clusters, as the above ones are only necessary for the Hub cluster.
 
 ### Spoke cluster definition
 
 In the Manifest creation phase, we still need to define the relevant CR's that will represent our spoke cluster, said that we will continue with the relevant elements for the managed clusters.
+
+:warning: **The spoke cluster manifests should be located in a NameSpace with the same name as the ClusterName**: so please be very careful here!
+
+First thing we need to do is create a NameSpace that will host the CR's for our spoke cluster, our spoke name will be `mgmt-spoke1` so all the resources will be created there. Let's create the NS in first instance:
+
+```
+oc create ns mgmt-spoke1
+oc project mgmt-spoke1
+```
+
+Now we will begin the CR creation.
 
 - **AgentClusterInstall**: This is one of the most important elements to define, so the first thing, is to decide which kind of deployment you need to do. If it's SNO versus Multinode is really important here, so let's focus on both cases
 
@@ -192,11 +207,11 @@ This is a sample as how should look like on a IPv6 environment:
 apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
-  name: lab-cluster-aci
-  namespace: open-cluster-management
+  name: mgmt-spoke1 
+  namespace: mgmt-spoke1
 spec:
   clusterDeploymentRef:
-    name: lab-cluster
+    name: mgmt-spoke1
   imageSetRef:
     name: openshift-v4.8.0
   networking:
@@ -230,11 +245,11 @@ This is a sample as how should look like on a IPv6 environment:
 apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
-  name: lab-cluster-aci
-  namespace: open-cluster-management
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1 
 spec:
   clusterDeploymentRef:
-    name: lab-cluster
+    name: mgmt-spoke1
   imageSetRef:
     name: openshift-v4.8.0
   apiVIP: "2620:52:0:1302::3"
@@ -274,26 +289,88 @@ This is a sample as how should look like on a IPv6 environment:
 apiVersion: hive.openshift.io/v1
 kind: ClusterDeployment
 metadata:
-  name: lab-cluster
-  namespace: open-cluster-management
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1 
 spec:
   baseDomain: alklabs.com
-  clusterName: lab-spoke
+  clusterName: mgmt-spoke1
   controlPlaneConfig:
     servingCertificates: {}
   installed: false
   clusterInstallRef:
     group: extensions.hive.openshift.io
     kind: AgentClusterInstall
-    name: lab-cluster-aci
+    name: mgmt-spoke1
     version: v1beta1
   platform:
     agentBareMetal:
       agentSelector:
         matchLabels:
-          bla: "aaa"
+          cluster-name: "mgmt-spoke1"  
   pullSecretRef:
     name: assisted-deployment-pull-secret
+```
+
+- **KlusterletAddonConfig**: This configuration will contain the enabled Addons that ACM will deploy on that cluster after the creation.
+
+The most important fields on this CR are the next:
+
+- `spec.clusterName` and `spec.clusterNamespace` as it says, it's referencing the cluster's name, we usually set both as the same value.
+- `spec.clusterLabels` this field references some labels we want to set.
+
+The addons down bellow only has one field inside of every one, which is `enabled:` `true` or `false`
+
+- `spec.applicationManager`: **Required field**, it is in charge to deploy the addon which manages the Applications on the spoke cluster.
+- `spec.certPolicyController`: **Required field**, it is in charge to deploy the addon which manages the Certificates.
+- `spec.iamPolicyController`: **Required field**, it is in charge to deploy the addon which manages the Identity and Access Management.
+- `spec.policyController`: **Required field**, it is in charge to deploy the addon which manages the Policies.
+- `spec.searchCollector`: **Required field**, it is in charge to deploy the addon which manages the component who collect the cluster data and index it for search engine.
+- `spec.workManager`: **Optional field**, it is in charge to deploy the addon which manages the workloads on the spoke cluster.
+
+There are more Addons and fields, you can check them with `oc explain KlusterletAddonConfig.spec`. And this is sample of the CR:
+
+```
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1
+spec:
+  clusterName: mgmt-spoke1
+  clusterNamespace: mgmt-spoke1
+  clusterLabels:
+    cloud: auto-detect
+    vendor: auto-detect
+  workManager:
+    enabled: true
+  applicationManager:
+    enabled: false
+  certPolicyController:
+    enabled: false
+  iamPolicyController:
+    enabled: false
+  policyController:
+    enabled: false
+  searchCollector:
+    enabled: false
+```
+
+- **ManagedCluster**: This CR contains some details of the spoke cluster.
+
+The most important fields on this CR are the next:
+
+- `spec.hubAcceptsClient`: **Optional field**, hubAcceptsClient represents that hub accepts the joining of Klusterlet agent on the managed cluster with the hub, mandatory if you want an automatic linked spoke cluster.
+
+There are more fields, you can check them with `oc explain ManagedCluster.spec`. And this is sample of the CR:
+
+```
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1
+spec:
+  hubAcceptsClient: true
 ```
 
 - **NMState Config**: This is an **optional** configuration that you want to add when the Network configuration needs some adjustments like work with Bonding or use a concrete VLAN or just declaring a Static IP. The NMState is a generic/standard configuration that could be used in a separate way of Assisted Installer/ACM and the [documentation can be found here](https://github.com/nmstate/nmstate) and [here are some examples](https://nmstate.io/examples.html).
@@ -316,9 +393,10 @@ This is a sample as to how should it look like on an IPv6 environment:
 apiVersion: agent-install.openshift.io/v1beta1
 kind: NMStateConfig
 metadata:
-  name: assisted-deployment-nmstate-lab-spoke
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1
   labels:
-    cluster-name: nmstate-lab-spoke
+    cluster-name: mgmt-spoke1
 spec:
   config:
     interfaces:
@@ -350,10 +428,10 @@ In a Single Node OpenShift IPv4 environment, the `NMStateConfig` would look like
 apiVersion: agent-install.openshift.io/v1beta1
 kind: NMStateConfig
 metadata:
-  name: sno-bond-cluster-test
-  namespace: assisted-installer
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1
   labels:
-    cluster-name: test
+    cluster-name: mgmt-spoke1
 spec:
   config:
     interfaces:
@@ -403,9 +481,9 @@ apiVersion: agent-install.openshift.io/v1beta1
 kind: NMStateConfig
 metadata:
   name: master-0-cluster-multimaster
-  namespace: assisted-installer
+  namespace: mgmt-spoke1 
   labels:
-    cluster-name: multimaster
+    cluster-name: mgmt-spoke1
 spec:
   config:
     interfaces:
@@ -439,9 +517,9 @@ apiVersion: agent-install.openshift.io/v1beta1
 kind: NMStateConfig
 metadata:
   name: master-1-cluster-multimaster
-  namespace: assisted-installer
+  namespace: mgmt-spoke1
   labels:
-    cluster-name: multimaster
+    cluster-name: mgmt-spoke1
 spec:
   config:
     interfaces:
@@ -475,9 +553,9 @@ apiVersion: agent-install.openshift.io/v1beta1
 kind: NMStateConfig
 metadata:
   name: master-2-cluster-multimaster
-  namespace: assisted-installer
+  namespace: mgmt-spoke1
   labels:
-    cluster-name: multimaster
+    cluster-name: mgmt-spoke1
 spec:
   config:
     interfaces:
@@ -523,22 +601,22 @@ This is a sample as how should look like:
 apiVersion: agent-install.openshift.io/v1beta1
 kind: InfraEnv
 metadata:
-  name: lab-env
-  namespace: open-cluster-management
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1
 spec:
   clusterRef:
-    name: lab-cluster
-    namespace: open-cluster-management
+    name: mgmt-spoke1
+    namespace: mgmt-spoke1
   sshAuthorizedKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
   agentLabelSelector:
     matchLabels:
-      bla: "aaa"
+      cluster-name: "mgmt-spoke1"
   pullSecretRef:
     name: assisted-deployment-pull-secret
   ignitionConfigOverride: '{"ignition": {"version": "3.1.0"}, "storage": {"files": [{"path": "/etc/someconfig", "contents": {"source": "data:text/plain;base64,aGVscGltdHJhcHBlZGluYXN3YWdnZXJzcGVj"}}]}}'
   nmStateConfigLabelSelector:
     matchLabels:
-      cluster-name: nmstate-lab-spoke
+      cluster-name: mgmt-spoke1
 ```
 
 ## Spoke cluster deployment
@@ -566,7 +644,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: bmc-secret1
-  namespace: open-cluster-management
+  namespace: mgmt-spoke1
 data:
   password: YWxrbm9wZmxlcgo=
   username: YW1vcmdhbnQK
@@ -589,10 +667,10 @@ So, with that let's take a look to a BareMetalHost CR sample:
 apiVersion: metal3.io/v1alpha1
 kind: BareMetalHost
 metadata:
-  name: lab-agent1
-  namespace: open-cluster-management
+  name: mgmt-spoke1-master0
+  namespace: mgmt-spoke1
   labels:
-    infraenvs.agent-install.openshift.io: "lab-env"
+    infraenvs.agent-install.openshift.io: "mgmt-spoke1"
   annotations:
     inspect.metal3.io: disabled
 spec:
@@ -612,7 +690,7 @@ This flow is easier but it's fully manual:
 1. We need to get the ISO URL from the InfraEnv CR with this command:
 
 ```sh
-oc get infraenv lab-env -o jsonpath={.status.isoDownloadURL}
+oc get infraenv mgmt-spoke1 -o jsonpath={.status.isoDownloadURL}
 ```
 
 2. Then download and host it in a HTTPD server.
