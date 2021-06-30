@@ -720,3 +720,66 @@ oc get agentclusterinstall -o yaml
 ---
 
 With this, the flow should finish completely, in case it doesn't, there might be some issues on the `AgentClusterInstall` CR created, so the best way to move forward is to examine the troubleshooting documentation.
+
+
+## Side scenario
+
+### ACM Downstream on Connected environment cannot download the images from `registry.redhat.io/rhacm2`
+
+This is happening because you are trying to download the downstream version on ACM and your environment is trying to download from the published version. To solve this situation you need to redeploy your operand using a mirrorRegistry configuration but you just need to fill the `registry.conf` part, the `ca-bundle.crt` can be empty. something like this:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hyper1-mirror-config
+  namespace: open-cluster-management
+  labels:
+    app: assisted-service
+data:
+  ca-bundle.crt: |
+
+  registries.conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+    
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "quay.io/acm-d"
+```
+
+After create this ConfigMap, you need to redeploy the Operand using this config:
+
+```yaml
+---
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  name: agent
+  namespace: open-cluster-management
+spec:
+  databaseStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 40Gi
+  filesystemStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 40Gi
+  mirrorRegistryRef:
+    name: 'hyper1-mirror-config'
+  osImages:
+    - openshiftVersion: "4.8"
+      version: "48.84.202106070419-0"
+      url: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live.x86_64.iso"
+      rootFSUrl: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live-rootfs.x86_64.img"
+```
+
+With that, should be ok to work with Downstream ACM spoke deployments.
