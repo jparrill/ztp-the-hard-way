@@ -242,3 +242,42 @@ DEBUG  Bootstrap Destroy: 14s
 DEBUG  Cluster Operators: 17m54s
 INFO Time elapsed: 1h1m9s
 ```
+
+
+## Side scenarios
+
+### I have my HUB with provisioning network but the spokes cannot reach the ISO served by Ironic
+
+Ok. this situation happens when you Hub cluster has configured Provisioning network and your spokes doesn't. The ISO will be served from that provisioning network by Ironic and the BMC are capable to reach that URLs (always that those Prov networks are not routable between them).
+
+To solve that situation we need to modify our Hub cluster configuration:
+
+```sh
+oc edit provisioning provisioning-configuration
+```
+
+Something like this will appear:
+
+```yaml
+spec:
+  provisioningDHCPRange: 2620:52:0:1307::a,2620:52:0:1307:ffff:ffff:ffff:fffe
+  provisioningIP: 2620:52:0:1307::3
+  provisioningInterface: enp3s0f1
+  provisioningNetwork: Managed
+  provisioningNetworkCIDR: 2620:52:0:1307::/64
+  provisioningOSDownloadURL: http://[2620:52:0:1302::1]/4.8.0-rc.1-x86_64/rhcos-48.84.202106091622-0-openstack.x86_64.qcow2.gz?sha256=6ab5c6413f275277ea90f7dfc66424ef14993941ba3a9f3a43955ab268e7d76d
+  watchAllNamespaces: true
+```
+
+So now we need to modify it to match this configuration:
+
+```yaml
+
+spec:
+  provisioningNetwork: Disabled
+  provisioningOSDownloadURL: http://[2620:52:0:1302::1]/4.8.0-rc.1-x86_64/rhcos-48.84.202106091622-0-openstack.x86_64.qcow2.gz?sha256=6ab5c6413f275277ea90f7dfc66424ef14993941ba3a9f3a43955ab268e7d76d
+  watchAllNamespaces: true
+```
+
+Then the Metal3 pod will be recreated. From this point we need to delete the current manifests for our Spoke cluster, including the ACI, CD, NMState, etc...
+
