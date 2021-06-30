@@ -1,0 +1,8 @@
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-v4.8.0
+  namespace: open-cluster-management
+spec:
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.0-rc.1-x86_64

@@ -1,0 +1,28 @@
+---
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  name: agent
+  namespace: open-cluster-management
+  #annotations:
+  #  unsupported.agent-install.openshift.io/assisted-service-configmap: 'assisted-service-config'
+spec:
+  databaseStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 40Gi
+  filesystemStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 40Gi
+  mirrorRegistryRef:
+    name: 'hyper1-mirror-config'
+  osImages:
+    - openshiftVersion: "4.8"
+      version: ""
+      url: "http://[2620:52:0:1303::1]/4.8.0-rc.1-x86_64/rhcos-48.84.202106091622-0-live.x86_64.iso"
+      rootFSUrl: "http://[2620:52:0:1303::1]/4.8.0-rc.1-x86_64/rhcos-48.84.202106091622-0-live-rootfs.x86_64.img"

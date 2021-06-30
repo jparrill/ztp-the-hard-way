@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ipv6-spoke1-master0
+  namespace: mgmt-spoke1 
+data:
+  username: YWRtaW4=
+  password: YWRyb2dhbGxvcA==
+type: Opaque
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: ipv6-spoke1-master0
+  namespace: mgmt-spoke1
+  labels:
+    infraenvs.agent-install.openshift.io: "mgmt-spoke1"
+  annotations:
+    inspect.metal3.io: disabled
+spec:
+  online: true
+  bootMACAddress: A0:36:9F:6C:0A:39
+  automatedCleaningMode: disabled
+  bmc:
+    address: idrac-virtualmedia+https://[2620:52:0:1300::34]/redfish/v1/Systems/System.Embedded.1
+    credentialsName: ipv6-spoke1-master0
+    disableCertificateVerification: true
+  rootDeviceHints:
+    deviceName: "/dev/sda"

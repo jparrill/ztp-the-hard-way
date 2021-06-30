@@ -1,0 +1,15 @@
+apiVersion: local.storage.openshift.io/v1
+kind: LocalVolume
+metadata:
+  name: fs
+  namespace: openshift-local-storage
+spec:
+  logLevel: Normal
+  managementState: Managed
+  storageClassDevices:
+    - devicePaths:
+        - /dev/sdb
+        - /dev/sdc
+      fsType: ext4
+      storageClassName: fs-lso
+      volumeMode: Filesystem

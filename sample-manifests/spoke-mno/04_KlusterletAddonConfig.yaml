@@ -1,0 +1,23 @@
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1
+spec:
+  clusterName: mgmt-spoke1
+  clusterNamespace: mgmt-spoke1
+  clusterLabels:
+    cloud: auto-detect
+    vendor: auto-detect
+  workManager:
+    enabled: true
+  applicationManager:
+    enabled: false
+  certPolicyController:
+    enabled: false
+  iamPolicyController:
+    enabled: false
+  policyController:
+    enabled: false
+  searchCollector:
+    enabled: false

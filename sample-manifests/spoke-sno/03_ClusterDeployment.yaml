@@ -1,0 +1,22 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1 
+spec:
+  baseDomain: e2e.bos.redhat.com
+  clusterName: mgmt-spoke1
+  controlPlaneConfig:
+    servingCertificates: {}
+  clusterInstallRef:
+    group: extensions.hive.openshift.io
+    kind: AgentClusterInstall
+    name: mgmt-spoke1
+    version: v1beta1
+  platform:
+    agentBareMetal: 
+      agentSelector:
+        matchLabels:
+          cluster-name: "mgmt-spoke1"
+  pullSecretRef:
+    name: assisted-deployment-pull-secret

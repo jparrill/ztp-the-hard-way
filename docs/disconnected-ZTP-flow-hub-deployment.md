@@ -257,6 +257,18 @@ oc project mgmt-spoke1
 
 Now we will begin the CR creation.
 
+:warning: **You need to recreate again the PullSecret** that you created before on the `open-cluster-management` namespace but this time in the Spoke dedicated namespace, so this is how looks like:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: assisted-deployment-pull-secret
+  namespace: mgmt-spoke1
+stringData:
+  .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
+```
+
 - **AgentClusterInstall**: This is one of the most important elements to define, the first thing is to decide which kind of deployment you need to do. If it's SNO versus Multinode is really important here so let's focus in both cases
 
 #### SNO Cluster Definition

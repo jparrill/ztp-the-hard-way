@@ -1,0 +1,7 @@
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1
+spec:
+  hubAcceptsClient: true

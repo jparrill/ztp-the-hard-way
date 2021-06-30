@@ -1,0 +1,158 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hyper1-mirror-config
+  namespace: open-cluster-management
+  labels:
+    app: assisted-service
+data:
+  ca-bundle.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIGJzCCBA+gAwIBAgIUcuRdl0sEsCZMPWuE44snY/MLgcowDQYJKoZIhvcNAQEL
+    BQAwgYgxCzAJBgNVBAYTAlVTMRYwFAYDVQQIDA1NYXNzYWNodXNldHRzMREwDwYD
+    VQQHDAhXZXN0Zm9yZDEPMA0GA1UECgwGUmVkSGF0MQ0wCwYDVQQLDARNR01UMS4w
+    LAYDVQQDDCVibS1jbHVzdGVyLTEtaHlwZXIuZTJlLmJvcy5yZWRoYXQuY29tMB4X
+    DTIxMDUxOTA3NTA0N1oXDTMxMDUxNzA3NTA0N1owgYgxCzAJBgNVBAYTAlVTMRYw
+    FAYDVQQIDA1NYXNzYWNodXNldHRzMREwDwYDVQQHDAhXZXN0Zm9yZDEPMA0GA1UE
+    CgwGUmVkSGF0MQ0wCwYDVQQLDARNR01UMS4wLAYDVQQDDCVibS1jbHVzdGVyLTEt
+    aHlwZXIuZTJlLmJvcy5yZWRoYXQuY29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8A
+    MIICCgKCAgEA4hNqMmnZ+OLqNOittlCo+9xP2jKn5z4X4GzsDhlAfDXEsDUEX6+F
+    hf8wUF82gpI8B3dDtPn30lH/YcKS7H4BH2Ah5KGEcp7gmB29sj8meNW6Wn3F2JyY
+    jN2iCvvqFWyarkYfwDRLTy/GZUI/M1cj/iCSikUcwxHRP26Fl9x4xjvUDY4ouFTS
+    OL/65iUK59xPsYcjnSiSzzVBq6AxIRoH12XTvZY9h1pP8fjtOn3n4DglZm4AvOD2
+    0ws+eIsiIGY2FMh0FKtqUuWQgeIvPzGP1hj1KbTLeshL8FIzmHYQAD1kV6+z+NA4
+    Llu/iXIIdWmuSDtBEtm8WPqoXZSNT7RgyeLzTvkI2P7OCDpSJEkGIAmKPT6cK5yP
+    aoeVG2NhzTmZNU4hERLLvXD+3IzJ+F0XFEHq+alru8mbtevpfYcK1cx0zFULA2f2
+    +t/hSxA+XiOhNycbgcLha++E0/OoDHZ+DjvCy4nJeaGteaqo/YsyJjYp/tP50oAv
+    O8o6H+UwdOByXyhFmdu77tx5BhHeoLh6hKIiw92E2CeUz2dOyG55g7AxZ56jHOHW
+    1llMoXWeKJqyCIgiML9wcupeiBAbb+aOYpf2TCBKVGn++8ktsEs+gT7qPLOUbOBj
+    iKAcQApT2OziB2G+43hQTfz3AsahqnfZCpkT6UlFelaGz2rWGxjDxLcCAwEAAaOB
+    hjCBgzAdBgNVHQ4EFgQU4dDHguCMr/BS6ud0pztEpJDyDRMwHwYDVR0jBBgwFoAU
+    4dDHguCMr/BS6ud0pztEpJDyDRMwDwYDVR0TAQH/BAUwAwEB/zAwBgNVHREEKTAn
+    giVibS1jbHVzdGVyLTEtaHlwZXIuZTJlLmJvcy5yZWRoYXQuY29tMA0GCSqGSIb3
+    DQEBCwUAA4ICAQBBcuKEYpBUV4kjVNKq5p5ypkzbY5O8M95q5YXSVIoRDF+28D+q
+    mJ8q65D4VeYZukAqTuW00yt+mmHBYfFwA0sWTC+HuFeHkeKQCOGL6GxYdH98zM1K
+    4NFjyY3nrOs/uJ4xIE33gxJ3hK1ULoZJY0747ZbB0vykodiscb7FnOZg4Uc3XBfS
+    uDNS2CdpoN5ZLIsCwnLOmUWiVL0IrmbjhRj1qQgR4ysFu7wzLUKlOMvng2HOvC5e
+    XPEyJV8fA4LS+x5fDRS2fZHnUQHv6/OxHSrvgOjdcJYnn8BNYizgLLhJ5zT2VXsl
+    nU8Y7ybbVgczs8NOELywpGVLNFF03+9Qm2nbCFySNT3EYQesaj708mhSXSWN4fiO
+    10sLwl74953KZ3l/dzCudoyD3c6SOnYafAUOPitrTnTYFhLsT1dI0G4Ir5eS+lSn
+    FJA2LdBJEBGQgIaNgzGWEvj6NvXMZqeAGGKSxV6faiwY3KVj/3FX6dJ15NZP3/eh
+    2dj3p8cKkPxDmg6WRkEOTjVL7Gmi/VAItsq8HMBYTGmEOvjDw45CdvMgNzQF8Ul7
+    GGfmDnicADMISxGIDnfhPUf+GllZtEn8D+c6WyfnDQMfqy9A56stxHWmwdlTf+UM
+    6Rf1YNZC6XaR2GzJTz8mdiyG4L/cG6um65TigWOjaAOfD5ecei+d0maqmw==
+    -----END CERTIFICATE-----
+  registries.conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io/acm-d"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io/ocpmetal"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal"
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-community-operators/hive-operator"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-community-operators-hive-operator"
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-hive/hive"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-hive-hive"
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-release"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4"
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4"
+    
+    [[registry]]
+      prefix = ""
+      location = "quay.io:443/acm-d"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+    
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/openshift4"
+    
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-diskmaker"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-diskmaker"
+    
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-operator"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-operator"
+    
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-operator-bundle"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-operator-bundle"
+    
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-static-provisioner"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-static-provisioner"
+    
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+    
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhel8"
+      mirror-by-digest-only = true
+    
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhel8"

@@ -1,0 +1,18 @@
+---
+apiVersion: agent-install.openshift.io/v1beta1 
+kind: InfraEnv
+metadata:
+  name: mgmt-spoke1
+  namespace: mgmt-spoke1 
+spec:
+  additionalNTPSources:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com
+  clusterRef:
+    name: mgmt-spoke1
+    namespace: mgmt-spoke1
+  sshAuthorizedKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCaTkerry4XgCFGjkavergaqegPtQVtK1rH38ODIXRwCQlmCbClFQCMIR6nUn6wWCv5kcC9An7c9jg5Zjwu9g/umM0hQs1HX4nFGhg6AXyuD6jjbmrugKEO1NTjG9pKB+G6OSbbwrbydyd1ZonbrhTvN1rFSrKA+nKX2bseZDZh4ikBU4CPMpEG/F1AqBMlIyk= adrogallop@bm-chuster-1-hyper.e2e.bos.redhat.com'
+  agentLabelSelector:
+    matchLabels:
+      cluster-name: mgmt-spoke1
+  pullSecretRef:
+    name: assisted-deployment-pull-secret

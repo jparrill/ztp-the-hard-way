@@ -1,0 +1,5 @@
+export DEFAULT_SNAPSHOT="2.3.0-DOWNSTREAM-2021-06-25-01-44-45"
+export KUBECONFIG=${HOME}/ipv6/mgmt-hub/auth/kubeconfig
+export CUSTOM_REGISTRY_REPO=bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
+export COMPOSITE_BUNDLE=true
+export DEBUG=true
