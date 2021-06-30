@@ -272,7 +272,6 @@ spec:
 So now we need to modify it to match this configuration:
 
 ```yaml
-
 spec:
   provisioningNetwork: Disabled
   provisioningOSDownloadURL: http://[2620:52:0:1302::1]/4.8.0-rc.1-x86_64/rhcos-48.84.202106091622-0-openstack.x86_64.qcow2.gz?sha256=6ab5c6413f275277ea90f7dfc66424ef14993941ba3a9f3a43955ab268e7d76d
