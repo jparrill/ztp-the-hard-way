@@ -118,18 +118,6 @@ stringData:
 type: Opaque
 ```
 
-- **Pull Secret**: This is a Secret that contains the access credentials for the Registry access (Internal or External)
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: assisted-deployment-pull-secret
-  namespace: open-cluster-management
-stringData:
-  .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
-```
-
 - **AgentServiceConfig**: This is the Operand, the Assisted Service pod that handles the spoke clusters deployment.
 
 ```yaml
@@ -186,6 +174,18 @@ oc project mgmt-spoke1
 ```
 
 Now we will begin the CR creation.
+
+- **Pull Secret**: This is a Secret that contains the access credentials for the Registry access (Internal or External)
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: assisted-deployment-pull-secret
+  namespace: mgmt-spoke1
+stringData:
+  .dockerconfigjson: '{"auths":{"registry.ci.openshift.org":{"auth":"dXNlcjiZ3dasdNTSFffsafzJubE80LVYngtMlRGdw=="},"registry.svc.ci.openshift.org":{"auth":"dasdaddjo3b1NwNlpYX2kyVLacctNcU9F"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGGMVlTNkk1NlVQUQ==","lab-installer.lab-net:5000":{"auth":"ZHVtbXk6ZHVtbXk=","email":"jhendrix@karmalabs.com"}}}'
+```
 
 - **AgentClusterInstall**: This is one of the most important elements to define, so the first thing, is to decide which kind of deployment you need to do. If it's SNO versus Multinode is really important here, so let's focus on both cases
 
