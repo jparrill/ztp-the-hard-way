@@ -17,7 +17,12 @@ metadata:
   labels:
     infraenvs.agent-install.openshift.io: "mgmt-spoke1"
   annotations:
+    ## Disable the Introspection
     inspect.metal3.io: disabled
+    ## Set Static rHhostname
+    bmac.agent-install.openshift.io/hostname: "ipv6-spoke1-master0"
+    ## Set Static Role 
+    bmac.agent-install.openshift.io/role: "master"
 spec:
   online: true
   bootMACAddress: A0:36:9F:6C:0A:39
