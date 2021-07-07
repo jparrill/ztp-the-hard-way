@@ -116,6 +116,15 @@ export DEBUG=true
 
 When it finishes, we just need to check that all pods are in running state and the installation process take some time to finish so be patient.
 
+- After the installation has finished you need to double check that the MultiClusterHub object has been annotated with your custom registry repo, otherwise the managed cluster won't be able to pull the required images.
+
+```sh
+# If you're using connected deployment:
+oc annotate mch multiclusterhub mch-imageRepository='quay.io:443/acm-d'
+# If you're using disconnected deployment:
+oc annotate mch multiclusterhub mch-imageRepository='bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2'
+```
+
 ## ACM Uninstall process
 
 In the typical situation, you just need to delete the subscription and that's it but here it's a bit different so be aware.
