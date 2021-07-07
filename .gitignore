@@ -68,6 +68,9 @@ instance/
 # Scrapy stuff:
 .scrapy
 
+# JetBrains stuff:
+.idea
+
 # Sphinx documentation
 docs/_build/
 
