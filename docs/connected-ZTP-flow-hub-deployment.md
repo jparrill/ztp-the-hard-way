@@ -667,7 +667,9 @@ type: Opaque
 And these are the most important fields in the BareMetalHost CRD:
 
 - `metadata.labels.infraenvs.agent-install.openshift.io`: This needs to point InfraEnv's name of the manifest created in the precious step.
-- `metadata.annotations.inspect.metal3.io`: This one should be set to `disabled`.
+- `metadata.annotations.inspect.metal3.io`: **Mandatory**, This one should be set to `disabled`.
+- `metadata.annotations.bmac.agent-install.openshift.io/hostname`: **Optional**, This annotation allows you to set an static hostname for your host.
+- `metadata.annotations.bmac.agent-install.openshift.io/role`: **Optional**, This annotation allows you to set an static role for your host.
 - `spec.online`: Should be true, in order to allow Ironic to boot the node.
 - `spec.automatedCleaningMode`: Should be disabled, as this is only relevant on PXE environments.
 - `spec.bootMACAddress`: This is the MAC address that will be used to boot the node.
@@ -685,7 +687,12 @@ metadata:
   labels:
     infraenvs.agent-install.openshift.io: "mgmt-spoke1"
   annotations:
+    ## Disable the Introspection
     inspect.metal3.io: disabled
+    ## Set Static Hostname
+    bmac.agent-install.openshift.io/hostname: "ipv6-spoke1-master0"
+    ## Set Static Role 
+    bmac.agent-install.openshift.io/role: "master"
 spec:
   online: true
   bmc:

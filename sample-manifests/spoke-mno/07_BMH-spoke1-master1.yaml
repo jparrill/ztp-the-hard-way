@@ -19,7 +19,7 @@ metadata:
   annotations:
     ## Disable the Introspection
     inspect.metal3.io: disabled
-    ## Set Static rHhostname
+    ## Set Static Hostname
     bmac.agent-install.openshift.io/hostname: "ipv6-spoke1-master1"
     ## Set Static Role 
     bmac.agent-install.openshift.io/role: "master"
