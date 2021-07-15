@@ -3,7 +3,7 @@ apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
   name: mgmt-spoke1
-  namespace: mgmt-spoke1 
+  namespace: mgmt-spoke1
 spec:
   clusterDeploymentRef:
     name: mgmt-spoke1

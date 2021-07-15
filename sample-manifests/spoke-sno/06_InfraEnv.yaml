@@ -1,9 +1,9 @@
 ---
-apiVersion: agent-install.openshift.io/v1beta1 
+apiVersion: agent-install.openshift.io/v1beta1
 kind: InfraEnv
 metadata:
   name: mgmt-spoke1
-  namespace: mgmt-spoke1 
+  namespace: mgmt-spoke1
 spec:
   additionalNTPSources:
     - bm-cluster-1-hyper.e2e.bos.redhat.com

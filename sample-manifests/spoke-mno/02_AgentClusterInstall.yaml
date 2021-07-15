@@ -19,4 +19,4 @@ spec:
       - "fd02::/112"
   provisionRequirements:
     controlPlaneAgents: 3
-  sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCaTkerry4XgCFGjkavergaqegPtQVtK1rH38ODIXRwCQlmCbClFQCMIR6nUn6wWCv5kcC9An7c9jg5Zjwu9g/umM0hQs1HX4nFGhg6AXyuD6jjbmrugKEO1NTjG9pKB+G6OSbbwrbydyd1ZonbrhTvN1rFSrKA+nKX2bseZDZh4ikBU4CPMpEG/F1AqBMlIyk= adrogallop@bm-chuster-1-hyper.e2e.bos.redhat.com' 
+  sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCaTkerry4XgCFGjkavergaqegPtQVtK1rH38ODIXRwCQlmCbClFQCMIR6nUn6wWCv5kcC9An7c9jg5Zjwu9g/umM0hQs1HX4nFGhg6AXyuD6jjbmrugKEO1NTjG9pKB+G6OSbbwrbydyd1ZonbrhTvN1rFSrKA+nKX2bseZDZh4ikBU4CPMpEG/F1AqBMlIyk= adrogallop@bm-chuster-1-hyper.e2e.bos.redhat.com'

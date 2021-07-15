@@ -8,18 +8,15 @@ oc create -f 01_AI-pull-secret.yaml -f 02_AgentClusterInstall.yaml -f 03_Cluster
 sleep 5
 oc create -f 06_InfraEnv.yaml
 
-for i in {1..10}
-do
-  sleep 5
-  ISO_URL=$(oc get infraenv ${CLUSTER_NAME} -o jsonpath={.status.isoDownloadURL})
-  if [[ ! -z ${ISO_URL} ]]; then
-    break
-    oc create -f 07_BMH-spoke1-master0.yaml -f 07_BMH-spoke1-master1.yaml -f 07_BMH-spoke1-master2.yaml
-    echo "Done"
-  elif [[ -z ${ISO_URL} ]] && [[ ${i} >= 10 ]] ; then
-    echo "ERROR: No Infraenv URL field on the K8s object"
-    exit 1
-  fi
+for i in {1..10}; do
+	sleep 5
+	ISO_URL=$(oc get infraenv ${CLUSTER_NAME} -o jsonpath={.status.isoDownloadURL})
+	if [[ ! -z ${ISO_URL} ]]; then
+		break
+		oc create -f 07_BMH-spoke1-master0.yaml -f 07_BMH-spoke1-master1.yaml -f 07_BMH-spoke1-master2.yaml
+		echo "Done"
+	elif [[ -z ${ISO_URL} ]] && [[ ${i} -ge 10 ]]; then
+		echo "ERROR: No Infraenv URL field on the K8s object"
+		exit 1
+	fi
 done
-
-
