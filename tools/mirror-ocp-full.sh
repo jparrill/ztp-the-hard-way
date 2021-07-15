@@ -64,7 +64,7 @@ function download_rhcos() {
   echo "RHCOS_QEMU_SHA_UNCOMPRESSED: $RHCOS_QEMU_SHA_UNCOMPRESSED"
   echo "RHCOS_ISO_URI: $RHCOS_ISO_URI"
   echo "RHCOS_ROOT_FS: $RHCOS_ROOT_FS"
-  echo "Press crtl-c to cancel download"
+  echo "Press Enter to continue or Ctrl-C to cancel download"
   read
 
   if [[ ! -d ${OCP_RELEASE_DOWN_PATH} ]]; then
@@ -83,7 +83,17 @@ function download_rhcos() {
   fi
 }
 
+function format_images_config(){
+    echo """
+      Add the following to install-config.yaml
+
+        bootstrapOSImage=http:://$(hostname --long)/$OCP_RELEASE/${RHCOS_QEMU_URI##*/}?sha256=$RHCOS_QEMU_SHA_UNCOMPRESSED
+        clusterOSImage=http:://$(hostname --long)/$OCP_RELEASE/${RHCOS_OPENSTACK_URI##*/}?sha256=$RHCOS_OPENSTACK_SHA_COMPRESSED
+     """
+}
+
 download_oc_client
 download_ipi_installer
 ocp_mirror_release
 download_rhcos
+format_images_config
