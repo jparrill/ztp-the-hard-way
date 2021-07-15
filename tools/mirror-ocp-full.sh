@@ -86,8 +86,8 @@ function format_images_config() {
 	echo """
       Add the following to install-config.yaml
 
-        bootstrapOSImage=http:://$(hostname --long)/$OCP_RELEASE/${RHCOS_QEMU_URI##*/}?sha256=$RHCOS_QEMU_SHA_UNCOMPRESSED
-        clusterOSImage=http:://$(hostname --long)/$OCP_RELEASE/${RHCOS_OPENSTACK_URI##*/}?sha256=$RHCOS_OPENSTACK_SHA_COMPRESSED
+        bootstrapOSImage: http://$(hostname --long)/$OCP_RELEASE/${RHCOS_QEMU_URI##*/}?sha256=$RHCOS_QEMU_SHA_UNCOMPRESSED
+        clusterOSImage: http://$(hostname --long)/$OCP_RELEASE/${RHCOS_OPENSTACK_URI##*/}?sha256=$RHCOS_OPENSTACK_SHA_COMPRESSED
      """
 }
 
