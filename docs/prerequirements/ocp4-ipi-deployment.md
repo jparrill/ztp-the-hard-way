@@ -1,3 +1,15 @@
+Table of contents:
+
+<!-- TOC depthfrom:1 orderedlist:false -->
+
+- [OpenShift 4 Baremetal disconnected deployment](#openshift-4-baremetal-disconnected-deployment)
+  - [Downloading RHCOS and OCP Resources](#downloading-rhcos-and-ocp-resources)
+  - [OpenShift 4 IPI Baremetal Deployment](#openshift-4-ipi-baremetal-deployment)
+  - [Side scenarios](#side-scenarios)
+    - [I have my HUB with provisioning network but the spokes cannot reach the ISO served by Ironic](#i-have-my-hub-with-provisioning-network-but-the-spokes-cannot-reach-the-iso-served-by-ironic)
+
+<!-- /TOC -->
+
 # OpenShift 4 Baremetal disconnected deployment
 
 Ok, if you are here means that you already mirrored all the images of an OpenShift release and also the OLM Marketplace Images, so let's continue with the Hub deployment.
@@ -109,7 +121,7 @@ ocp_mirror_release
 download_rhcos
 ```
 
-## Openshift 4 IPI  Baremetal Deployment
+## OpenShift 4 IPI Baremetal Deployment
 
 Ok, we already have the `oc` client, the Baremetal-Installer according the OCP release, so now we need to fill our `InstallConfig` file. In a disconnected/IPv6 environment we should have some things in mind but `TL;DR` should be something like this:
 
@@ -243,7 +255,6 @@ DEBUG  Cluster Operators: 17m54s
 INFO Time elapsed: 1h1m9s
 ```
 
-
 ## Side scenarios
 
 ### I have my HUB with provisioning network but the spokes cannot reach the ISO served by Ironic
@@ -279,4 +290,3 @@ spec:
 ```
 
 Then the Metal3 pod will be recreated. From this point we need to delete the current manifests for our Spoke cluster, including the ACI, CD, NMState, etc...
-

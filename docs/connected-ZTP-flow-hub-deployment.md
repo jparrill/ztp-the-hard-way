@@ -220,7 +220,7 @@ This is a sample as how should look like on a IPv6 environment:
 apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
-  name: mgmt-spoke1 
+  name: mgmt-spoke1
   namespace: mgmt-spoke1
 spec:
   clusterDeploymentRef:
@@ -259,7 +259,7 @@ apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
   name: mgmt-spoke1
-  namespace: mgmt-spoke1 
+  namespace: mgmt-spoke1
 spec:
   clusterDeploymentRef:
     name: mgmt-spoke1
@@ -303,7 +303,7 @@ apiVersion: hive.openshift.io/v1
 kind: ClusterDeployment
 metadata:
   name: mgmt-spoke1
-  namespace: mgmt-spoke1 
+  namespace: mgmt-spoke1
 spec:
   baseDomain: alklabs.com
   clusterName: mgmt-spoke1
@@ -319,7 +319,7 @@ spec:
     agentBareMetal:
       agentSelector:
         matchLabels:
-          cluster-name: "mgmt-spoke1"  
+          cluster-name: "mgmt-spoke1"
   pullSecretRef:
     name: assisted-deployment-pull-secret
 ```
@@ -494,7 +494,7 @@ apiVersion: agent-install.openshift.io/v1beta1
 kind: NMStateConfig
 metadata:
   name: master-0-cluster-multimaster
-  namespace: mgmt-spoke1 
+  namespace: mgmt-spoke1
   labels:
     cluster-name: mgmt-spoke1
 spec:
@@ -691,7 +691,7 @@ metadata:
     inspect.metal3.io: disabled
     ## Set Static Hostname
     bmac.agent-install.openshift.io/hostname: "ipv6-spoke1-master0"
-    ## Set Static Role 
+    ## Set Static Role
     bmac.agent-install.openshift.io/role: "master"
 spec:
   online: true
@@ -729,7 +729,6 @@ oc get agentclusterinstall -o yaml
 
 With this, the flow should finish completely, in case it doesn't, there might be some issues on the `AgentClusterInstall` CR created. So the best way to move forward is to examine the troubleshooting documentation.
 
-
 ## Side scenario
 
 ### ACM Downstream on Connected environment cannot download the images from `registry.redhat.io/rhacm2`
@@ -749,12 +748,12 @@ data:
 
   registries.conf: |
     unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
-    
+
     [[registry]]
       prefix = ""
       location = "registry.redhat.io/rhacm2"
       mirror-by-digest-only = true
-    
+
       [[registry.mirror]]
         location = "quay.io/acm-d"
 ```
@@ -771,18 +770,18 @@ metadata:
 spec:
   databaseStorage:
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 40Gi
   filesystemStorage:
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 40Gi
   mirrorRegistryRef:
-    name: 'hyper1-mirror-config'
+    name: "hyper1-mirror-config"
   osImages:
     - openshiftVersion: "4.8"
       version: "48.84.202106070419-0"

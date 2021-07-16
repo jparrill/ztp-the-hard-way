@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: ipv6-spoke1-master0
-  namespace: mgmt-spoke1 
+  namespace: mgmt-spoke1
 data:
   username: YWRtaW4=
   password: YWRyb2dhbGxvcA==
@@ -21,7 +21,7 @@ metadata:
     inspect.metal3.io: disabled
     ## Set Static Hostname
     bmac.agent-install.openshift.io/hostname: "ipv6-spoke1-master0"
-    ## Set Static Role 
+    ## Set Static Role
     bmac.agent-install.openshift.io/role: "master"
 spec:
   online: true
