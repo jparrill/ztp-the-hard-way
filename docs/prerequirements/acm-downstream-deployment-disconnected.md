@@ -2,22 +2,27 @@ Table of contents:
 
 <!-- TOC depthfrom:1 orderedlist:false -->
 
-- [ACM Downstream Deployment](#acm-downstream-deployment)
+- [ACM Downstream Deployment Disconnected](#acm-downstream-deployment-disconnected)
+  - [Permission for downstream repo](#permission-for-downstream-repo)
   - [ACM Downstream Image Mirroring](#acm-downstream-image-mirroring)
-  - [ACM Downstream deployment](#acm-downstream-deployment-1)
+  - [ACM Downstream deployment](#acm-downstream-deployment)
   - [ACM Uninstall process](#acm-uninstall-process)
 
 <!-- /TOC -->
 
-# ACM Downstream Deployment
+# ACM Downstream Deployment Disconnected
 
-First thing we need to do is ensure we have permissions, to do that you can use this command:
+**NOTE**: We are following the same procedure they follow in the `README.md` file from the deployment repository all the things are well explained there, so if you have some doubts that is the right place (even including to [deploy a ACM downstream version](https://github.com/open-cluster-management/deploy#deploying-downstream-builds-snapshots-for-product-quality-engineering) .
+
+## Permission for Downstream Repo
+
+First thing we need to follow the instructions mentioned [here](https://github.com/open-cluster-management/deploy#prepare-to-deploy-open-cluster-management-instance-only-do-once) to request a pull permission for repo **quay.io/acm-d**. 
+
+Then you can verify if you have enough permission:
 
 ```sh
 podman pull --authfile ${PULL_SECRET} quay.io/acm-d/acm-custom-registry:2.3.0-DOWNSTREAM-2021-06-13-16-46-23
 ```
-
-If that works should be ok to start with the ACM Image Mirroring of downstream bits.
 
 ## ACM Downstream Image Mirroring
 
@@ -86,44 +91,43 @@ Then after that we can execute the script:
 
 To deploy an ACM Downstream version you will need this repository: **https://github.com/open-cluster-management/deploy**, so clone it and we can continue with the process.
 
-**NOTE**: We are following the same procedure they follows in the `README.md` file from the deployment repository all the things are well explained there, so if you have some doubts that is the right place (even including to [deploy a ACM downstream version](https://github.com/open-cluster-management/deploy#deploying-downstream-builds-snapshots-for-product-quality-engineering) .
-
 So now we need to follow these steps:
 
 - After cloning it and enter into the `deploy` folder, you need to modify the file called `snapshot.ver` with the version you wanna deploy
 - Then ensure you have 3 PVs (at least) available to be bound
 - You will need to export some variables to the Environment
 
-```sh
-export DEFAULT_SNAPSHOT="<Desired SNAPSHOT version>"
-export KUBECONFIG=<kubeconfig path>
-export CUSTOM_REGISTRY_REPO=<internal_registry>:<port>/rhacm2
-export COMPOSITE_BUNDLE=true
-export DEBUG=true
-```
+	```sh
+	export DEFAULT_SNAPSHOT="<Desired SNAPSHOT version>"
+	export KUBECONFIG=<kubeconfig path>
+	export CUSTOM_REGISTRY_REPO=<internal_registry>:<port>/rhacm2
+	export COMPOSITE_BUNDLE=true
+	export DEBUG=true
+	```
 
-In my case is something like:
+	In my case is something like:
 
-```sh
-export DEFAULT_SNAPSHOT="2.3.0-DOWNSTREAM-2021-06-16-09-34-33"
-export KUBECONFIG=/home/kni/ipv6/mgmt-hub/auth/kubeconfig
-export CUSTOM_REGISTRY_REPO=bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
-export COMPOSITE_BUNDLE=true
-export DEBUG=true
-```
+	```sh
+	export DEFAULT_SNAPSHOT="2.3.0-DOWNSTREAM-2021-06-16-09-34-33"
+	export KUBECONFIG=/home/kni/ipv6/mgmt-hub/auth/kubeconfig
+	export CUSTOM_REGISTRY_REPO=bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
+	export COMPOSITE_BUNDLE=true
+	export DEBUG=true
+	```
 
 - Now we just need to execute the deployment script called `start.sh`
 
-When it finishes, we just need to check that all pods are in running state and the installation process take some time to finish so be patient.
+- When it finishes, we just need to check that all pods are in running state and the installation process take some time to finish so be patient.
+
+	```
+	oc get pods -n open-cluster-management
+	```
 
 - After the installation has finished you need to double check that the MultiClusterHub object has been annotated with your custom registry repo, otherwise the managed cluster won't be able to pull the required images.
 
-```sh
-# If you're using connected deployment:
-oc annotate mch multiclusterhub mch-imageRepository='quay.io:443/acm-d'
-# If you're using disconnected deployment:
-oc annotate mch multiclusterhub mch-imageRepository='bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2'
-```
+	```sh
+	oc annotate mch multiclusterhub mch-imageRepository='bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2'
+	```
 
 ## ACM Uninstall process
 

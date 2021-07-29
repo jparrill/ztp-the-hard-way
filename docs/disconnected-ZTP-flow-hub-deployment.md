@@ -59,7 +59,7 @@ But first we need to deploy the OpenShift Hub:
 
 go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and the deploy will start. It takes a while to finish, so please be patience.
 
-**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps **[explained here](/docs/prerequirements/acm-downstream-deployment.md)**.
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps **[explained here](/docs/prerequirements/acm-downstream-deployment-connected.md)**.
 
 Once the ACM deployment finishes, the first two steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
