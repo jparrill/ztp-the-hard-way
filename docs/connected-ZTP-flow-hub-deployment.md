@@ -23,9 +23,9 @@ We will follow the connected diagram we've seen before:
 First we need to deploy the OpenShift Hub:
 
 - if you already did this step, continue on [ACM Deployment](#acm-deployment)
-- If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md), then continue on [ACM Deployment](#acm-deployment)
+- If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md), then continue on [ACM Deployment Connected](#acm-deployment-connected)
 
-## ACM Deployment
+## ACM Deployment Connected
 
 To do it in a standard way, we just need to go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and trigger the deployment. It will take a while to finish, so please be patient.
 
@@ -33,7 +33,6 @@ To do it in a standard way, we just need to go to the OpenShift Marketplace and 
 **NOTE**: If you are from QE, DEV or any Red Hat Associate that want to work with Downstream versions, follow steps below to deploy ACM downstream version:
 
 - [ACM downstream deployment connected](prerequirements/acm-downstream-deployment-connected.md) 
-- [ACM downstream deployment disconnected](prerequirements/acm-downstream-deployment-disconnected.md) 
 
 Once ACM downstream deployment is completed, let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
