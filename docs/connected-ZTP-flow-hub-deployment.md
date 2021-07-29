@@ -22,7 +22,7 @@ We will follow the connected diagram we've seen before:
 
 First we need to deploy the OpenShift Hub:
 
-- if you already did this step, continue on [ACM Deployment](#acm-deployment-connected)
+- if you already did this step, continue on [ACM Deployment Connected](#acm-deployment-connected)
 - If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md), then continue on [ACM Deployment Connected](#acm-deployment-connected)
 
 ## ACM Deployment Connected
