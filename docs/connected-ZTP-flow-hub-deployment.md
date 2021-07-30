@@ -22,15 +22,18 @@ We will follow the connected diagram we've seen before:
 
 First we need to deploy the OpenShift Hub:
 
-- if you already did this step, continue on [ACM Deployment Connected](#acm-deployment-connected)
-- If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md), then continue on [ACM Deployment Connected](#acm-deployment-connected)
+- if you already did this step, continue on:  
+  - [ACM Deployment Connected](#acm-deployment-connected)
+  - [ACM Deployment Disconnected](/docs/disconnected-ZTP-flow-hub-deployment.md#acm-deployment-in-a-disconnected-environment)
+- If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md), then continue on:
+  - [ACM Deployment Connected](#acm-deployment-connected)
+  - [ACM Deployment Disconnected](/docs/disconnected-ZTP-flow-hub-deployment.md#acm-deployment-in-a-disconnected-environment)
 
 ## ACM Deployment Connected
 
 To do it in a standard way, we just need to go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and trigger the deployment. It will take a while to finish, so please be patient.
 
-
-**NOTE**: If you are from QE, DEV or any Red Hat Associate that want to work with Downstream versions, follow steps below to deploy ACM downstream version:
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that want to work with Downstream versions, you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, follow steps below to deploy ACM downstream version:
 
 - [ACM downstream deployment connected](prerequirements/acm-downstream-deployment-connected.md) 
 
