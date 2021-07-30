@@ -15,7 +15,7 @@ Table of contents:
 
 ## Permission for Downstream Repo
 
-First thing we need to follow the instructions mentioned [here](https://github.com/open-cluster-management/deploy#prepare-to-deploy-open-cluster-management-instance-only-do-once) to request a pull permission for repo **quay.io/acm-d**. 
+First thing we need to follow the instructions mentioned [here](https://github.com/open-cluster-management/deploy#prepare-to-deploy-open-cluster-management-instance-only-do-once) to request a pull permission for repo **quay.io/acm-d**.
 
 Then you can verify if you have enough permission:
 
@@ -34,60 +34,62 @@ After you clone the repo above, we need to follow these steps:
 - Follow these [steps](https://github.com/open-cluster-management/deploy#prepare-to-deploy-open-cluster-management-instance-only-do-once) to prepare the pull-secret.yaml under prereqs folder
 - Create file icsp.yaml with content below to mirror downstream images to acm-d
 
-    ```yaml
-    apiVersion: operator.openshift.io/v1alpha1
-    kind: ImageContentSourcePolicy
-    metadata:
-      name: rhacm-repo
-    spec:
-      repositoryDigestMirrors:
+  ```yaml
+  apiVersion: operator.openshift.io/v1alpha1
+  kind: ImageContentSourcePolicy
+  metadata:
+    name: rhacm-repo
+  spec:
+    repositoryDigestMirrors:
       - mirrors:
-        - quay.io:443/acm-d
+          - quay.io:443/acm-d
         source: registry.redhat.io/rhacm2
       - mirrors:
-        - registry.redhat.io/openshift4/ose-oauth-proxy
+          - registry.redhat.io/openshift4/ose-oauth-proxy
         source: registry.access.redhat.com/openshift4/ose-oauth-proxy
-    ```
-     Apply it:
-	```shell
-	oc apply -f icsp.yaml
-	```
+  ```
+
+  Apply it:
+
+  ```shell
+  oc apply -f icsp.yaml
+  ```
 
 - You will need to export some variables to the Environment
 
-    ```sh
-    export KUBECONFIG=<kubeconfig path>
-    export CUSTOM_REGISTRY_REPO=quay.io:443/acm-d
-    export COMPOSITE_BUNDLE=true
-    export DEBUG=true
-    ```
+  ```sh
+  export KUBECONFIG=<kubeconfig path>
+  export CUSTOM_REGISTRY_REPO=quay.io:443/acm-d
+  export COMPOSITE_BUNDLE=true
+  export DEBUG=true
+  ```
 
-    In my case is something like:
+  In my case is something like:
 
-    ```sh
-    export KUBECONFIG=/home/kni/ipv6/mgmt-hub/auth/kubeconfig
-    export CUSTOM_REGISTRY_REPO=quay.io:443/acm-d
-    export COMPOSITE_BUNDLE=true
-    export DEBUG=true
-    ```
+  ```sh
+  export KUBECONFIG=/home/kni/ipv6/mgmt-hub/auth/kubeconfig
+  export CUSTOM_REGISTRY_REPO=quay.io:443/acm-d
+  export COMPOSITE_BUNDLE=true
+  export DEBUG=true
+  ```
 
 - Now we just need to execute the deployment script `start.sh`
 
-    ```sh
-    ./start.sh --watch
-    ```
+  ```sh
+  ./start.sh --watch
+  ```
 
 - When it finishes, we just need to check that all pods are in running state and the installation process take some time to finish so be patient.
 
-    ```
-    oc get pods -n open-cluster-management
-    ```
+  ```
+  oc get pods -n open-cluster-management
+  ```
 
 - After the installation has finished you need to double-check that the MultiClusterHub object has been annotated with your custom registry repo, otherwise the managed cluster won't be able to pull the required images.
 
-    ```sh
-    oc annotate mch multiclusterhub mch-imageRepository='quay.io:443/acm-d'
-    ```
+  ```sh
+  oc annotate mch multiclusterhub mch-imageRepository='quay.io:443/acm-d'
+  ```
 
 ## ACM Uninstall Process
 
