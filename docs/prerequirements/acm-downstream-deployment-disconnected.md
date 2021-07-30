@@ -14,9 +14,9 @@ Table of contents:
 
 **NOTE**: We are following the same procedure they follow in the `README.md` file from the deployment repository all the things are well explained there, so if you have some doubts that is the right place (even including to [deploy a ACM downstream version](https://github.com/open-cluster-management/deploy#deploying-downstream-builds-snapshots-for-product-quality-engineering) .
 
-## Permission for Downstream Repo
+## Permission for Downstream Repository
 
-First thing we need to follow the instructions mentioned [here](https://github.com/open-cluster-management/deploy#prepare-to-deploy-open-cluster-management-instance-only-do-once) to request a pull permission for repo **quay.io/acm-d**. 
+First thing we need to follow the instructions mentioned [here](https://github.com/open-cluster-management/deploy#prepare-to-deploy-open-cluster-management-instance-only-do-once) to request a pull permission for repo **quay.io/acm-d**.
 
 Then you can verify if you have enough permission:
 
@@ -97,37 +97,37 @@ So now we need to follow these steps:
 - Then ensure you have 3 PVs (at least) available to be bound
 - You will need to export some variables to the Environment
 
-	```sh
-	export DEFAULT_SNAPSHOT="<Desired SNAPSHOT version>"
-	export KUBECONFIG=<kubeconfig path>
-	export CUSTOM_REGISTRY_REPO=<internal_registry>:<port>/rhacm2
-	export COMPOSITE_BUNDLE=true
-	export DEBUG=true
-	```
+  ```sh
+  export DEFAULT_SNAPSHOT="<Desired SNAPSHOT version>"
+  export KUBECONFIG=<kubeconfig path>
+  export CUSTOM_REGISTRY_REPO=<internal_registry>:<port>/rhacm2
+  export COMPOSITE_BUNDLE=true
+  export DEBUG=true
+  ```
 
-	In my case is something like:
+  In my case is something like:
 
-	```sh
-	export DEFAULT_SNAPSHOT="2.3.0-DOWNSTREAM-2021-06-16-09-34-33"
-	export KUBECONFIG=/home/kni/ipv6/mgmt-hub/auth/kubeconfig
-	export CUSTOM_REGISTRY_REPO=bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
-	export COMPOSITE_BUNDLE=true
-	export DEBUG=true
-	```
+  ```sh
+  export DEFAULT_SNAPSHOT="2.3.0-DOWNSTREAM-2021-06-16-09-34-33"
+  export KUBECONFIG=/home/kni/ipv6/mgmt-hub/auth/kubeconfig
+  export CUSTOM_REGISTRY_REPO=bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
+  export COMPOSITE_BUNDLE=true
+  export DEBUG=true
+  ```
 
 - Now we just need to execute the deployment script called `start.sh`
 
 - When it finishes, we just need to check that all pods are in running state and the installation process take some time to finish so be patient.
 
-	```
-	oc get pods -n open-cluster-management
-	```
+  ```
+  oc get pods -n open-cluster-management
+  ```
 
-- After the installation has finished you need to double check that the MultiClusterHub object has been annotated with your custom registry repo, otherwise the managed cluster won't be able to pull the required images.
+- After the installation has finished you need to double check that the Multi Cluster Hub object has been annotated with your custom registry repo, otherwise the managed cluster won't be able to pull the required images.
 
-	```sh
-	oc annotate mch multiclusterhub mch-imageRepository='bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2'
-	```
+  ```sh
+  oc annotate mch multiclusterhub mch-imageRepository='bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2'
+  ```
 
 ## ACM Uninstall process
 
