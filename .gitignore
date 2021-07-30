@@ -70,6 +70,7 @@ instance/
 
 # JetBrains stuff:
 .idea
+*.iml
 
 # Sphinx documentation
 docs/_build/

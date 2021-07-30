@@ -50,18 +50,24 @@ After going through these steps, we can continue with the typical flow.
 
 But first we need to deploy the OpenShift Hub:
 
-- if you already did this step, continue on [ACM Deployment](#acm-deployment-in-a-disconnected-environment)
-- If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md)
-
+- if you already did this step, continue on:
+  - [ACM Deployment Connected](/docs/connected-ZTP-flow-hub-deployment.md#acm-deployment-connected)
+  - [ACM Deployment Disconnected](/docs/disconnected-ZTP-flow-hub-deployment.md#acm-deployment-in-a-disconnected-environment)
+- If not, please go here and follow the [instructions for the OpenShift Hub Cluster](/docs/prerequirements/ocp4-ipi-deployment.md), then continue on:
+  - [ACM Deployment Connected](/docs/connected-ZTP-flow-hub-deployment.md#acm-deployment-connected)
+  - [ACM Deployment Disconnected](/docs/disconnected-ZTP-flow-hub-deployment.md#acm-deployment-in-a-disconnected-environment)
+  
 ---
 
 ## ACM Deployment in a disconnected Environment
 
-go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and the deploy will start. It takes a while to finish, so please be patience.
+To do it in a standard way, we just need to go to the OpenShift Marketplace and look for the "Red Hat Advance Cluster Management" operator and the deployment will start. It takes a while to finish, so please be patience.
 
-**NOTE**: If you are from QE, DEV or any Red Hat Associate that wanna work with Downstreams versions you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, you will need to do some extra steps **[explained here](/docs/prerequirements/acm-downstream-deployment.md)**.
+**NOTE**: If you are from QE, DEV or any Red Hat Associate that want to work with Downstream versions, you need to ask for permissions for this kind of images in the Slack Channel `#forum-acm`. If you already have permissions to do this, follow steps below to deploy ACM downstream version:
 
-Once the ACM deployment finishes, the first two steps (Pre-requisites and ACM Deployment) should be already filled, but to be 100% sure let's check a couple of things (Ensure you have your KUBECONFIG loaded)
+- [ACM downstream deployment disconnected](prerequirements/acm-downstream-deployment-disconnected.md) 
+
+Once ACM downstream deployment is completed, let's check a couple of things (Ensure you have your KUBECONFIG loaded)
 
 ```yaml
 oc get HiveConfig -o yaml
