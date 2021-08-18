@@ -20,7 +20,7 @@ Table of contents:
 
 In an ideal world we try just pull the ACM Operator image from the OperatorHub platform once mirrored from Internet, but here in the real world, the ACM v2.3.0 is not released yet, so we need to follow [these instructions](https://github.com/open-cluster-management/deploy#lets-get-started) in order to deploy a non-released ACM version.
 
-Also the Disconnected world is not easy so we will try to explain which are the steps to do it in a right way and following supported procedures.
+Also, the Disconnected world is not easy, so we will try to explain which are the steps to take it in a right way and following supported procedures.
 
 This time we will follow the disconnected diagram we've seen before:
 
@@ -34,7 +34,7 @@ To do it in a regular manner and as a pre-requirement for the OCP deployment we 
 - [Deploy an Internal Registry server](https://docs.openshift.com/container-platform/4.7/installing/installing_bare_metal_ipi/ipi-install-installation-workflow.html#ipi-install-creating-a-disconnected-registry_ipi-install-configuration-files)
 - [Mirror the OpenShift Container Platform Release for the Spoke Clusters and host it in an Internal Registry](https://docs.openshift.com/container-platform/4.7/installing/installing-mirroring-installation-images.html#installing-mirroring-installation-images)
 - [Mirror the OLM into your brand new Internal Registry](https://docs.openshift.com/container-platform/4.7/operators/admin/olm-restricted-networks.html)
-- [Download and Host the RHCOS LiveISO and RootFS on a HTTP server](https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/)
+- [Download and Host the RHCOS LiveISO and RootFS on an HTTP server](https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/)
 - Open Firewall rules to allow external host to access the hosted data
 - Ensure DNS Entries are placed and DHCP is well configured
 
@@ -98,9 +98,9 @@ oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","log
 
 ### Hub Basic elements creation
 
-This phase could be done in an automated way but we want to explain 1-by-1 what we are creating here.
+This phase could be done in an automated way, but we want to explain 1-by-1 what we are creating here.
 
-- **ClusterImageSet**: This manifest should contain a reachable OCP version that will be pulled from Hive and Assisted Installer in order to deploy an Spoke cluster, and this is how looks like:
+- **ClusterImageSet**: This manifest should contain a reachable OCP version that will be pulled from Hive and Assisted Installer in order to deploy a Spoke cluster, and this is how looks like:
 
 ```yaml
 apiVersion: hive.openshift.io/v1
@@ -126,7 +126,7 @@ data:
   LOG_LEVEL: "debug"
 ```
 
-**NOTE**: We don't recommend to use this functionality in production environments and also it's not supported.
+**NOTE**: We don't recommend using this functionality in production environments, and also it's not supported.
 
 - **Private Key**: This is a Secret created that contains the private key that will be used by Assisted Service pod.
 
@@ -167,7 +167,7 @@ stringData:
   - `data.ca-bundle.crt`: Which contains the CA Certificate of our Internal Registry
   - `data.registries.conf`: Which contains the file that will be injected in the `/etc/containers/registries.conf` path and will act as a ICSP
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -256,7 +256,7 @@ In the Manifest creation phase we still need to define the relevant CR's that wi
 
 First thing we need to do is create a NameSpace that will host the CR's for our spoke cluster, our spoke name will be `mgmt-spoke1` so all the resources will be created there. Let's create the NS in first instance:
 
-```
+```sh
 oc create ns mgmt-spoke1
 oc project mgmt-spoke1
 ```
@@ -283,13 +283,13 @@ For Single Node OpenShift we need to specify the next things:
 
 - `spec.provisionRequirements.controlPlaneAgents`: Set to **1**, this means that we just want a ControlPlane based on 1 Master node.
 - `spec.imageSetRef`: This will reference the ClusterImageSet created in previous steps, so ensure that those are related between them using the name.
-- `spec.clusterDeploymentRef.name`: This represent the name of our ClusterDeployment, will be created in the next step, so just catch the name and reflect it here.
+- `spec.clusterDeploymentRef.name`: This represents the name of our ClusterDeployment, will be created in the next step, so just catch the name and reflect it here.
 - `spec.networking.clusterNetwork` and `spec.networking.serviceNetwork`: Are references to internal communication, so ensure that are not overlapped between them.
-- `spec.networking.machineNetwork.cidr`: Represents the network range for external communication, so ensure you use the same range as you node will use to communicate with outside.
+- `spec.networking.machineNetwork.cidr`: Represents the network range for external communication, so ensure you use the same range as your node will use to communicate with outside.
 
 **NOTE**: We **DON'T** need the API and Ingress VIP for this kind of cluster, Assisted Service will figure it out using the `spec.networking.machineNetwork.cidr` element in the CR.
 
-This is a sample as how should looks like on a IPv6 environment
+This is a sample as how should look like on a IPv6 environment
 
 ```yaml
 apiVersion: extensions.hive.openshift.io/v1beta1
@@ -321,13 +321,13 @@ For Multi Node OpenShift we need to specify the next things:
 
 - `spec.provisionRequirements.controlPlaneAgents`: Set to **3**, this means that we just want a ControlPlane based on 3 Master nodes.
 - `spec.imageSetRef`: This will reference the ClusterImageSet created in previous steps, so ensure that those are related between them using the name.
-- `spec.clusterDeploymentRef.name`: This represent the name of our ClusterDeployment, will be created in the next step, so just catch the name and reflect it here.
+- `spec.clusterDeploymentRef.name`: This represents the name of our ClusterDeployment, will be created in the next step, so just catch the name and reflect it here.
 - `spec.networking.clusterNetwork` and `spec.networking.serviceNetwork`: Are references to internal communication, so ensure that are not overlapped between them.
-- `spec.apiVIP` and `spec.ingressVIP`: These elements reference the API and Ingress addresses for the OCP Spoke cluster, ensure that are not the same as you hub cluster.
+- `spec.apiVIP` and `spec.ingressVIP`: These elements reference the API and Ingress addresses for the OCP Spoke cluster, ensure that are not the same as your hub cluster.
 
 **NOTE**: We **DON'T** need the `spec.networking.machineNetwork.cidr` for this kind of cluster, Assisted Service will figure it out using the `spec.apiVIP` and `spec.ingressVIP` elements in the CR.
 
-This is a sample as how should looks like on a IPv6 environment
+This is a sample as how should look like on a IPv6 environment
 
 ```yaml
 apiVersion: extensions.hive.openshift.io/v1beta1
@@ -359,7 +359,7 @@ spec:
 
 Continuing with the **Spoke cluster definition and deployment** components, the next one is:
 
-- **ClusterDeployment**: This element represent a Cluster as you use to see on the SaaS UI of Assisted Installer, and it's referenced from the `AgentClusterInstall` CR that contains the details regarding addressing, name, nodes, etc... . Also this CR belongs to Hive API as an extension, it will need to have access to a **FeatureGate** mentioned in a past section called `AlphaAgentInstallStrategy`, so be sure that it's already enabled, if not you can do it using this patch:
+- **ClusterDeployment**: This element represents a Cluster as you used to see on the SaaS UI of Assisted Installer, and it's referenced from the `AgentClusterInstall` CR that contains the details regarding addressing, name, nodes, etc... . Also, this CR belongs to Hive API as an extension, it will need to have access to a **FeatureGate** mentioned in a past section called `AlphaAgentInstallStrategy`, so be sure that it's already enabled, if not you can do it using this patch:
 
 ```sh
 oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","logLevel":"debug","featureGates":{"custom":{"enabled":["AlphaAgentInstallStrategy"]},"featureSet":"Custom"}}}'
@@ -371,7 +371,7 @@ The most important fields on this CR are the next:
 - `spec.clusterInstallRef`: Represents the reference to the `AgentClusterInstall` created before, so be sure you are pointing to the right name.
 - `spec.pullSecretRef.name`: Points to the PullSecret's name created in the section before this one.
 
-This is a sample as how should looks like on a IPv6 environment
+This is a sample as how should look like on a IPv6 environment
 
 ```yaml
 apiVersion: hive.openshift.io/v1
@@ -406,7 +406,7 @@ The most important fields on this CR are the next:
 - `spec.clusterName` and `spec.clusterNamespace` as it says, it's referencing the cluster's name, we usually set both as the same value.
 - `spec.clusterLabels` this field references some labels we want to set.
 
-The addons down bellow only has one field inside of every one, which is `enabled:` `true` or `false`
+The addons down bellow only has one field inside every one, which is `enabled:` `true` or `false`
 
 - `spec.applicationManager`: **Required field**, it is in charge to deploy the addon which manages the Applications on the spoke cluster.
 - `spec.certPolicyController`: **Required field**, it is in charge to deploy the addon which manages the Certificates.
@@ -417,7 +417,7 @@ The addons down bellow only has one field inside of every one, which is `enabled
 
 There are more Addons and fields, you can check them with `oc explain KlusterletAddonConfig.spec`. And this is sample of the CR:
 
-```
+```yaml
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
@@ -429,8 +429,6 @@ spec:
   clusterLabels:
     cloud: auto-detect
     vendor: auto-detect
-  workManager:
-    enabled: true
   applicationManager:
     enabled: false
   certPolicyController:
@@ -451,7 +449,7 @@ The most important fields on this CR are the next:
 
 There are more fields, you can check them with `oc explain ManagedCluster.spec`. And this is sample of the CR:
 
-```
+```yaml
 apiVersion: cluster.open-cluster-management.io/v1
 kind: ManagedCluster
 metadata:
@@ -461,9 +459,9 @@ spec:
   hubAcceptsClient: true
 ```
 
-- **NMState Config**: This is an **optional** configuration that you want to add when the Network configuration need some adjustments like work with Bonding or use a concrete VLAN or just to declare an Static IP. The NMState it's a generic/standard configuration that could be used in a separated way of Assisted Installer/ACM and the [documentation can be found here](https://github.com/nmstate/nmstate) and [here are some examples](https://nmstate.io/examples.html). One NMState profile will map in a relation of 1-1 to an InfraEnv (we will cover this one later) and this profile should cover all nodes involved on the cluster.
+- **NMState Config**: This is an **optional** configuration that you want to add when the Network configuration need some adjustments like work with Bonding or use a concrete VLAN or just to declare a Static IP. The NMState it's a generic/standard configuration that could be used in a separated way of Assisted Installer/ACM and the [documentation can be found here](https://github.com/nmstate/nmstate) and [here are some examples](https://nmstate.io/examples.html). One NMState profile will map in a relation of 1-1 to an InfraEnv (we will cover this one later) and this profile should cover all nodes involved on the cluster.
 
-This is a sample as how should looks like a SNO on a IPv6 environment
+This is a sample as how should look like a SNO on a IPv6 environment
 
 ```yaml
 apiVersion: agent-install.openshift.io/v1beta1
@@ -498,7 +496,7 @@ spec:
       macAddress: "02:00:00:80:12:15"
 ```
 
-- **InfraEnv**: When you creates this CR, you are telling the Assisted Service that you want to create the final ISO to be mounted on the destination nodes, so this is the final step of the Manifest creation phase.
+- **InfraEnv**: When you create this CR, you are telling the Assisted Service that you want to create the final ISO to be mounted on the destination nodes, so this is the final step of the Manifest creation phase.
 
 The most important fields on this CR are the next:
 
@@ -506,10 +504,10 @@ The most important fields on this CR are the next:
 - `spec.agentLabelSelector.matchLabels`: Should be the same as you created before in the other CR's.
 - `spec.pullSecretRef.name`: Should point to the right PullSecret created in the previous stage.
 - `spec.sshAuthorizedKey`: Yes, again, this is in case something goes wrong when the Host is booting with the Discovery ISO and cannot pull the image, or maybe fails in other thing... this will allow us to jump into the node and troubleshoot what it's happening.
-- `spec.ignitionConfigOverride`: **Optional**, This is important only if you wanna modify something that you want to include it into the Discovery ISO ignition.
+- `spec.ignitionConfigOverride`: **Optional**, This is important only if you want to modify something that you want to include it into the Discovery ISO ignition.
 - `spec.nmStateConfigLabelSelector`: **Optional**, This will make the relationship between the NMState manifest you had created on the previous step and the InfraEnv that will trigger the ISO creation on the Assisted Service pod.
 
-This is a sample as how should looks like.
+This is a sample as how should look like.
 
 ```yaml
 apiVersion: agent-install.openshift.io/v1beta1
@@ -524,9 +522,6 @@ spec:
     name: mgmt-spoke1
     namespace: mgmt-spoke1
   sshAuthorizedKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
-  agentLabelSelector:
-    matchLabels:
-      cluster-name: "mgmt-spoke1"
   pullSecretRef:
     name: assisted-deployment-pull-secret
   ignitionConfigOverride: '{"ignition": {"version": "3.1.0"}, "storage": {"files": [{"path": "/etc/someconfig", "contents": {"source": "data:text/plain;base64,aGVscGltdHJhcHBlZGluYXN3YWdnZXJzcGVj"}}]}}'
@@ -539,13 +534,13 @@ spec:
 
 To achieve this part we need to ensure (again) that the Hub cluster it's based on IPI and has the metal3 pods, to validate that just execute this, if the output it's empty this process will follow the manual way of work if not, the process that we will follow it's the real ZTP.
 
-```
+```sh
 oc get pod -A | grep metal3
 ```
 
 #### Fully Automated ZTP
 
-This first flow will orchestrated from Ironic and Metal3 containers and the CRD involved will be the `BareMetalHost`. As a pre-step we need to ensure that Metal3 pod can check other namespaces and look for BareMetalHost outside of their own one, to allow that, you need to execute this:
+This first flow will orchestrate from Ironic and Metal3 containers and the CRD involved will be the `BareMetalHost`. As a pre-step we need to ensure that Metal3 pod can check other namespaces and look for BareMetalHost outside their own one, to allow that, you need to execute this:
 
 ```sh
 oc patch provisioning provisioning-configuration --type merge -p '{"spec":{"watchAllNamespaces": true}}'
@@ -571,11 +566,11 @@ And these are the most important fields into the BareMetalHost CRD:
 
 - `metadata.labels.infraenvs.agent-install.openshift.io`: This needs to point InfraEnv's name of the manifest created in the precious step.
 - `metadata.annotations.inspect.metal3.io`: **Mandatory**, This one should be set to `disabled`.
-- `metadata.annotations.bmac.agent-install.openshift.io/hostname`: **Optional**, This annotation allows you to set an static hostname for your host.
-- `metadata.annotations.bmac.agent-install.openshift.io/role`: **Optional**, This annotation allows you to set an static role for your host.
+- `metadata.annotations.bmac.agent-install.openshift.io/hostname`: **Optional**, This annotation allows you to set a static hostname for your host.
+- `metadata.annotations.bmac.agent-install.openshift.io/role`: **Optional**, This annotation allows you to set a static role for your host.
 - `spec.online`: Should be true, in order to allow Ironic to boot the node.
 - `spec.automatedCleaningMode`: Should be disabled, this is only relevant on PXE environments.
-- `spec.bootMACAddress`: This is the MAC address that will be use to boot the node.
+- `spec.bootMACAddress`: This is the MAC address that will be used to boot the node.
 - `spec.bmc.address`: Redfish address that you need to reach to contact with the node's BMC.
 - `spec.bmc.credentialsName`: The secret's name that contains the access to the BMC.
 
@@ -612,7 +607,7 @@ This flow is easier but it's fully manual:
 
 1. We need to get the ISO URL from the InfraEnv CR with this command:
 
-```
+```sh
 oc get infraenv mgmt-spoke1 -o jsonpath={.status.isoDownloadURL}
 ```
 
@@ -621,7 +616,7 @@ oc get infraenv mgmt-spoke1 -o jsonpath={.status.isoDownloadURL}
 4. Boot the node and wait for it to be self-registered against the Assisted Service.
 5. Now we need to check the AgentClusterInstall to verify that on the `.status.conditions` all the requirements are met.
 
-```
+```sh
 oc get agentclusterinstall -o yaml
 ```
 
@@ -630,4 +625,4 @@ oc get agentclusterinstall -o yaml
 
 ---
 
-With that I think we can say that the flow should finish in a right way, but if the deployment does not finishes or maybe we see some issues on the `AgentClusterInstall` CR created, we can take a look to the troubleshooting documentation.
+With that I think we can say that the flow should finish in a right way, but if the deployment does not finish, or maybe we see some issues on the `AgentClusterInstall` CR created, we can take a look to the troubleshooting documentation.
