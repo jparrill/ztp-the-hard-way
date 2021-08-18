@@ -167,7 +167,7 @@ stringData:
   - `data.ca-bundle.crt`: Which contains the CA Certificate of our Internal Registry
   - `data.registries.conf`: Which contains the file that will be injected in the `/etc/containers/registries.conf` path and will act as a ICSP
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -256,7 +256,7 @@ In the Manifest creation phase we still need to define the relevant CR's that wi
 
 First thing we need to do is create a NameSpace that will host the CR's for our spoke cluster, our spoke name will be `mgmt-spoke1` so all the resources will be created there. Let's create the NS in first instance:
 
-```
+```sh
 oc create ns mgmt-spoke1
 oc project mgmt-spoke1
 ```
@@ -417,7 +417,7 @@ The addons down bellow only has one field inside of every one, which is `enabled
 
 There are more Addons and fields, you can check them with `oc explain KlusterletAddonConfig.spec`. And this is sample of the CR:
 
-```
+```yaml
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
@@ -451,7 +451,7 @@ The most important fields on this CR are the next:
 
 There are more fields, you can check them with `oc explain ManagedCluster.spec`. And this is sample of the CR:
 
-```
+```yaml
 apiVersion: cluster.open-cluster-management.io/v1
 kind: ManagedCluster
 metadata:
@@ -539,7 +539,7 @@ spec:
 
 To achieve this part we need to ensure (again) that the Hub cluster it's based on IPI and has the metal3 pods, to validate that just execute this, if the output it's empty this process will follow the manual way of work if not, the process that we will follow it's the real ZTP.
 
-```
+```sh
 oc get pod -A | grep metal3
 ```
 
@@ -612,7 +612,7 @@ This flow is easier but it's fully manual:
 
 1. We need to get the ISO URL from the InfraEnv CR with this command:
 
-```
+```sh
 oc get infraenv mgmt-spoke1 -o jsonpath={.status.isoDownloadURL}
 ```
 
@@ -621,7 +621,7 @@ oc get infraenv mgmt-spoke1 -o jsonpath={.status.isoDownloadURL}
 4. Boot the node and wait for it to be self-registered against the Assisted Service.
 5. Now we need to check the AgentClusterInstall to verify that on the `.status.conditions` all the requirements are met.
 
-```
+```sh
 oc get agentclusterinstall -o yaml
 ```
 
