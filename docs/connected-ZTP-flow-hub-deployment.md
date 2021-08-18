@@ -365,8 +365,6 @@ spec:
   clusterLabels:
     cloud: auto-detect
     vendor: auto-detect
-  workManager:
-    enabled: true
   applicationManager:
     enabled: false
   certPolicyController:
@@ -632,9 +630,6 @@ spec:
     name: mgmt-spoke1
     namespace: mgmt-spoke1
   sshAuthorizedKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
-  agentLabelSelector:
-    matchLabels:
-      cluster-name: "mgmt-spoke1"
   pullSecretRef:
     name: assisted-deployment-pull-secret
   ignitionConfigOverride: '{"ignition": {"version": "3.1.0"}, "storage": {"files": [{"path": "/etc/someconfig", "contents": {"source": "data:text/plain;base64,aGVscGltdHJhcHBlZGluYXN3YWdnZXJzcGVj"}}]}}'
