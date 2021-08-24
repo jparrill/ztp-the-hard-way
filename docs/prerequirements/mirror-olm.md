@@ -41,6 +41,8 @@ grpcurl -plaintext localhost:50051 api.Registry/ListPackages > packages.out
 
 The `packages.out` contains the reference to the operators in that snapshot image. Then we need to take note of the ones we wanna include it on the mirroring and put them in a list:
 
+**NOTE**: for private repository, `opm` needs the credentials file located at the default location `~/.docker/config.json`
+
 ```sh
 opm index prune \
     -f registry.redhat.io/redhat/redhat-operator-index:v4.7 \
