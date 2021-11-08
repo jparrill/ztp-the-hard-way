@@ -240,6 +240,7 @@ spec:
       version: "48.84.202106102231-0"
       url: "http://[2620:52:0:1303::1]/rhcos-4.8.0-fc.9-x86_64-live.x86_64.iso"
       rootFSUrl: "http://[2620:52:0:1303::1]/rhcos-live-rootfs.x86_64.img"
+      cpuArchitecture: x86_64
 ```
 
 **NOTE**: Ensure you put the right IP or name of the server you are hosting from the ISO and the RootFS.

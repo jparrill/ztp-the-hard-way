@@ -26,3 +26,4 @@ spec:
       version: ""
       url: "http://[2620:52:0:1303::1]/4.8.0-rc.1-x86_64/rhcos-48.84.202106091622-0-live.x86_64.iso"
       rootFSUrl: "http://[2620:52:0:1303::1]/4.8.0-rc.1-x86_64/rhcos-48.84.202106091622-0-live-rootfs.x86_64.img"
+      cpuArchitecture: x86_64
