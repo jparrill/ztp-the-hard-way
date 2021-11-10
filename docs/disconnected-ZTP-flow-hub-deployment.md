@@ -3,16 +3,16 @@ Table of contents:
 <!-- TOC -->
 
 - [Disconnected ZTP Flow Hub deployment](#disconnected-ztp-flow-hub-deployment)
-    - [Pre Requirements Phase](#pre-requirements-phase)
-    - [ACM Deployment in a disconnected Environment](#acm-deployment-in-a-disconnected-environment)
-    - [Manifest Creation Phase](#manifest-creation-phase)
-        - [Hub Basic elements creation](#hub-basic-elements-creation)
-        - [Spoke cluster definition](#spoke-cluster-definition)
-            - [SNO Cluster Definition](#sno-cluster-definition)
-            - [Multi Node Cluster Definition](#multi-node-cluster-definition)
-        - [Spoke cluster deployment](#spoke-cluster-deployment)
-            - [Fully Automated ZTP](#fully-automated-ztp)
-            - [Manual Spoke cluster deployment](#manual-spoke-cluster-deployment)
+  - [Pre Requirements Phase](#pre-requirements-phase)
+  - [ACM Deployment in a disconnected Environment](#acm-deployment-in-a-disconnected-environment)
+  - [Manifest Creation Phase](#manifest-creation-phase)
+    - [Hub Basic elements creation](#hub-basic-elements-creation)
+    - [Spoke cluster definition](#spoke-cluster-definition)
+      - [SNO Cluster Definition](#sno-cluster-definition)
+      - [Multi Node Cluster Definition](#multi-node-cluster-definition)
+    - [Spoke cluster deployment](#spoke-cluster-deployment)
+      - [Fully Automated ZTP](#fully-automated-ztp)
+      - [Manual Spoke cluster deployment](#manual-spoke-cluster-deployment)
 
 <!-- /TOC -->
 
@@ -204,8 +204,7 @@ data:
 
       [[registry.mirror]]
         location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal"
-...
-...
+---
 ```
 
 - **AgentServiceConfig**: This is the Operand, the Assisted Service pod that handles the spoke clusters deployment's.

@@ -3,10 +3,10 @@ Table of contents:
 <!-- TOC -->
 
 - [OpenShift 4 Baremetal disconnected deployment](#openshift-4-baremetal-disconnected-deployment)
-    - [Downloading RHCOS and OCP Resources](#downloading-rhcos-and-ocp-resources)
-    - [OpenShift 4 IPI Baremetal Deployment](#openshift-4-ipi-baremetal-deployment)
-    - [Side scenarios](#side-scenarios)
-        - [Spoke deployment without Provisioning network](#spoke-deployment-without-provisioning-network)
+  - [Downloading RHCOS and OCP Resources](#downloading-rhcos-and-ocp-resources)
+  - [OpenShift 4 IPI Baremetal Deployment](#openshift-4-ipi-baremetal-deployment)
+  - [Side scenarios](#side-scenarios)
+    - [Spoke deployment without Provisioning network](#spoke-deployment-without-provisioning-network)
 
 <!-- /TOC -->
 
