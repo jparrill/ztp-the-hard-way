@@ -4,7 +4,7 @@
 export PULL_SECRET_JSON=/home/kni/jparrill/pull_secret.json
 export LOCAL_REGISTRY=$(hostname):5000
 export LOCAL_REPOSITORY=ocp4
-export OCP_RELEASE=4.8.0-rc.1-x86_64
+export OCP_RELEASE=4.8.12-x86_64
 export OCP_REGISTRY=quay.io/openshift-release-dev/ocp-release
 
 # Functional

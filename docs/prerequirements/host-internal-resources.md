@@ -1,6 +1,6 @@
 Table of contents:
 
-<!-- TOC depthfrom:1 orderedlist:false -->
+<!-- TOC -->
 
 - [Host Internal resources](#host-internal-resources)
   - [HTTPD Server deployment and Configuration](#httpd-server-deployment-and-configuration)

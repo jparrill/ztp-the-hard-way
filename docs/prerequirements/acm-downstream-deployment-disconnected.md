@@ -1,9 +1,9 @@
 Table of contents:
 
-<!-- TOC depthfrom:1 orderedlist:false -->
+<!-- TOC -->
 
 - [ACM Downstream Deployment Disconnected](#acm-downstream-deployment-disconnected)
-  - [Permission for downstream repo](#permission-for-downstream-repo)
+  - [Permission for Downstream Repository](#permission-for-downstream-repository)
   - [ACM Downstream Image Mirroring](#acm-downstream-image-mirroring)
   - [ACM Downstream deployment](#acm-downstream-deployment)
   - [ACM Uninstall process](#acm-uninstall-process)
