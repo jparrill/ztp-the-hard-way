@@ -1,11 +1,11 @@
 Table of contents:
 
-<!-- TOC depthfrom:1 orderedlist:false -->
+<!-- TOC -->
 
 - [ACM Downstream Deployment Connected](#acm-downstream-deployment-connected)
-  - [Permission for downstream repo](#permission-for-downstream-repo)
-  - [ACM Downstream deployment](#acm-downstream-deployment)
-  - [ACM Uninstall process](#acm-uninstall-process)
+    - [Permission for Downstream Repo](#permission-for-downstream-repo)
+    - [ACM Downstream Deployment](#acm-downstream-deployment)
+    - [ACM Uninstall Process](#acm-uninstall-process)
 
 <!-- /TOC -->
 

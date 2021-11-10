@@ -1,12 +1,12 @@
 Table of contents:
 
-<!-- TOC depthfrom:1 orderedlist:false -->
+<!-- TOC -->
 
 - [OpenShift 4 Baremetal disconnected deployment](#openshift-4-baremetal-disconnected-deployment)
-  - [Downloading RHCOS and OCP Resources](#downloading-rhcos-and-ocp-resources)
-  - [OpenShift 4 IPI Baremetal Deployment](#openshift-4-ipi-baremetal-deployment)
-  - [Side scenarios](#side-scenarios)
-    - [I have my HUB with provisioning network but the spokes cannot reach the ISO served by Ironic](#i-have-my-hub-with-provisioning-network-but-the-spokes-cannot-reach-the-iso-served-by-ironic)
+    - [Downloading RHCOS and OCP Resources](#downloading-rhcos-and-ocp-resources)
+    - [OpenShift 4 IPI Baremetal Deployment](#openshift-4-ipi-baremetal-deployment)
+    - [Side scenarios](#side-scenarios)
+        - [Spoke deployment without Provisioning network](#spoke-deployment-without-provisioning-network)
 
 <!-- /TOC -->
 
@@ -257,7 +257,9 @@ INFO Time elapsed: 1h1m9s
 
 ## Side scenarios
 
-### I have my HUB with provisioning network but the spokes cannot reach the ISO served by Ironic
+### Spoke deployment without Provisioning network
+
+**Scenario**: I have my HUB with provisioning network but the spokes cannot reach the ISO served by Ironic
 
 Ok. this situation happens when you Hub cluster has configured Provisioning network and your spokes doesn't. The ISO will be served from that provisioning network by Ironic and the BMC are capable to reach that URLs (always that those Prov networks are not routable between them).
 
