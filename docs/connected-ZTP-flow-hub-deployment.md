@@ -169,6 +169,7 @@ spec:
       version: "48.84.202106070419-0"
       url: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live.x86_64.iso"
       rootFSUrl: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live-rootfs.x86_64.img"
+      cpuArchitecture: x86_64
 ```
 
 **NOTE**: Ensure you put the right IP or name of the server you are hosting from the ISO and the RootFS.
