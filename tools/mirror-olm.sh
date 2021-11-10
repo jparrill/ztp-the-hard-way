@@ -113,7 +113,7 @@ mirror-olm() {
 		for package in $(oc get $packagemanifest -o jsonpath='{.status.channels[*].currentCSVDesc.relatedImages}' | sed "s/ /\n/g" | tr -d '[],' | sed 's/"/ /g'); do
 			echo
 			echo "Package: ${package}"
-			skopeo copy docker://$package docker://$LOCAL_REGISTRY/$LOCAL_REGISTRY_IMAGE_TAG/openshift4-$(basename $package) --all --authfile $OCP_PULLSECRET_AUTHFILE
+			skopeo copy docker://$package docker://$LOCAL_REGISTRY/$LOCAL_REGISTRY_IMAGE_TAG/$(echo $package | awk -F'/' '{print $2}')-$(basename $package) --all --authfile $OCP_PULLSECRET_AUTHFILE
 		done
 	done
 
