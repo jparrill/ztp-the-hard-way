@@ -77,6 +77,8 @@ oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","log
 
 This phase could be done in an automated way, but we want to explain 1-by-1 what we are creating here below.
 
+**Note:** All manifests below have defined the `namespace` field (including non-namespaced resources). This is given that the ZTP approach implemented via RHACM includes it to ensure the involved object gets deployed in the proper namespace.
+
 - **ClusterImageSet**: This manifest should contain a reachable OpenShift Container Platform version that will be pulled from Hive and Assisted Installer in order to deploy a Spoke cluster, and this is how it looks like:
 
 ```yaml
@@ -363,8 +365,6 @@ spec:
   clusterLabels:
     cloud: auto-detect
     vendor: auto-detect
-  workManager:
-    enabled: true
   applicationManager:
     enabled: false
   certPolicyController:
@@ -630,9 +630,6 @@ spec:
     name: mgmt-spoke1
     namespace: mgmt-spoke1
   sshAuthorizedKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
-  agentLabelSelector:
-    matchLabels:
-      cluster-name: "mgmt-spoke1"
   pullSecretRef:
     name: assisted-deployment-pull-secret
   ignitionConfigOverride: '{"ignition": {"version": "3.1.0"}, "storage": {"files": [{"path": "/etc/someconfig", "contents": {"source": "data:text/plain;base64,aGVscGltdHJhcHBlZGluYXN3YWdnZXJzcGVj"}}]}}'
@@ -651,7 +648,7 @@ oc get pod -A | grep metal3
 
 ### Fully Automated ZTP
 
-This first flow will be orchestrated from Ironic and Metal³ containers and the CRD involved will be the `BareMetalHost`. As a pre-step we need to ensure that Metal³ pod can check other namespaces and look for BareMetalHost outside of their own one, to allow that, you need to execute this:
+This first flow will be orchestrated from Ironic and Metal³ containers and the CRD involved will be the `BareMetalHost`. As a pre-step we need to ensure that Metal³ pod can check other namespaces and look for BareMetalHost outside their own one, to allow that, you need to execute this:
 
 ```sh
 oc patch provisioning provisioning-configuration --type merge -p '{"spec":{"watchAllNamespaces": true}}'
@@ -677,8 +674,8 @@ And these are the most important fields in the BareMetalHost CRD:
 
 - `metadata.labels.infraenvs.agent-install.openshift.io`: This needs to point InfraEnv's name of the manifest created in the precious step.
 - `metadata.annotations.inspect.metal3.io`: **Mandatory**, This one should be set to `disabled`.
-- `metadata.annotations.bmac.agent-install.openshift.io/hostname`: **Optional**, This annotation allows you to set an static hostname for your host.
-- `metadata.annotations.bmac.agent-install.openshift.io/role`: **Optional**, This annotation allows you to set an static role for your host.
+- `metadata.annotations.bmac.agent-install.openshift.io/hostname`: **Optional**, This annotation allows you to set a static hostname for your host.
+- `metadata.annotations.bmac.agent-install.openshift.io/role`: **Optional**, This annotation allows you to set a static role for your host.
 - `spec.online`: Should be true, in order to allow Ironic to boot the node.
 - `spec.automatedCleaningMode`: Should be disabled, as this is only relevant on PXE environments.
 - `spec.bootMACAddress`: This is the MAC address that will be used to boot the node.
