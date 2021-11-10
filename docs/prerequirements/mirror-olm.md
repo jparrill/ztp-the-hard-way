@@ -3,8 +3,8 @@ Table of contents:
 <!-- TOC -->
 
 - [Mirror OLM Marketplace](#mirror-olm-marketplace)
-    - [Helpers](#helpers)
-        - [OLM Sync Script](#olm-sync-script)
+  - [Helpers](#helpers)
+    - [OLM Sync Script](#olm-sync-script)
 
 <!-- /TOC -->
 
