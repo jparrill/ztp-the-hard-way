@@ -33,11 +33,10 @@ fi
 
 mirror() {
 	# Check for credentials for OPM
-	if [ ! -f ~/.docker/config.json ]
-	then
+	if [ ! -f ~/.docker/config.json ]; then
 		echo "ERROR: missing ~/.docker/config.json config"
-    		exit 1
-  	fi
+		exit 1
+	fi
 
 	# Mirror redhat-operator index image
 	if [ "${RH_OP}" = true ]; then
