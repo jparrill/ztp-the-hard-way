@@ -1,0 +1,134 @@
+## Cluster Deployments
+---
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: cluster-deployments
+  namespace: ztp-clusters
+  annotations:
+    apps.open-cluster-management.io/deployables: ''
+spec:
+  componentKinds:
+    - group: apps.open-cluster-management.io
+      kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - cluster-deployments
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: cluster-deployments-subscription
+  namespace: ztp-clusters
+  annotations:
+    apps.open-cluster-management.io/git-branch: main
+    apps.open-cluster-management.io/git-path: clusters/
+    apps.open-cluster-management.io/reconcile-option: merge
+  labels:
+    app: cluster-deployments
+    app.kubernetes.io/part-of: cluster-deployments
+spec:
+  channel: ztp-clusters/ztp-repository
+  placement:
+    placementRef:
+      name: local-cluster-placement
+      kind: PlacementRule
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: local-cluster-placement
+  namespace: ztp-clusters
+  annotations: {}
+  labels:
+    app: cluster-deployments
+    app.kubernetes.io/part-of: cluster-deployments
+spec:
+  clusterSelector:
+    matchLabels:
+      local-cluster: 'true'
+
+## CNF Operators
+--- 
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: cnf-operators
+  namespace: ztp-clusters
+  annotations:
+    apps.open-cluster-management.io/deployables: ''
+spec:
+  componentKinds:
+    - group: apps.open-cluster-management.io
+      kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - cnf-operators
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: cnf-operators-subscription-1
+  namespace: ztp-clusters
+  annotations:
+    apps.open-cluster-management.io/git-branch: main
+    apps.open-cluster-management.io/git-path: cnf-operators/
+    apps.open-cluster-management.io/reconcile-option: merge
+  labels:
+    app: cnf-operators
+    app.kubernetes.io/part-of: cnf-operators
+spec:
+  channel: ztp-clusters/ztp-repository
+  placement:
+    placementRef:
+      name: local-cluster-placement
+      kind: PlacementRule
+
+## CNF Operators CFG
+---
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: cnf-operators-configs
+  namespace: ztp-clusters
+  annotations:
+    apps.open-cluster-management.io/deployables: ''
+spec:
+  componentKinds:
+    - group: apps.open-cluster-management.io
+      kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - cnf-operators-configs
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: cnf-operators-configs-subscription-1
+  namespace: ztp-clusters
+  annotations:
+    apps.open-cluster-management.io/git-branch: main
+    apps.open-cluster-management.io/git-path: cnf-config/
+    apps.open-cluster-management.io/reconcile-option: merge
+  labels:
+    app: cnf-operators-configs
+    app.kubernetes.io/part-of: cnf-operators-configs
+spec:
+  channel: ztp-clusters/ztp-repository
+  placement:
+    placementRef:
+      name: local-cluster-placement
+      kind: PlacementRule
+

@@ -1,0 +1,26 @@
+---
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  namespace: open-cluster-management
+  name: agent
+spec:
+  databaseStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Gi
+  filesystemStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Gi
+  mirrorRegistryRef:
+    name: 'bastion1-mirror-config'
+  osImages:
+    - openshiftVersion: "4.8"
+      version: "4.8"
+      url: "http://bm-cluster-1-hyper.e2e.bos.redhat.com/4.8.2-x86_64/rhcos-48.84.202106091622-0-live.x86_64.iso"
+      rootFSUrl: "http://bm-cluster-1-hyper.e2e.bos.redhat.com/4.8.2-x86_64/rhcos-48.84.202106091622-0-live-rootfs.x86_64.img"
