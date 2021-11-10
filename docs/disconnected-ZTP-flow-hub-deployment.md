@@ -100,6 +100,8 @@ oc patch hiveconfig hive --type merge -p '{"spec":{"targetNamespace":"hive","log
 
 This phase could be done in an automated way, but we want to explain 1-by-1 what we are creating here.
 
+**Note:** All manifests below have defined the `namespace` field (including non-namespaced resources). This is given that the ZTP approach implemented via RHACM includes it to ensure the involved object gets deployed in the proper namespace.
+
 - **ClusterImageSet**: This manifest should contain a reachable OCP version that will be pulled from Hive and Assisted Installer in order to deploy a Spoke cluster, and this is how looks like:
 
 ```yaml
