@@ -1,6 +1,6 @@
 Table of contents:
 
-<!-- TOC depthfrom:1 orderedlist:false -->
+<!-- TOC -->
 
 - [Disconnected ZTP Flow Hub deployment](#disconnected-ztp-flow-hub-deployment)
   - [Pre Requirements Phase](#pre-requirements-phase)
@@ -204,8 +204,7 @@ data:
 
       [[registry.mirror]]
         location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal"
-...
-...
+---
 ```
 
 - **AgentServiceConfig**: This is the Operand, the Assisted Service pod that handles the spoke clusters deployment's.

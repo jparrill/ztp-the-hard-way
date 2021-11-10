@@ -1,7 +1,9 @@
-<!-- TOC depthfrom:1 orderedlist:false -->
+Table of contents:
+
+<!-- TOC -->
 
 - [Connected ZTP Flow Hub deployment](#connected-ztp-flow-hub-deployment)
-  - [ACM Deployment](#acm-deployment)
+  - [ACM Deployment Connected](#acm-deployment-connected)
   - [Manifest Creation Phase](#manifest-creation-phase)
     - [Hub Basic elements creation](#hub-basic-elements-creation)
     - [Spoke cluster definition](#spoke-cluster-definition)
@@ -10,6 +12,8 @@
   - [Spoke cluster deployment](#spoke-cluster-deployment)
     - [Fully Automated ZTP](#fully-automated-ztp)
     - [Manual Spoke cluster deployment](#manual-spoke-cluster-deployment)
+  - [Side scenario](#side-scenario)
+    - [ACM Downstream on Connected environment cannot download the images from `registry.redhat.io/rhacm2`](#acm-downstream-on-connected-environment-cannot-download-the-images-from-registryredhatiorhacm2)
 
 <!-- /TOC -->
 

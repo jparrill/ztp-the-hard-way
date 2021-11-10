@@ -1,10 +1,10 @@
 Table of contents:
 
-<!-- TOC depthfrom:1 orderedlist:false -->
+<!-- TOC -->
 
 - [Mirror OLM Marketplace](#mirror-olm-marketplace)
-  - [Helpers](#helpers)
-    - [OLM Sync Script](#olm-sync-script)
+    - [Helpers](#helpers)
+        - [OLM Sync Script](#olm-sync-script)
 
 <!-- /TOC -->
 
@@ -160,7 +160,7 @@ When the nodes gets back into `Ready` state we need to execute the script again 
 
 This will ensure us that all the images and all the image's layers are there. Sometimes you can see that after perform the mirroring and all the steps in the right way, you have some images without being mirrored, this step is to avoid that issue. And the root cause of this problem it's based in how the image is created for that operator so that will depend on who creates it and how.
 
-#### OLM Sync Script
+### OLM Sync Script
 
 ```sh
 #!/bin/bash -e

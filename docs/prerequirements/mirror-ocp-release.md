@@ -1,6 +1,6 @@
 Table of contents:
 
-<!-- TOC depthfrom:1 orderedlist:false -->
+<!-- TOC GFM -->
 
 - [Mirror the OCP Release](#mirror-the-ocp-release)
 
