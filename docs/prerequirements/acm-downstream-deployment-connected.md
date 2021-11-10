@@ -3,9 +3,9 @@ Table of contents:
 <!-- TOC -->
 
 - [ACM Downstream Deployment Connected](#acm-downstream-deployment-connected)
-    - [Permission for Downstream Repo](#permission-for-downstream-repo)
-    - [ACM Downstream Deployment](#acm-downstream-deployment)
-    - [ACM Uninstall Process](#acm-uninstall-process)
+  - [Permission for Downstream Repo](#permission-for-downstream-repo)
+  - [ACM Downstream Deployment](#acm-downstream-deployment)
+  - [ACM Uninstall Process](#acm-uninstall-process)
 
 <!-- /TOC -->
 

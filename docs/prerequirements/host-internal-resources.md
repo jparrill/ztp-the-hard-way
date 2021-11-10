@@ -3,9 +3,9 @@ Table of contents:
 <!-- TOC -->
 
 - [Host Internal resources](#host-internal-resources)
-    - [HTTPD Server deployment and Configuration](#httpd-server-deployment-and-configuration)
-    - [Internal Registry Deployment and Configuration](#internal-registry-deployment-and-configuration)
-    - [Download the desired OpenShift ISO and RootFS](#download-the-desired-openshift-iso-and-rootfs)
+  - [HTTPD Server deployment and Configuration](#httpd-server-deployment-and-configuration)
+  - [Internal Registry Deployment and Configuration](#internal-registry-deployment-and-configuration)
+  - [Download the desired OpenShift ISO and RootFS](#download-the-desired-openshift-iso-and-rootfs)
 
 <!-- /TOC -->
 
