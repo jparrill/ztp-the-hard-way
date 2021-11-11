@@ -53,9 +53,9 @@ Here we will need some basic components, the OpenShift Hub cluster will need at 
 Well, we can discover how to deal with ZTP following these steps:
 
 - Pre-Requirements Phase (**Optional just for Disconnected cases**)
-    - [**Host Internal resources (Registry and HTTPD)**](/docs/prerequirements/host-internal-resources.md)
-    - [**Mirror OCP Release**](/docs/prerequirements/mirror-ocp-release.md)
-    - [**Mirror OLM Marketplace**](/docs/prerequirements/mirror-olm.md)
+  - [**Host Internal resources (Registry and HTTPD)**](/docs/prerequirements/host-internal-resources.md)
+  - [**Mirror OCP Release**](/docs/prerequirements/mirror-ocp-release.md)
+  - [**Mirror OLM Marketplace**](/docs/prerequirements/mirror-olm.md)
 - [Disconnected ZTP Flow Hub deployment](/docs/disconnected-ZTP-flow-hub-deployment.md)
 - [Connected ZTP Flow Hub deployment](/docs/connected-ZTP-flow-hub-deployment.md)
 

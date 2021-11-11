@@ -12,7 +12,7 @@ spec:
     matchExpressions:
       - key: app
         operator: In
-        values: 
+        values:
           - acm-demo
 ---
 apiVersion: apps.open-cluster-management.io/v1

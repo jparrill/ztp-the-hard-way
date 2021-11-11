@@ -53,7 +53,7 @@ spec:
       local-cluster: 'true'
 
 ## CNF Operators
---- 
+---
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
@@ -131,4 +131,3 @@ spec:
     placementRef:
       name: local-cluster-placement
       kind: PlacementRule
-

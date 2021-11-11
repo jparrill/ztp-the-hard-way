@@ -1,0 +1,23 @@
+---
+apiVersion: extensions.hive.openshift.io/v1beta1
+kind: AgentClusterInstall
+metadata:
+  name: sno-2
+  namespace: sno-2
+spec:
+  clusterDeploymentRef:
+    name: sno-2
+  imageSetRef:
+    name: openshift-v4.8.0
+  networking:
+    clusterNetwork:
+      - cidr: "fd01::/48"
+        hostPrefix: 64
+    serviceNetwork:
+      - "fd02::/112"
+    machineNetwork:
+      - cidr: "fd00:4888:2000:1183::/64"
+  provisionRequirements:
+    controlPlaneAgents: 1
+  sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC26dCKccwEuxyYmStKzvRrWOjrBvpRbseiixKWAUJ/ZPulXjIR6oGZZNd7h/w6Rg0ETakgvSQRJjoMfsf49EXUawxAwKcnDmMXBytkLnsawAk+1raaKjrM27a46fEjFlcNDjuNMwgvE9PHTX3yUfEXqenJIhwHdod1w2GNE2jsKyZmqOF8Fey1Y/YIl/zK7STCSZn0+nc2iQx08NYsx/s/aaMgzr9Zggoq/9dD1BMljswFcu8YHhzVyLWu5TY0m4PbzMJ8QjPxkfWXz3hYQMbCS20gdymskgoMGluDBYsqiZDBd933ff9K+yPwNdov7ZSoXuGKwWfSHPXfIm+L3dN2lNblz3gr2ncDcflNxpGiGbUwHEai/k5fxf8SiL6HydCSfsdtHB9hyxu14CNI5f+3QyRcO4q50251r2bPWzKiO7tpqXXStGSINc5SWZcp/ohb4eVvpRUwjWc2Uhezo/igkoc+rNmxpJG6VEo0BlOBE3p5ByN/II32M/VG/ReNBXE= root@bastion1.hqplan.lan'
+

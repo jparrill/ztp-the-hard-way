@@ -1,0 +1,23 @@
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: sno-1
+  namespace: sno-1 
+spec:
+  baseDomain: faredge.lab
+  clusterName: sno-1
+  controlPlaneConfig:
+    servingCertificates: {}
+  clusterInstallRef:
+    group: extensions.hive.openshift.io
+    kind: AgentClusterInstall
+    name: sno-1
+    version: v1beta1
+  platform:
+    agentBareMetal: 
+      agentSelector:
+        matchLabels:
+          cluster-name: "sno-1"
+  pullSecretRef:
+    name: assisted-deployment-pull-secret-sno-1 

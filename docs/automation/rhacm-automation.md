@@ -1,18 +1,19 @@
 # Automation only using RHACM
+
 <!-- TOC GFM -->
 
 - [Pre-requisites for the automation](#pre-requisites-for-the-automation)
 - [Automation](#automation)
-    - [Cluster Deployments](#cluster-deployments)
-    - [CNF Operator Deployments](#cnf-operator-deployments)
-    - [CNF Configurations](#cnf-configurations)
+  - [Cluster Deployments](#cluster-deployments)
+  - [CNF Operator Deployments](#cnf-operator-deployments)
+  - [CNF Configurations](#cnf-configurations)
 - [Samples](#samples)
 
 <!-- /TOC -->
 
 Long story short, this involves more control about the apps + subs you are deploying but it will overload a bit ETCD and the RHACM API when there are many SNOs.
 
-We will start with some assumtions, we have already some things deployed and working fine:
+We will start with some assumptions, we have already some things deployed and working fine:
 
 - OCP 4.8.X
 - RHACM 2.3.X
@@ -20,7 +21,7 @@ We will start with some assumtions, we have already some things deployed and wor
 
 ## Pre-requisites for the automation
 
-Now we will need to work with a Git repository (in both scenarios con and discon) because we will work with GitOps way of work, for that we will create som objects:
+Now we will need to work with a Git repository (in both scenarios connected and disconnected) because we will work with GitOps way of work, for that we will create some objects:
 
 - A Namespace to hold all these configurations
 - A ClusterRoleBinding to allow the SA to interact using the UI and the CLI
@@ -48,12 +49,12 @@ roleRef:
   kind: ClusterRole
   name: open-cluster-management:subscription-admin
 subjects:
-- apiGroup: rbac.authorization.k8s.io
-  kind: User
-  name: kube:admin
-- apiGroup: rbac.authorization.k8s.io
-  kind: User
-  name: system:admin
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: kube:admin
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: system:admin
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
@@ -76,13 +77,13 @@ metadata:
 spec:
   clusterSelector:
     matchLabels:
-      local-cluster: 'true'
+      local-cluster: "true"
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: acm-prereqs-subscription
-  namespace: ztp-clusters 
+  namespace: ztp-clusters
   annotations:
     apps.open-cluster-management.io/git-branch: main
     apps.open-cluster-management.io/git-path: acm-prereqs/
@@ -131,7 +132,7 @@ Now we are ready to create our automation chain, for that we will contain all th
 - cnf-operators: It will contain the Common objects like ICSP, CatalogSources, Storage and also the CNF Operators, like SRIOV, FEC, etc...
 - cnf-configs: It will contain the CNF Configurations and the workload profiles to be applied on the concrete clusters.
 
-> :warning: NOTE: This is as flexible as you want, just separate the onjects in the groups you want and create an Application and Subscription for each folder you have in order to deploy all of the automation objects.
+> :warning: NOTE: This is as flexible as you want, just separate the objects in the groups you want and create an Application and Subscription for each folder you have in order to deploy all of the automation objects.
 
 This is how looks like in our sample:
 
@@ -166,6 +167,7 @@ This is how looks like in our sample:
 Here the stating point is the **acm** folder, we need to create the `00_acm-demo.yaml` file and it will trigger all the automation:
 
 - It creates an app and a subscription which calls `ztp-applications.yaml` (inside of this folder), this could be a sample:
+
 ```
 apiVersion: app.k8s.io/v1beta1
 kind: Application
@@ -181,7 +183,7 @@ spec:
     matchExpressions:
       - key: app
         operator: In
-        values: 
+        values:
           - acm-demo
 ---
 apiVersion: apps.open-cluster-management.io/v1
@@ -202,7 +204,6 @@ spec:
       kind: PlacementRule
       name: local-cluster-placement
 ```
-
 
 This `ztp-applications.yaml` will create 1 App + 1 Subscription for each folder you wanna deploy, this also includes policies and clusters. In the case of the first app (the above one) we are creating the app that will create the rest of the apps. This is how looks like this file:
 
@@ -267,11 +268,10 @@ spec:
 
 Regarding this part, it's mostly what we've been describing in `*-ZTP-flow-hub-deployment.md` the same files are included in the `clusters/sno-X` folders
 
-
 ### CNF Operator Deployments
 
 ```
---- 
+---
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
@@ -402,7 +402,7 @@ metadata:
 spec:
   clusterConditions:
   - status: "True"
-    type: ManagedClusterJoined 
+    type: ManagedClusterJoined
   clusterSelector:
     matchExpressions:
       - {key: pao, operator: In, values: ["true"]}
@@ -456,7 +456,6 @@ spec:
 This regards the concrete node configurations like WorkloadProfile or CNF configs like SRIOV among others.
 
 > :warning: **NOTE**: As we mentioned before, all 3 groups here, the clusters, the operators and the cnf-configs, if you look every group, all are the same things. Every one will tell RHACM, "hey look at that folder and deploy what you have in the `kustomization.yaml` file"
-
 
 ## Samples
 

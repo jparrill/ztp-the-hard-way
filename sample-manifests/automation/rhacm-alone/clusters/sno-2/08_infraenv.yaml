@@ -1,0 +1,21 @@
+---
+apiVersion: agent-install.openshift.io/v1beta1 
+kind: InfraEnv
+metadata:
+  name: sno-2
+  namespace: sno-2
+spec:
+  additionalNTPSources:
+    - fd00:4888:2000:1181::20 
+  clusterRef:
+    name: sno-2
+    namespace: sno-2
+  sshAuthorizedKey: 'ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx'
+  agentLabelSelector:
+    matchLabels:
+      cluster-name: sno-2
+  pullSecretRef:
+    name: assisted-deployment-pull-secret-sno-2
+  nmStateConfigLabelSelector:
+    matchLabels:
+      acm-ai-sno: sno-2

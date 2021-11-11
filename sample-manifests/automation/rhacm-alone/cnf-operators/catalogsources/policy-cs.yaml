@@ -1,0 +1,107 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: policy-catalogsources
+  annotations:
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    policy.open-cluster-management.io/categories: CM Configuration Management
+    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
+spec:
+  remediationAction: enforce
+  disabled: false
+  policy-templates:
+    ## Disable default internet Marketplace sources
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: policy-wc-disabledefaultsources
+        spec:
+          remediationAction: enforce # the policy-template spec.remediationAction is overridden by the preceding parameter value for spec.remediationAction.
+          severity: low
+          namespaceSelector:
+            exclude: ["kube-*"]
+            include: ["*"]
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: config.openshift.io/v1
+                kind: OperatorHub
+                metadata:
+                  name: cluster
+                  annotations:
+                    include.release.openshift.io/ibm-cloud-managed: "true"
+                    include.release.openshift.io/self-managed-high-availability: "true"
+                    include.release.openshift.io/single-node-developer: "true"
+                    release.openshift.io/create-only: "true"
+                spec:
+                  disableAllDefaultSources: true
+    ## Enable CatalogSources for disconnected env
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: policy-wc-bastion1-catalogsources
+        spec:
+          remediationAction: enforce # the policy-template spec.remediationAction is overridden by the preceding parameter value for spec.remediationAction.
+          severity: low
+          namespaceSelector:
+            exclude: ["kube-*"]
+            include: ["*"]
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: CatalogSource
+                metadata:
+                  name: community-operator-index
+                  namespace: openshift-marketplace
+                spec:
+                  image: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/olm-index-community-operator-index:v4.8
+                  sourceType: grpc
+                  displayName: WC Lab - Community
+                  publisher: wclab
+                  updateStrategy:
+                    registryPoll:
+                      interval: 30m
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: CatalogSource
+                metadata:
+                  name: redhat-operator-index
+                  namespace: openshift-marketplace
+                spec:
+                  image: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/olm-index-redhat-operator-index:v4.8
+                  sourceType: grpc
+                  displayName: WC Lab - RedHat
+                  publisher: wclab
+                  updateStrategy:
+                    registryPoll:
+                      interval: 30m
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-policy-cs
+placementRef:
+  name: placement-policy-cs
+  kind: PlacementRule
+  apiGroup: apps.open-cluster-management.io
+subjects:
+- name: policy-catalogsources
+  kind: Policy
+  apiGroup: policy.open-cluster-management.io
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: placement-policy-cs
+spec:
+  clusterConditions:
+  - status: "True"
+    type: ManagedClusterJoined 
+  clusterSelector:
+    matchExpressions:
+      - {key: infra, operator: In, values: ["faregde"]}
