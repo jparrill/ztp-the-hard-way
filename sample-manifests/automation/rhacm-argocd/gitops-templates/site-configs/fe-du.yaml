@@ -1,0 +1,138 @@
+---
+apiVersion: ran.openshift.io/v1
+kind: SiteConfig
+metadata:
+  name: "fe-lab"
+  namespace: "fe-lab"
+spec:
+  baseDomain: "faredge.lab"
+  pullSecretRef:
+    name: "assisted-deployment-pull-secret-sno-1"
+  clusterImageSetNameRef: "openshift-v4.8.11"
+  sshPublicKey: "ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx"
+  clusters:
+  ## SNO-1
+  - clusterName: "sno-1"
+    clusterType: sno
+    clusterProfile: du
+    clusterLabels:
+      group-du-sno: ""
+      common: true
+      siteName : "fe-lab"
+      infra: "faregde"
+      server: "HP"
+      pao: "true"
+      sriov: "true"
+      sno: "true"
+      mcp: "master"
+      cluster.open-cluster-management.io/clusterset: "rbac-mcs-sno"
+    clusterNetwork:
+      - cidr: "fd01::/48"
+        hostPrefix: 64
+    serviceNetwork:
+      - "fd02::/112"
+    machineNetwork:
+      - cidr: "fd00:4888:2000:1182::/64"
+    additionalNTPSources:
+      - fd00:4888:2000:1181::20
+    nodes:
+      - hostName: "master-0.sno-1.faredge.lab"
+        bmcAddress: "redfish-virtualmedia://[fd00:4888:2000:1185::25]/redfish/v1/Systems/1"
+        bmcCredentialsName:
+          name: "sno-1-master0"
+        bootMACAddress: "b4:86:11:c3:bb:94"
+        bootMode: "UEFI"
+        rootDeviceHints:
+          deviceName: "/dev/nvme0n1"
+        cpuset: "0-2,32-34"
+        ignitionConfigOverride: '{"ignition":{"version":"3.2.0"},"storage":{"disks":[{"device":"/dev/nvme1n1","wipeTable":true,"partitions":[{"number":1,"sizeMiB":102400,"startMib":0,"wipePartitionEntry":true},{"number":2,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":3,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":4,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":5,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":6,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":7,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":8,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":9,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":10,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":11,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":12,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":13,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":14,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":15,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":16,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":17,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":18,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":19,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":20,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":21,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":22,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":23,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":24,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":25,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":26,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":27,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":28,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":29,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":30,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true}]}],"filesystem":[{"device":"/dev/nvme1n1p1","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p2","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p3","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p4","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p5","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p6","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p7","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p8","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p9","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p10","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p11","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p12","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p13","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p14","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p15","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p16","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p17","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p18","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p19","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p20","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p21","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p22","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p23","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p24","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p25","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p26","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p27","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p28","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p29","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p30","format":"ext4","wipeFilesystem":true}]}}'
+        nodeNetwork:
+          interfaces:
+            - name: "ens1f0"
+              macAddress: b4:86:11:c3:bb:94
+          config:
+            interfaces:
+            - name: ens1f0.304
+              type: vlan
+              state: up
+              vlan:
+                base-iface: ens1f0
+                id: 304
+              'ipv6':
+                enabled: true
+                address:
+                  - ip: fd00:4888:2000:1182::100
+                    prefix-length: 64
+                dhcp: false
+            dns-resolver:
+              config:
+                server:
+                - fd00:4888:2000:1181::20
+            routes:
+              config:
+                - destination: '::/0' 
+                  next-hop-address: 'fd00:4888:2000:1182::'
+                  next-hop-interface: ens1f0.304
+  ## SNO-2
+  - clusterName: "sno-2"
+    clusterType: sno
+    clusterProfile: du
+    clusterLabels:
+      group-du-sno: ""
+      common: true
+      siteName : "fe-lab"
+      infra: "faregde"
+      server: "HP"
+      pao: "true"
+      sriov: "true"
+      sno: "true"
+      mcp: "master"
+      test: "true"
+      cluster.open-cluster-management.io/clusterset: "rbac-mcs-sno"
+    clusterNetwork:
+      - cidr: "fd01::/48"
+        hostPrefix: 64
+    serviceNetwork:
+      - "fd02::/112"
+    machineNetwork:
+      - cidr: "fd00:4888:2000:1183::/64"
+    additionalNTPSources:
+      - fd00:4888:2000:1181::20
+    nodes:
+      - hostName: "master.sno-2.faredge.lab"
+        bmcAddress: "redfish-virtualmedia://[fd00:4888:2000:1185::26]/redfish/v1/Systems/1"
+        bmcCredentialsName:
+          name: "sno-2-master"
+        bootMACAddress: "b4:86:11:c3:bb:34"
+        bootMode: "UEFI"
+        rootDeviceHints:
+          deviceName: "/dev/nvme0n1"
+        cpuset: "0-2,32-34"
+        ignitionConfigOverride: '{"ignition":{"version":"3.2.0"},"storage":{"disks":[{"device":"/dev/nvme1n1","wipeTable":true,"partitions":[{"number":1,"sizeMiB":102400,"startMib":0,"wipePartitionEntry":true},{"number":2,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":3,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":4,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":5,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":6,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":7,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":8,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":9,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":10,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":11,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":12,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":13,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":14,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":15,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":16,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":17,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":18,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":19,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":20,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":21,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":22,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":23,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":24,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":25,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":26,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":27,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":28,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":29,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true},{"number":30,"sizeMiB":30720,"startMib":0,"wipePartitionEntry":true}]}],"filesystem":[{"device":"/dev/nvme1n1p1","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p2","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p3","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p4","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p5","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p6","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p7","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p8","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p9","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p10","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p11","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p12","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p13","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p14","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p15","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p16","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p17","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p18","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p19","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p20","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p21","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p22","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p23","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p24","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p25","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p26","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p27","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p28","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p29","format":"ext4","wipeFilesystem":true},{"device":"/dev/nvme1n1p30","format":"ext4","wipeFilesystem":true}]}}'
+        nodeNetwork:
+          interfaces:
+            - name: "ens1f0"
+              macAddress: b4:86:11:c3:bb:34 
+          config:
+            interfaces:
+            - name: ens1f0.304
+              type: vlan
+              state: up
+              vlan:
+                base-iface: ens1f0
+                id: 304
+              'ipv6':
+                enabled: true
+                address:
+                  - ip: fd00:4888:2000:1183::200
+                    prefix-length: 64
+                dhcp: false
+            dns-resolver:
+              config:
+                server:
+                - fd00:4888:2000:1181::20
+            routes:
+              config:
+                - destination: '::/0' 
+                  next-hop-address: 'fd00:4888:2000:1183::'
+                  next-hop-interface: ens1f0.304

@@ -1,0 +1,125 @@
+---
+apiVersion: ran.openshift.io/v1 
+kind: PolicyGenTemplate
+metadata:
+  name: "fe-lab"
+  namespace: "fe-lab-policies"
+spec:
+  bindingRules:
+    siteName: "fe-lab"
+  mcp: "master"
+  sourceFiles:
+    ## LocalStorage test
+    - fileName: StorageLocalVolume.yaml
+      policyName: "storage-policy"
+      spec:
+        storageClassDevices:
+          - devicePaths:
+            - /dev/nvme1n1p1
+            - /dev/nvme1n1p2
+            - /dev/nvme1n1p3
+            - /dev/nvme1n1p4
+            fsType: xfs
+            storageClassName: fs-lso
+            volumeMode: Filesystem
+    - fileName: StorageClass.yaml
+      policyName: "storage-policy"
+      metadata:
+        annotations:
+          storageclass.kubernetes.io/is-default-class: "true"
+        labels:
+          local.storage.openshift.io/owner-name: ls-fs
+        name: fs-lso
+    ## InternalRegistry
+    - fileName: ImageRegistryConfigPVC.yaml
+      policyName: "image-registry-policy"
+      metadata:
+        name: registry-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Gi
+    - fileName: ImageRegistryConfig.yaml
+      policyName: "image-registry-policy"
+      spec:
+        storage:
+          pvc:
+            claim: 'registry-storage'
+    ## SRIOV
+    - fileName: SriovNetwork.yaml
+      policyName: "sriov-config"
+      metadata:
+        name: "sriov-network-1"
+      spec:
+        resourceName: cvl-sriov-sno1
+        vlan: 123
+        spoofChk: "off"
+    - fileName: SriovNetworkNodePolicy.yaml
+      policyName: "sriov-config"
+      metadata:
+        name: "sriov-cvl-sno1-fh"
+      spec:
+        deviceType: vfio-pci
+        isRdma: false
+        nicSelector:
+          pfNames: ["ens1f0#0-4"]
+        numVfs: 10
+        priority: 10
+        resourceName: cvl_sno1
+    - fileName: SriovNetworkNodePolicy.yaml
+      policyName: "sriov-config"
+      metadata:
+        name: "sriov-cvl-1-sno1-netdevice"
+      spec:
+        deviceType: netdevice
+        isRdma: false
+        nicSelector:
+          pfNames: ["ens1f0#5-9"]
+        numVfs: 10
+        priority: 10
+        resourceName: cvl_sno1_net
+    - fileName: SriovNetworkNodePolicy.yaml
+      policyName: "sriov-config"
+      metadata:
+        name: "sriov-cvl-2-sno1-netdevice"
+      spec:
+        deviceType: vfio-pci 
+        isRdma: false
+        nicSelector:
+          pfNames: ["ens1f1"]
+        numVfs: 8
+        resourceName: cvl_2_sno1_net
+    ## PAO  
+    - fileName: PerformanceProfile.yaml
+      policyName: "perfprofile-policy"
+      metadata:
+        name: openshift-node-performance-profile
+      spec:
+        cpu:
+          isolated: "3-31,35-63"
+          reserved: "0-2,32-34"
+        hugepages:
+          defaultHugepagesSize: 1G
+          pages:
+            - size: 1G
+              count: 10
+              node: 0
+        realTimeKernel:
+          enabled: false 
+    - fileName: TunedPerformancePatch.yaml
+      policyName: "tuned-perf-patch-policy"
+      spec:
+        profile:
+          - name: performance-patch
+            data: |
+              [main]
+              summary=Configuration changes profile inherited from performance created tuned
+              include=openshift-node-performance-profile
+              [bootloader]
+              cmdline_crash=nohz_full=3-31,35-63
+              [sysctl]
+              kernel.timer_migration=1
+              [service]
+              service.stalld=start,enable

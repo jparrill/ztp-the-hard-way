@@ -1,0 +1,293 @@
+---
+apiVersion: ran.openshift.io/v1 
+kind: PolicyGenTemplate
+metadata:
+  name: "common"
+  namespace: "common"
+  labels:
+    test: "test"
+spec:
+  bindingRules:
+    common: "true"
+  sourceFiles:
+    ## CatalogSources
+    - fileName: StorageCatSource.yaml
+      policyName: "catsources-fe-lab"
+      metadata:
+        name: redhat-operator-index
+        namespace: openshift-marketplace
+      spec:
+        image: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/olm-index-redhat-operator-index:v4.8
+        sourceType: grpc
+        displayName: FE Lab - RedHat
+        publisher: felab
+        updateStrategy:
+          registryPoll:
+            interval: 30m
+    - fileName: StorageCatSource.yaml
+      policyName: "catsources-fe-lab"
+      metadata:
+        name: community-operator-index
+        namespace: openshift-marketplace
+      spec:
+        image: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/olm-index-community-operator-index:v4.8
+        sourceType: grpc
+        displayName: FE Lab - Community
+        publisher: felab
+        updateStrategy:
+          registryPoll:
+            interval: 30m
+    - fileName: StorageCatSource.yaml
+      policyName: "catsources-fe-lab"
+      metadata:
+        name: certified-operator-index
+        namespace: openshift-marketplace
+      spec:
+        sourceType: grpc
+        image: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/olm-index-certified-operator-index:v4.8
+        displayName: FE Lab - Certified
+        publisher: felab
+        updateStrategy:
+          registryPoll:
+            interval: 30m
+    ## Disable Default Sources
+    - fileName: OperatorHub.yaml
+      policyName: "disable-def-sources-policy"
+    ## LSO Deployment
+    - fileName: StorageNS.yaml
+      policyName: "storage-operator-deployment"
+    - fileName: StorageOperGroup.yaml
+      policyName: "storage-operator-deployment"
+    - fileName: StorageSubscription.yaml
+      policyName: "storage-operator-deployment"
+      spec:
+        channel: "4.8"
+        installPlanApproval: Automatic
+        name: local-storage-operator
+        source: redhat-operator-index
+        sourceNamespace: openshift-marketplace
+    ## ICSP
+    - fileName: DisconnectedICSP.yaml 
+      policyName: "icsp-fe-policy"
+      spec:
+        repositoryDigestMirrors:
+        ## Certified Operators
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-community-operators-hive-operator
+          source: quay.io/openshift-community-operators/hive-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-hive-hive
+          source: quay.io/openshift-hive/hive
+        ## Community Operators
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-community-operators-hive-operator
+          source: quay.io/openshift-community-operators/hive-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-hive-hive
+          source: quay.io/openshift-hive/hive
+        ## RH Operators
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-external-snapshotter-rhel8
+          source: registry.redhat.io/openshift4/ose-csi-external-snapshotter-rhel8
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-external-resizer-rhel8
+          source: registry.redhat.io/openshift4/ose-csi-external-resizer-rhel8
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-operator-bundle
+          source: registry.redhat.io/openshift4/ose-sriov-network-operator-bundle
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-kube-rbac-proxy
+          source: registry.redhat.io/openshift4/ose-kube-rbac-proxy
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-config-daemon
+          source: registry.redhat.io/openshift4/ose-sriov-network-config-daemon
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-ocs-must-gather-rhel8
+          source: registry.redhat.io/ocs4/ocs-must-gather-rhel8
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-ocs-rhel8-operator
+          source: registry.redhat.io/ocs4/ocs-rhel8-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-ocs-operator-bundle
+          source: registry.redhat.io/ocs4/ocs-operator-bundle
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-device-plugin
+          source: registry.redhat.io/openshift4/ose-sriov-network-device-plugin
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhceph-rhceph-4-rhel8
+          source: registry.redhat.io/rhceph/rhceph-4-rhel8
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-mcg-rhel8-operator
+          source: registry.redhat.io/ocs4/mcg-rhel8-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-operator-must-gather
+          source: registry.redhat.io/openshift4/ose-sriov-operator-must-gather
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-external-attacher
+          source: registry.redhat.io/openshift4/ose-csi-external-attacher
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-webhook
+          source: registry.redhat.io/openshift4/ose-sriov-network-webhook
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-operator
+          source: registry.redhat.io/openshift4/ose-sriov-network-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-rook-ceph-rhel8-operator
+          source: registry.redhat.io/ocs4/rook-ceph-rhel8-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-ptp-operator-metadata
+          source: registry.redhat.io/openshift4/ose-ptp-operator-metadata
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-dp-admission-controller
+          source: registry.redhat.io/openshift4/ose-sriov-dp-admission-controller
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhel8-postgresql-12
+          source: registry.redhat.io/rhel8/postgresql-12
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-static-provisioner
+          source: registry.redhat.io/openshift4/ose-local-storage-static-provisioner
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-mcg-core-rhel8
+          source: registry.redhat.io/ocs4/mcg-core-rhel8
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-external-provisioner-rhel8
+          source: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel8
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-operator-bundle
+          source: registry.redhat.io/openshift4/ose-local-storage-operator-bundle
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-performance-addon-operator-bundle-registry-container-rhel8
+          source: registry.redhat.io/openshift4/performance-addon-operator-bundle-registry-container-rhel8
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-operator
+          source: registry.redhat.io/openshift4/ose-local-storage-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-diskmaker
+          source: registry.redhat.io/openshift4/ose-local-storage-diskmaker
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-ptp-operator
+          source: registry.redhat.io/openshift4/ose-ptp-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-ptp
+          source: registry.redhat.io/openshift4/ose-ptp
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-cephcsi-rhel8
+          source: registry.redhat.io/ocs4/cephcsi-rhel8
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-cni
+          source: registry.redhat.io/openshift4/ose-sriov-cni
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-node-driver-registrar
+          source: registry.redhat.io/openshift4/ose-csi-node-driver-registrar
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-infiniband-cni
+          source: registry.redhat.io/openshift4/ose-sriov-infiniband-cni
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-performance-addon-rhel8-operator
+          source: registry.redhat.io/openshift4/performance-addon-rhel8-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/intel-sriov-fec-operator
+          source: registry.connect.redhat.com/intel/sriov-fec-operator
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-kube-rbac-proxy
+          source: registry.redhat.io/openshift4/ose-kube-rbac-proxy
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/kubebuilder-kube-rbac-proxy
+          source: gcr.io/kubebuilder/kube-rbac-proxy
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/intel-sriov-fec-operator-bundle
+          source: registry.connect.redhat.com/intel/sriov-fec-operator-bundle
+        ## ACM
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
+          source: quay.io/acm-d
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
+          source: quay.io:443/acm-d
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2
+          source: registry.redhat.io/rhacm2
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/openshift4
+          source: registry.redhat.io/openshift4
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhel8
+          source: registry.redhat.io/rhel8
+        ## AI
+        - mirrors:
+          - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal
+          source: quay.io/ocpmetal
+    ## MachineConfigs
+    - fileName:  MachineConfigDisableChronyd.yaml
+      policyName: "ingress-egress-limit-ssh-fe-policy"
+      metadata:
+        labels:
+          machineconfiguration.openshift.io/role: master
+        name: ingress-limit-ssh
+      spec:
+        config:
+          ignition:
+            version: 3.2.0
+          systemd:
+            units:
+              - contents: |
+                  [Unit]
+                  Description=Configure ingress bandwidth limiting on br-ex for ssh tranfers
+                  Requires=ovs-configuration.service
+                  After=ovs-configuration.service
+                  [Service]
+                  Type=oneshot
+                  RemainAfterExit=yes
+                  ExecStart=/bin/bash -c "phs=$(/bin/nmcli --get-values GENERAL.DEVICES conn show ovs-if-phys0) ;\
+                              modprobe ifb ;\
+                              /usr/sbin/ip link add ifb5268 type ifb ;\
+                              /usr/sbin/ip link set dev ifb5268 up ;\
+                              /usr/sbin/tc qdisc add dev $phs ingress ;\
+                              /usr/sbin/tc filter add dev $phs parent ffff: protocol ipv6 u32 match u32 0 0 flowid 1494: action mirred egress redirect dev ifb5268 ;\
+                              /usr/sbin/tc qdisc add dev ifb5268 root handle 1494: htb default 1 ;\
+                              /usr/sbin/tc class add dev ifb5268 parent 1494: classid 1494:1 htb rate 32000000.0kbit ;\
+                              /usr/sbin/tc class add dev ifb5268 parent 1494: classid 1494:41 htb rate 20000.0Kbit ceil 20000.0Kbit burst 2500.0KB cburst 2500.0KB ;\
+                              /usr/sbin/tc qdisc add dev ifb5268 parent 1494:41 handle 205a: netem ;\
+                              /usr/sbin/tc filter add dev ifb5268 protocol ipv6 parent 1494: prio 6 u32 match ip6 dst ::/0 match ip6 src ::/0 match ip6 dport 22 0xffff flowid 1494:41" 
+                  ExecStop=/bin/bash -c "phs=$(/bin/nmcli --get-values GENERAL.DEVICES conn show ovs-if-phys0) ;\
+                              /usr/sbin/tc qdisc del dev $phs ingress ;\
+                              /usr/sbin/tc qdisc del dev ifb5268 root ;\
+                              /usr/sbin/ip link set dev ifb5268 down ;\
+                              /usr/sbin/ip link delete ifb5268"
+                  [Install]
+                  WantedBy=multi-user.target
+                enabled: true
+                name: ingress-limit-ssh.service
+    - fileName: MachineConfigDisableChronyd.yaml
+      policyName: "ingress-egress-limit-ssh-fe-policy"
+      metadata:
+        labels:
+          machineconfiguration.openshift.io/role: master 
+        name: egress-limit-ssh
+      spec:
+        config:
+          ignition:
+            version: 3.2.0
+          systemd:
+            units:
+              - contents: |
+                  [Unit]
+                  Description=Configure egress bandwidth limiting on br-ex for ssh tranfers
+                  Requires=ovs-configuration.service
+                  After=ovs-configuration.service
+                  [Service]
+                  Type=oneshot
+                  RemainAfterExit=yes
+                  ExecStart=/bin/bash -c "phs=$(/bin/nmcli --get-values GENERAL.DEVICES conn show ovs-if-phys0) ;\
+                              /usr/sbin/tc qdisc add dev $phs root handle 1494: htb default 1 ;\
+                              /usr/sbin/tc class add dev $phs parent 1494: classid 1494:1 htb rate 32000000.0kbit ;\
+                              /usr/sbin/tc class add dev $phs parent 1494: classid 1494:41 htb rate 20000.0Kbit ceil 20000.0Kbit burst 2500.0KB cburst 2500.0KB ;\
+                              /usr/sbin/tc qdisc add dev $phs parent 1494:41 handle 205a: netem ;\
+                              /usr/sbin/tc filter add dev $phs protocol ipv6 parent 1494: prio 6 u32 match ip6 dst ::/0 match ip6 src ::/0 match ip6 dport 22 0xffff flowid 1494:41"
+                  ExecStop=/bin/bash -c "phs=$(/bin/nmcli --get-values GENERAL.DEVICES conn show ovs-if-phys0) ;\
+                              /usr/sbin/tc qdisc del dev $phs root"
+                  [Install]
+                  WantedBy=multi-user.target
+                enabled: true
+                name: egress-limit-ssh.service
+
