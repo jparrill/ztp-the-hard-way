@@ -1,12 +1,12 @@
 ---
-apiVersion: agent-install.openshift.io/v1beta1 
+apiVersion: agent-install.openshift.io/v1beta1
 kind: InfraEnv
 metadata:
   name: sno-2
   namespace: sno-2
 spec:
   additionalNTPSources:
-    - fd00:4888:2000:1181::20 
+    - fd00:4888:2000:1181::20
   clusterRef:
     name: sno-2
     namespace: sno-2

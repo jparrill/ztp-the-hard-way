@@ -1,35 +1,36 @@
 # Automation using RHACM and ArgoCD with PolicyGenerator
+
 <!-- TOC -->
 
 - [Architecture and Workflow](#architecture-and-workflow)
 - [ArgoCD and PolicyGenerator deployment](#argocd-and-policygenerator-deployment)
-    - [GitOps Operator](#gitops-operator)
-    - [PolicyGenerator](#policygenerator)
+  - [GitOps Operator](#gitops-operator)
+  - [PolicyGenerator](#policygenerator)
 - [How to organize the Automation Templates repository](#how-to-organize-the-automation-templates-repository)
-    - [Recommendations](#recommendations)
-    - [Considerations](#considerations)
+  - [Recommendations](#recommendations)
+  - [Considerations](#considerations)
 - [RHACM Automated and highly scalable ZTP flow](#rhacm-automated-and-highly-scalable-ztp-flow)
-    - [Cluster Deployment Phase](#cluster-deployment-phase)
-        - [ Deployment of the CNF Features](#deployment-of-the-cnf-features)
-        - [Filling your repo with Policies and Clusters](#filling-your-repo-with-policies-and-clusters)
-    - [SNO Clusters Config Phase](#sno-clusters-config-phase)
+  - [Cluster Deployment Phase](#cluster-deployment-phase)
+    - [ Deployment of the CNF Features](#deployment-of-the-cnf-features)
+    - [Filling your repo with Policies and Clusters](#filling-your-repo-with-policies-and-clusters)
+  - [SNO Clusters Config Phase](#sno-clusters-config-phase)
 - [Creating a New Sites](#creating-a-new-sites)
-    - [Baking a new Site/Spoke Cluster](#baking-a-new-sitespoke-cluster)
-    - [Following a Cluster Deployment](#following-a-cluster-deployment)
+  - [Baking a new Site/Spoke Cluster](#baking-a-new-sitespoke-cluster)
+  - [Following a Cluster Deployment](#following-a-cluster-deployment)
 - [Creating/Updating policies on the Git repo](#creatingupdating-policies-on-the-git-repo)
-    - [Baking a new policyGenTemplate](#baking-a-new-policygentemplate)
-    - [Following a Policy Deployment](#following-a-policy-deployment)
+  - [Baking a new policyGenTemplate](#baking-a-new-policygentemplate)
+  - [Following a Policy Deployment](#following-a-policy-deployment)
 - [FAQ](#faq)
-    - [Modifying a policy in the repo](#modifying-a-policy-in-the-repo)
-    - [Modifying a SNO already deployed](#modifying-a-sno-already-deployed)
-    - [Enable the user/pass authentication in the automation](#enable-the-userpass-authentication-in-the-automation)
+  - [Modifying a policy in the repo](#modifying-a-policy-in-the-repo)
+  - [Modifying a SNO already deployed](#modifying-a-sno-already-deployed)
+  - [Enable the user/pass authentication in the automation](#enable-the-userpass-authentication-in-the-automation)
 - [Troubleshooting](#troubleshooting)
-    - [Validating a New SNO deployment](#validating-a-new-sno-deployment)
-        - [Cheatsheet](#cheatsheet)
-    - [Checking the Policies](#checking-the-policies)
+  - [Validating a New SNO deployment](#validating-a-new-sno-deployment)
+    - [Cheatsheet](#cheatsheet)
+  - [Checking the Policies](#checking-the-policies)
 - [References](#references)
-    - [Troubleshooting](#troubleshooting-1)
-    - [Disaster Recovery](#disaster-recovery)
+  - [Troubleshooting](#troubleshooting-1)
+  - [Disaster Recovery](#disaster-recovery)
 
 <!-- /TOC -->
 
@@ -46,7 +47,6 @@ Here we will have some important components:
 This is the workflow diagram:
 
 ![img](../../assets/ztp-policygen-workflow.png)
-
 
 ## ArgoCD and PolicyGenerator deployment
 
@@ -65,12 +65,12 @@ spec:
   config:
     env:
     - name: ARGOCD_CLUSTER_CONFIG_NAMESPACES
-      value: openshift-gitops, ztp-clusters 
+      value: openshift-gitops, ztp-clusters
   channel: "stable"
   installPlanApproval: Automatic
   name: openshift-gitops-operator
   # Modify source name of the catalogsource for isolated network deployments
-  source: redhat-operator-index 
+  source: redhat-operator-index
   sourceNamespace: openshift-marketplace
 ```
 
@@ -119,7 +119,6 @@ The steps to deploy (just once) this hooks and components from this repo are the
 This action will deploy some objects, the most important one are 2 ArgoCD Applications which handle the pulls from the Git repository to have the policies updated on the Hub and SNOs as you have declared on Git.
 
 ![img](../../assets/ztp-argocd-apps.png)
-
 
 For sure we will revisit this step to provide much more details about the PolicyGenerator deployment, but for now we will focus on how to start creating our Templates repo.
 
@@ -195,7 +194,7 @@ Going step by step the first thing we need to have in mind is that we will work 
 # Sample
     path: <path-to-the-clusters-folder>
     repoURL: <repo URL> 
-    targetRevision: <Branch> 
+    targetRevision: <Branch>
 ```
 
 And this is the real content that should have inside both files:
@@ -479,9 +478,9 @@ There are many relevant things here:
 - The clusterNetwork and serviceNetwork should not be overlapped between eachother.
 - The machineNetwork.cidr is the network address where the SNO will be deployed
 - In the nodes section:
-    - The bmcCredentialsName.name is the secret name created in the SNO namespace
-    - The ignitionConfigOverride is a String which contains a JSON with the proper ignition customizations like partitioning or any other aspects you wanna change and will be applied in deployment time.
-    - The nodeNetwork sections contains an nmstate file which contains the customizations on networking side.
+  - The bmcCredentialsName.name is the secret name created in the SNO namespace
+  - The ignitionConfigOverride is a String which contains a JSON with the proper ignition customizations like partitioning or any other aspects you wanna change and will be applied in deployment time.
+  - The nodeNetwork sections contains an nmstate file which contains the customizations on networking side.
 
 ### Following a Cluster Deployment
 
@@ -660,7 +659,6 @@ Note: If you modify a policy in the ACM directly wihout change nothing in the Gi
 
 You just need to add something like this to the field `spec.clusters.<cluster>.nodes.ignitionConfigOverride`.
 
-
 To generate the passwordHash you need to execute this command in a shell and get the output:
 
 ```
@@ -675,7 +673,7 @@ Then add it to the proper section in the json, inside of the above mentioned fie
 
 ### Enable the user/pass authentication in the automation
 
-You just need to do the same thing as before including your user/password into the proper ignition section, then we need to create a policy to automate the sshd_config file deployment which will include the PasswordAuthentication yes in the file. 
+You just need to do the same thing as before including your user/password into the proper ignition section, then we need to create a policy to automate the sshd_config file deployment which will include the PasswordAuthentication yes in the file.
 
 To generate the sshd_config file, you need to execute this command using that file as a base in order to have it in base64:
 
@@ -763,12 +761,13 @@ oc get bmh -n <sno NS>
 ### Checking the Policies
 
 - A RHACM Policy can be in 2 states (oc get policies -n <spoke cluster>):
-    - Compliant: The policy has created the desired object in the selected spoke cluster
-    - NonCompliant: The policy cannot create the Object, the creation is in progress or the policy has changed
+
+  - Compliant: The policy has created the desired object in the selected spoke cluster
+  - NonCompliant: The policy cannot create the Object, the creation is in progress or the policy has changed
 
 - A Compliant policy that creates objects means, that the objects in that policy were created but that DOES NOT means that the final purpose of the policy really worked.
-    - E.G: A policy creates an object, which is a subscription. This last one triggers an automation on OCP to allow OLM to create an operator in the cluster. This operator creation can be blocked by external issues like the OperatorGroup does not exists. 
-    - The advice here is to create some kind of validation policies to check the final status
+  - E.G: A policy creates an object, which is a subscription. This last one triggers an automation on OCP to allow OLM to create an operator in the cluster. This operator creation can be blocked by external issues like the OperatorGroup does not exists.
+  - The advice here is to create some kind of validation policies to check the final status
 
 ## References
 
@@ -777,4 +776,5 @@ oc get bmh -n <sno NS>
 - Official troubleshooting documentation: https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/troubleshooting/index
 
 ### Disaster Recovery
+
 - DR Blogpost: https://cloud.redhat.com/blog/backup-and-restore-red-hat-advanced-cluster-management-for-kubernetes

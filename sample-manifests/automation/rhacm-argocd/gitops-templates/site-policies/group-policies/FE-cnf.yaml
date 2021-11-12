@@ -55,7 +55,7 @@ spec:
             priority1 128
             priority2 90
             # VZN = 128
-      
+
             domainNumber 24
             #utc_offset 37
             clockClass 248
@@ -69,8 +69,8 @@ spec:
             dscp_general 0
             dataset_comparison ieee1588
             # VZN = G.8275.x
-            
-            G.8275.defaultDS.localPriority 200 
+
+            G.8275.defaultDS.localPriority 200
             #
             # Port Data Set
             #
@@ -83,7 +83,7 @@ spec:
             delayAsymmetry 0
             fault_reset_interval -128
             # VZN = 0
-            
+
             neighborPropDelayThresh 20000000
             masterOnly 0
             G.8275.portDS.localPriority 200
@@ -100,7 +100,7 @@ spec:
             tc_spanning_tree 0
             tx_timestamp_timeout 1000
             # VZN production = 50
-            
+
             unicast_listen 0
             unicast_master_table 0
             unicast_req_duration 3600
@@ -108,7 +108,7 @@ spec:
             verbose 0
             summary_interval -4
             # VZN = 6
-            
+
             kernel_leap 1
             check_fup_sync 0
             #
@@ -127,7 +127,7 @@ spec:
             max_frequency 900000000
             clock_servo pi
             # VZN = linreg
-      
+
             sanity_freq_limit 200000000
             ntpshm_segment 0
             #
@@ -155,7 +155,7 @@ spec:
             boundary_clock_jbod 0
             # This setting is 1 in VZN config
             #
-      
+
             #
             # Clock description
             #
@@ -200,14 +200,14 @@ spec:
     - fileName: SriovSubscription.yaml
       policyName: "sriov-fec-operator-deployment"
       metadata:
-        name: sriov-fec-subscription 
-        namespace: vran-acceleration-operators 
+        name: sriov-fec-subscription
+        namespace: vran-acceleration-operators
       spec:
         channel: "stable"
         name: sriov-fec
         source: certified-operator-index
     ## TODO: We still need to add the SRIOV-FEC Config
-    - fileName: MachineConfigDummy.yaml 
+    - fileName: MachineConfigDummy.yaml
       policyName: "mc-icsp-tags"
       metadata:
         labels:

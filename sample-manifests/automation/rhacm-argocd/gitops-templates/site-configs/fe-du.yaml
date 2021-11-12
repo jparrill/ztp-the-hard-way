@@ -70,7 +70,7 @@ spec:
                 - fd00:4888:2000:1181::20
             routes:
               config:
-                - destination: '::/0' 
+                - destination: '::/0'
                   next-hop-address: 'fd00:4888:2000:1182::'
                   next-hop-interface: ens1f0.304
   ## SNO-2
@@ -112,7 +112,7 @@ spec:
         nodeNetwork:
           interfaces:
             - name: "ens1f0"
-              macAddress: b4:86:11:c3:bb:34 
+              macAddress: b4:86:11:c3:bb:34
           config:
             interfaces:
             - name: ens1f0.304
@@ -133,6 +133,6 @@ spec:
                 - fd00:4888:2000:1181::20
             routes:
               config:
-                - destination: '::/0' 
+                - destination: '::/0'
                   next-hop-address: 'fd00:4888:2000:1183::'
                   next-hop-interface: ens1f0.304

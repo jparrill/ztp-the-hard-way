@@ -77,7 +77,7 @@ metadata:
 spec:
   clusterConditions:
   - status: "True"
-    type: ManagedClusterJoined 
+    type: ManagedClusterJoined
   clusterSelector:
     matchExpressions:
       - {key: pao, operator: In, values: ["true"]}

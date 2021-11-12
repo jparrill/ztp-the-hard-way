@@ -1,5 +1,5 @@
 ---
-apiVersion: ran.openshift.io/v1 
+apiVersion: ran.openshift.io/v1
 kind: PolicyGenTemplate
 metadata:
   name: "fe-lab"
@@ -85,13 +85,13 @@ spec:
       metadata:
         name: "sriov-cvl-2-sno1-netdevice"
       spec:
-        deviceType: vfio-pci 
+        deviceType: vfio-pci
         isRdma: false
         nicSelector:
           pfNames: ["ens1f1"]
         numVfs: 8
         resourceName: cvl_2_sno1_net
-    ## PAO  
+    ## PAO
     - fileName: PerformanceProfile.yaml
       policyName: "perfprofile-policy"
       metadata:
@@ -107,7 +107,7 @@ spec:
               count: 10
               node: 0
         realTimeKernel:
-          enabled: false 
+          enabled: false
     - fileName: TunedPerformancePatch.yaml
       policyName: "tuned-perf-patch-policy"
       spec:

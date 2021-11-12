@@ -9,16 +9,16 @@ spec:
   clusterNamespace: sno-1
   clusterLabels:
     name: sno-1
-    cloud: Baremetal 
-    vendor: HP 
+    cloud: Baremetal
+    vendor: HP
   applicationManager:
     argocdCluster: false
     enabled: true
   certPolicyController:
-    enabled: true 
+    enabled: true
   iamPolicyController:
-    enabled: true 
+    enabled: true
   policyController:
-    enabled: true 
+    enabled: true
   searchCollector:
-    enabled: true 
+    enabled: true

@@ -8,10 +8,10 @@ spec:
   config:
     env:
     - name: ARGOCD_CLUSTER_CONFIG_NAMESPACES
-      value: openshift-gitops, ztp-clusters 
+      value: openshift-gitops, ztp-clusters
   channel: "stable"
   installPlanApproval: Automatic
   name: openshift-gitops-operator
   # Modify source name of the catalogsource for isolated network deployments
-  source: redhat-operator-index 
+  source: redhat-operator-index
   sourceNamespace: openshift-marketplace

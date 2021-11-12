@@ -1,12 +1,12 @@
 ---
-apiVersion: agent-install.openshift.io/v1beta1 
+apiVersion: agent-install.openshift.io/v1beta1
 kind: InfraEnv
 metadata:
   name: sno-1
-  namespace: sno-1 
+  namespace: sno-1
 spec:
   additionalNTPSources:
-    - fd00:4888:2000:1181::20 
+    - fd00:4888:2000:1181::20
   clusterRef:
     name: sno-1
     namespace: sno-1
@@ -15,7 +15,7 @@ spec:
     matchLabels:
       cluster-name: sno-1
   pullSecretRef:
-    name: assisted-deployment-pull-secret-sno-1 
+    name: assisted-deployment-pull-secret-sno-1
   nmStateConfigLabelSelector:
     matchLabels:
-      acm-ai-sno: sno-1 
+      acm-ai-sno: sno-1

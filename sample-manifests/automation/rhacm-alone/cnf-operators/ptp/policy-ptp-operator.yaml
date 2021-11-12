@@ -101,7 +101,7 @@ metadata:
 spec:
   clusterConditions:
   - status: "True"
-    type: ManagedClusterJoined 
+    type: ManagedClusterJoined
   clusterSelector:
     matchExpressions:
       - {key: ptp, operator: In, values: ["true"]}

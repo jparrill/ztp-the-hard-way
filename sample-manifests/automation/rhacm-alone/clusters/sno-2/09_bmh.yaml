@@ -5,7 +5,7 @@ metadata:
   name: sno-2-master0
   namespace: sno-2
 data:
-  username: YWRtaW4= 
+  username: YWRtaW4=
   password: YWRyb2dhbGxvcA==
 type: Opaque
 ---
@@ -19,7 +19,7 @@ metadata:
   annotations:
     ## Set Static hostname
     bmac.agent-install.openshift.io/hostname: "master-0.sno-2.faredge.lab"
-    ## Set Static Role 
+    ## Set Static Role
     bmac.agent-install.openshift.io/role: "master"
 spec:
   online: true

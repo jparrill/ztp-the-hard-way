@@ -1,5 +1,5 @@
 ---
-apiVersion: ran.openshift.io/v1 
+apiVersion: ran.openshift.io/v1
 kind: PolicyGenTemplate
 metadata:
   name: "common"
@@ -67,7 +67,7 @@ spec:
         source: redhat-operator-index
         sourceNamespace: openshift-marketplace
     ## ICSP
-    - fileName: DisconnectedICSP.yaml 
+    - fileName: DisconnectedICSP.yaml
       policyName: "icsp-fe-policy"
       spec:
         repositoryDigestMirrors:
@@ -248,7 +248,7 @@ spec:
                               /usr/sbin/tc class add dev ifb5268 parent 1494: classid 1494:1 htb rate 32000000.0kbit ;\
                               /usr/sbin/tc class add dev ifb5268 parent 1494: classid 1494:41 htb rate 20000.0Kbit ceil 20000.0Kbit burst 2500.0KB cburst 2500.0KB ;\
                               /usr/sbin/tc qdisc add dev ifb5268 parent 1494:41 handle 205a: netem ;\
-                              /usr/sbin/tc filter add dev ifb5268 protocol ipv6 parent 1494: prio 6 u32 match ip6 dst ::/0 match ip6 src ::/0 match ip6 dport 22 0xffff flowid 1494:41" 
+                              /usr/sbin/tc filter add dev ifb5268 protocol ipv6 parent 1494: prio 6 u32 match ip6 dst ::/0 match ip6 src ::/0 match ip6 dport 22 0xffff flowid 1494:41"
                   ExecStop=/bin/bash -c "phs=$(/bin/nmcli --get-values GENERAL.DEVICES conn show ovs-if-phys0) ;\
                               /usr/sbin/tc qdisc del dev $phs ingress ;\
                               /usr/sbin/tc qdisc del dev ifb5268 root ;\
@@ -262,7 +262,7 @@ spec:
       policyName: "ingress-egress-limit-ssh-fe-policy"
       metadata:
         labels:
-          machineconfiguration.openshift.io/role: master 
+          machineconfiguration.openshift.io/role: master
         name: egress-limit-ssh
       spec:
         config:
@@ -290,4 +290,3 @@ spec:
                   WantedBy=multi-user.target
                 enabled: true
                 name: egress-limit-ssh.service
-

@@ -37,7 +37,7 @@ spec:
                     isolated: 3-31,35-63
                     reserved: 0-2,32-34
                   hugepages:
-                    defaultHugepagesSize: "1G" 
+                    defaultHugepagesSize: "1G"
                     pages:
                       - size: "1G"
                         count: 10
@@ -111,7 +111,7 @@ metadata:
 spec:
   clusterConditions:
   - status: "True"
-    type: ManagedClusterJoined 
+    type: ManagedClusterJoined
   clusterSelector:
     matchExpressions:
       - {key: pao, operator: In, values: ["true"]}

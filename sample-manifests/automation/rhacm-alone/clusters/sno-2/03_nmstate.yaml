@@ -17,7 +17,7 @@ spec:
         'ipv6':
           enabled: true
           address:
-            - ip: fd00:4888:2000:1183::200 
+            - ip: fd00:4888:2000:1183::200
               prefix-length: 64
           dhcp: false
     dns-resolver:
@@ -26,9 +26,9 @@ spec:
         - fd00:4888:2000:1181::20
     routes:
       config:
-        - destination: '::/0' 
+        - destination: '::/0'
           next-hop-address: 'fd00:4888:2000:1183::'
-          next-hop-interface: ens1f0.304 
+          next-hop-interface: ens1f0.304
   interfaces:
     - name: "ens1f0"
       macAddress: b4:86:11:c3:bb:34

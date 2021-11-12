@@ -5,7 +5,7 @@ metadata:
   name: sno-2
   namespace: sno-2
 spec:
-  baseDomain: faredge.lab 
+  baseDomain: faredge.lab
   clusterName: sno-2
   controlPlaneConfig:
     servingCertificates: {}
@@ -15,7 +15,7 @@ spec:
     name: sno-2
     version: v1beta1
   platform:
-    agentBareMetal: 
+    agentBareMetal:
       agentSelector:
         matchLabels:
           cluster-name: "mgmt-spoke1-sno-2"

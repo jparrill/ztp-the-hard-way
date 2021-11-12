@@ -3,11 +3,11 @@ apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
   name: sno-1
-  namespace: sno-1 
+  namespace: sno-1
 spec:
   # TODO: Review Workload partitioning before uncomment this next 2 lines
   manifestsConfigMapRef:
-    name: workload-partitioning-install-manifests-mgmt-spoke1-sno-1 
+    name: workload-partitioning-install-manifests-mgmt-spoke1-sno-1
   clusterDeploymentRef:
     name: sno-1
   imageSetRef:
@@ -23,4 +23,3 @@ spec:
   provisionRequirements:
     controlPlaneAgents: 1
   sshPublicKey: 'ssh-rsa adasdlkasjdlklaskdjadoipjasdoiasj root@xxxxXXXXxxx'
-

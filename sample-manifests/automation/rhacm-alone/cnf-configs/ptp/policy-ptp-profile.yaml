@@ -56,7 +56,7 @@ spec:
                       dscp_event 0
                       dscp_general 0
                       dataset_comparison ieee1588
-                      G.8275.defaultDS.localPriority 200 
+                      G.8275.defaultDS.localPriority 200
                       #
                       # Port Data Set
                       #
@@ -138,7 +138,7 @@ spec:
                       revisionData ;;
                       manufacturerIdentity 00:00:00
                       userDescription ;
-                      timeSource 0xA0       
+                      timeSource 0xA0
                   recommend:
                   - profile: "slave"
                     priority: 4
@@ -165,7 +165,7 @@ metadata:
 spec:
   clusterConditions:
   - status: "True"
-    type: ManagedClusterJoined 
+    type: ManagedClusterJoined
   clusterSelector:
     matchExpressions:
       - {key: ptp, operator: In, values: ["true"]}

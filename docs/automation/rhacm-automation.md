@@ -4,9 +4,9 @@
 
 - [Pre-requisites for the automation](#pre-requisites-for-the-automation)
 - [Automation](#automation)
-    - [Cluster Deployments](#cluster-deployments)
-    - [CNF Operator Deployments](#cnf-operator-deployments)
-    - [CNF Configurations](#cnf-configurations)
+  - [Cluster Deployments](#cluster-deployments)
+  - [CNF Operator Deployments](#cnf-operator-deployments)
+  - [CNF Configurations](#cnf-configurations)
 - [Samples](#samples)
 
 <!-- /TOC -->

@@ -60,9 +60,9 @@ repos:
     rev: v1.10.0
     hooks:
     -   id: blacken-docs
--   repo: https://github.com/hcodes/yaspeller.git
-    rev: v7.0.0
-    hooks:
-    -   id: yaspeller
-        types:
-        - markdown
+      #-   repo: https://github.com/hcodes/yaspeller.git
+      #    rev: v7.0.0
+      #    hooks:
+      #    -   id: yaspeller
+      #        types:
+      #        - markdown

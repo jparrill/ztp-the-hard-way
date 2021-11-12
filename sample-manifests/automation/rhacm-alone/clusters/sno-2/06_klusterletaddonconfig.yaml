@@ -9,8 +9,8 @@ spec:
   clusterNamespace: sno-2
   clusterLabels:
     name: sno-2
-    cloud: Baremetal 
-    vendor: HP 
+    cloud: Baremetal
+    vendor: HP
   applicationManager:
     enabled: true
   certPolicyController:
@@ -18,6 +18,6 @@ spec:
   iamPolicyController:
     enabled: false
   policyController:
-    enabled: true 
+    enabled: true
   searchCollector:
     enabled: false
