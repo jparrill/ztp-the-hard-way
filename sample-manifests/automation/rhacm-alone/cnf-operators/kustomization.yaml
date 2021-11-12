@@ -1,0 +1,5 @@
+resources:
+  - catalogsources/policy-cs.yaml
+  - pao/policy-pao48.yaml
+  - ptp/policy-ptp-operator.yaml
+  - sriov/policy-sriov-operator.yaml

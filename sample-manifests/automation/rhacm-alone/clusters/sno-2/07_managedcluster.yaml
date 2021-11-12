@@ -1,0 +1,16 @@
+---
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: mgmt-spoke1-sno-2
+  namespace: mgmt-spoke1-sno-2
+  labels:
+    name: mgmt-spoke1-sno-2
+    infra: "faregde"
+    server: "HP"
+    pao: "true"
+    sriov: "false"
+    sno: "true"
+spec:
+  hubAcceptsClient: true
+  leaseDurationSeconds: 60

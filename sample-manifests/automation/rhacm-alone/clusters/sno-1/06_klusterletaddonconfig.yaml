@@ -1,0 +1,24 @@
+---
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: sno-1
+  namespace: sno-1
+spec:
+  clusterName: sno-1
+  clusterNamespace: sno-1
+  clusterLabels:
+    name: sno-1
+    cloud: Baremetal
+    vendor: HP
+  applicationManager:
+    argocdCluster: false
+    enabled: true
+  certPolicyController:
+    enabled: true
+  iamPolicyController:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true

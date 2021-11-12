@@ -1,0 +1,5 @@
+resources:
+- 01_clusterimageset.yaml
+- 02_pull_secret.yaml
+- 03_disconnected_mirror_config.yaml
+- 04_assisted-service.yaml

@@ -1,0 +1,118 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: policy-pao-profile-dell
+  annotations:
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    policy.open-cluster-management.io/categories: CM Configuration Management
+    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
+spec:
+  remediationAction: enforce
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        ## PAO Profile
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: policy-pao-profile-dell
+        spec:
+          remediationAction: enforce
+          severity: low
+          namespaceSelector:
+            exclude: ["kube-*"]
+            include: ["*"]
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: performance.openshift.io/v1
+                kind: PerformanceProfile
+                metadata:
+                  name: master-du-performance-dell
+                spec:
+                  additionalKernelArgs:
+                  - "idle=poll"
+                  cpu:
+                    isolated: 3-31,35-63
+                    reserved: 0-2,32-34
+                  hugepages:
+                    defaultHugepagesSize: "1G"
+                    pages:
+                      - size: "1G"
+                        count: 10
+                        node: 0
+                  machineConfigPoolSelector:
+                    pools.operator.machineconfiguration.openshift.io/master: ""
+                  net:
+                    userLevelNetworking: true
+                  nodeSelector:
+                    node-role.kubernetes.io/master: ''
+                  numa:
+                    topologyPolicy: "restricted"
+                  realTimeKernel:
+                    enabled: false
+    - objectDefinition:
+        ## Tuned Patch
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: policy-pao-tuned-profile-dell
+        spec:
+          remediationAction: enforce
+          severity: low
+          namespaceSelector:
+            exclude: ["kube-*"]
+            include: ["*"]
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: tuned.openshift.io/v1
+                kind: Tuned
+                metadata:
+                  name: performance-patch-dell
+                  namespace: openshift-cluster-node-tuning-operator
+                spec:
+                  profile:
+                    - name: performance-patch
+                      data: |
+                        [main]
+                        summary=Configuration changes profile inherited from performance created tuned
+                        include=master-du-performance-dell
+                        [bootloader]
+                        cmdline_crash=nohz_full=3-31,35-63
+                        [sysctl]
+                        kernel.timer_migration=1
+                        [service]
+                        service.stalld=start,enable
+                  recommend:
+                    - machineConfigLabels:
+                        machineconfiguration.openshift.io/role: "master"
+                      priority: 19
+                      profile: performance-patch
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-policy-pao-dell
+placementRef:
+  name: placement-policy-pao-profile-dell
+  kind: PlacementRule
+  apiGroup: apps.open-cluster-management.io
+subjects:
+- name: policy-pao-profile-dell
+  kind: Policy
+  apiGroup: policy.open-cluster-management.io
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: placement-policy-pao-profile-dell
+spec:
+  clusterConditions:
+  - status: "True"
+    type: ManagedClusterJoined
+  clusterSelector:
+    matchExpressions:
+      - {key: pao, operator: In, values: ["true"]}
+      - {key: server, operator: In, values: ["Dell"]}

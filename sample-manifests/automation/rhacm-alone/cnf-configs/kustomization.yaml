@@ -1,0 +1,4 @@
+resources:
+  - pao/policy-pao48-profile-dell.yaml
+  - pao/policy-pao48-profile-hp.yaml
+  - ptp/policy-ptp-profile.yaml

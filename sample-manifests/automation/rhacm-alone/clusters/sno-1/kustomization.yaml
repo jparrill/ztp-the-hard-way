@@ -1,0 +1,11 @@
+resources:
+- 00_namespace.yaml
+- 01_pull_secret.yaml
+- 02_workload_partitioning.yaml
+- 03_nmstate.yaml
+- 04_agentcluster.yaml
+- 05_clusterdeployment.yaml
+- 06_klusterletaddonconfig.yaml
+- 07_managedcluster.yaml
+- 08_infraenv.yaml
+- 09_bmh.yaml

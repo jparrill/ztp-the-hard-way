@@ -1,0 +1,140 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bastion1-mirror-config
+  namespace: open-cluster-management
+  labels:
+    app: assisted-service
+data:
+  ca-bundle.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIF/DCCA+SgAwIBAgIUI6a544evhLskRL/w79eaC1j+EZ4wDQYJKoZIhvcNAQEL
+    j+cVlB0lDE57HQD7dawka7OP5TF6dkPX3d4qyyGBrOdJKIjFJjX3E1b7PEZn1aqC
+    nqySFO3wLuvEuWQdwRUzZY3Vos3GVAEUaW5S9BFzItSO3RdOgVfDz/pZ7sMlM8hH
+    ...
+    ...
+    vFkaSKruu4bae8+uXgCgHrg7F+be2Pd5Df0MhlgghEF+BZqLwYrSpFv+Kg4sofK5
+    pk4nMiwxMuNeWthp3ifPZMxqUdKq4dtA7yELtzbvLngudE7TBdAosbLzfGgmTBU8
+    ...
+    ...
+    Cuktgd+6WuwjGd4GZUOKuITJa5jr0Wspvh4Xliu96w8S2RyXtJb2tJ8ovrbumd0L
+    EDGUSvSEKyzPhXKiLnRpwzJGQGPzlJRp1biV9S1sSz4l1Tb5UOLj6MO1JdbnxU2z
+    ...
+    GGHK/pSiLQMR5gXAc7psis1U/S9RqDp6mMIgaS+QfPrVYKNGJDF2Bcp0XMv/Py2P
+    2wjeGrxHzg9ODMGfIyY/rjppDvR+QVFiOOfZPIQqQY/xjESaica0rJRf3ZV5cJCc
+    -----END CERTIFICATE-----
+  registries.conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/acm-d"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/ocpmetal"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-community-operators/hive-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-community-operators-hive-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-hive/hive"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-hive-hive"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-release"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io:443/acm-d"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/openshift4"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-diskmaker"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-diskmaker"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-operator-bundle"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-operator-bundle"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-static-provisioner"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-static-provisioner"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhel8"

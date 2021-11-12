@@ -1,0 +1,56 @@
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-v4.8.0
+  namespace: open-cluster-management
+spec:
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.2-x86_64
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-v4.8.2
+  namespace: open-cluster-management
+spec:
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.2-x86_64
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-v4.8.5
+  namespace: open-cluster-management
+spec:
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.5-x86_64
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-v4.8.10
+  namespace: open-cluster-management
+spec:
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.10-x86_64
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-v4.8.11
+  namespace: open-cluster-management
+spec:
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.11-x86_64
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-v4.8.12
+  namespace: open-cluster-management
+spec:
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.12-x86_64
+---
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: openshift-v4.8.13
+  namespace: open-cluster-management
+spec:
+  releaseImage: bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4:4.8.13-x86_64

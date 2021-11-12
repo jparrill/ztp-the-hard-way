@@ -1,0 +1,1048 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bastion1-mirror-config
+  namespace: open-cluster-management
+  labels:
+    app: assisted-service
+data:
+  ca-bundle.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIF/DCCA+SgAwIBAgIUI6a544evhLskRL/w79eaC1j+EZ4wDQYJKoZIhvcNAQEL
+    +aUmB0xF2yrsi+Q2BTtcPtobKLAmMogRv10htQUn1+zs+BtUR7Uom75iah5Yxp9Z
+    Ic12fbebIgRFUaQf0AAeWgScT4MoKI3xdjKdTb4uFTW00G87W4VU/YFulvT+/5eq
+    j+cVlB0lDE57HQD7dawka7OP5TF6dkPX3d4qyyGBrOdJKIjFJjX3E1b7PEZn1aqC
+    ...
+    ...
+    ...
+    vFkaSKruu4bae8+uXgCgHrg7F+be2Pd5Df0MhlgghEF+BZqLwYrSpFv+Kg4sofK5
+    Me5HGfaRJTjwsE+0D6Jsmnofk0IUf8vtdFtm+bHBN55/SGAqVuuvAPdtGKPBi/Lo
+    2wjeGrxHzg9ODMGfIyY/rjppDvR+QVFiOOfZPIQqQY/xjESaica0rJRf3ZV5cJCc
+    -----END CERTIFICATE-----
+  registries.conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/acm-d"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/ocpmetal"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocpmetal"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-community-operators/hive-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-community-operators-hive-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-hive/hive"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-hive-hive"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-release"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/ocp4"
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io:443/acm-d"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ocs4/cephcsi-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-cephcsi-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ocs4/mcg-core-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-mcg-core-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ocs4/mcg-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-mcg-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ocs4/ocs-must-gather-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-ocs-must-gather-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ocs4/ocs-operator-bundle"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-ocs-operator-bundle"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ocs4/ocs-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-ocs-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ocs4/rook-ceph-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-rook-ceph-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/ocs4/volume-replication-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/ocs4-volume-replication-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/openshift4"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-configmap-reloader"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-configmap-reloader"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-csi-external-attacher"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-external-attacher"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-external-provisioner-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-csi-external-resizer-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-external-resizer-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-csi-external-snapshotter-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-external-snapshotter-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-csi-node-driver-registrar"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-csi-node-driver-registrar"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-grafana"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-grafana"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-kube-rbac-proxy"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-kube-rbac-proxy"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-diskmaker"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-diskmaker"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-operator-bundle"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-operator-bundle"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-local-storage-static-provisioner"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-local-storage-static-provisioner"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-oauth-proxy"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-oauth-proxy"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-prometheus-alertmanager"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-prometheus-alertmanager"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-ptp"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-ptp"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-ptp-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-ptp-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-ptp-operator-metadata"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-ptp-operator-metadata"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-cni"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-cni"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-dp-admission-controller"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-dp-admission-controller"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-infiniband-cni"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-infiniband-cni"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-network-config-daemon"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-config-daemon"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-network-device-plugin"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-device-plugin"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-network-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-network-operator-bundle"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-operator-bundle"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-network-webhook"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-network-webhook"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/ose-sriov-operator-must-gather"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-sriov-operator-must-gather"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/performance-addon-operator-bundle-registry-container-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-performance-addon-operator-bundle-registry-container-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/openshift4/performance-addon-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-performance-addon-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhacm2"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/acm-grafana-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-acm-grafana-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/acm-must-gather-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-acm-must-gather-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/acm-operator-bundle"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-acm-operator-bundle"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/acmesolver-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-acmesolver-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/agent-service-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-agent-service-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/application-ui-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-application-ui-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/assisted-installer-agent-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-assisted-installer-agent-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/assisted-installer-reporter-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-assisted-installer-reporter-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/assisted-installer-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-assisted-installer-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/cainjector-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-cainjector-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/cert-manager-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-cert-manager-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/cert-manager-webhook-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-cert-manager-webhook-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/cert-policy-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-cert-policy-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/cluster-curator-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-cluster-curator-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/clusterlifecycle-state-metrics-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-clusterlifecycle-state-metrics-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/config-policy-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-config-policy-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/configmap-watcher-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-configmap-watcher-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/console-api-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-console-api-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/console-header-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-console-header-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/console-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-console-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/console-ui-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-console-ui-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/discovery-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-discovery-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/endpoint-component-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-endpoint-component-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/endpoint-monitoring-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-endpoint-monitoring-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/endpoint-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-endpoint-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/governance-policy-propagator-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-governance-policy-propagator-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/governance-policy-spec-sync-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-governance-policy-spec-sync-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/governance-policy-status-sync-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-governance-policy-status-sync-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/governance-policy-template-sync-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-governance-policy-template-sync-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/grafana"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-grafana"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/grafana-dashboard-loader-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-grafana-dashboard-loader-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/grc-ui-api-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-grc-ui-api-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/grc-ui-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-grc-ui-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/iam-policy-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-iam-policy-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/insights-client-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-insights-client-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/insights-metrics-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-insights-metrics-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/klusterlet-addon-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-klusterlet-addon-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/klusterlet-addon-lease-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-klusterlet-addon-lease-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/klusterlet-addon-operator-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-klusterlet-addon-operator-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/klusterlet-addon-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-klusterlet-addon-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/kui-web-terminal-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-kui-web-terminal-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/managedcluster-import-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-managedcluster-import-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/management-ingress-rhel7"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-management-ingress-rhel7"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/mcm-topology-api-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-mcm-topology-api-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/mcm-topology-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-mcm-topology-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/memcached-exporter-rhel7"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-memcached-exporter-rhel7"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/memcached-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-memcached-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/metrics-collector-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-metrics-collector-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multicloud-manager-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multicloud-manager-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multicluster-observability-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multicluster-observability-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multicluster-operators-application-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multicluster-operators-application-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multicluster-operators-channel-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multicluster-operators-channel-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multicluster-operators-deployable-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multicluster-operators-deployable-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multicluster-operators-placementrule-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multicluster-operators-placementrule-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multicluster-operators-subscription-release-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multicluster-operators-subscription-release-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multicluster-operators-subscription-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multiclusterhub-repo-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multiclusterhub-repo-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/multiclusterhub-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-multiclusterhub-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/observatorium-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-observatorium-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/observatorium-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-observatorium-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/openshift-hive-rhel7"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-openshift-hive-rhel7"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/openshift-hive-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-openshift-hive-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/placement-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-placement-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/prometheus-alertmanager-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-prometheus-alertmanager-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/provider-credential-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-provider-credential-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/rbac-query-proxy-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-rbac-query-proxy-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/rcm-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-rcm-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/redisgraph-tls-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-redisgraph-tls-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/registration-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-registration-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/registration-rhel8-operator"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-registration-rhel8-operator"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/search-aggregator-rhel7"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-search-aggregator-rhel7"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/search-aggregator-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-search-aggregator-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/search-api-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-search-api-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/search-collector-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-search-collector-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/search-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-search-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/search-ui-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-search-ui-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/submariner-addon-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-submariner-addon-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/thanos-receive-controller-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-thanos-receive-controller-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/thanos-rhel7"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-thanos-rhel7"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhacm2/work-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhacm2-work-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhceph/rhceph-4-rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhceph-rhceph-4-rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhel8"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/rhel8"
+
+    [[registry]]
+      prefix = ""
+      location = "registry.redhat.io/rhel8/postgresql-12"
+      mirror-by-digest-only = true
+
+      [[registry.mirror]]
+        location = "bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhel8-postgresql-12"
