@@ -107,28 +107,6 @@ data:
 
 **NOTE**: We don't recommend using this functionality in production environments as it's not supported.
 
-- **Private Key**: This is a Secret created that contains the private key that will be used by Assisted Service pod.
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: assisted-deployment-ssh-private-key
-  namespace: open-cluster-management
-stringData:
-  ssh-privatekey: |-
-    -----BEGIN OPENSSH PRIVATE KEY-----
-    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn
-    xe+m0Tg8fgoEdogPgx6W0T30Y9b1lytPZKr3gBhKdEGD79by/vjIulP2CqkeNBCfdmIHts
-    ...
-    ...
-    ...
-    KnSXpjTZqJen9KAoSl9+U6hJ9mh8uBKAT4B74g4JtjILKiXiKkyWI75PpWb05RXxBxzUYX
-    4qqJ4OPv/pnjM7UAAAAXcm9vdEBxY3QtZDE0dTExLnZsYW4yMDgBAgME
-    -----END OPENSSH PRIVATE KEY-----
-type: Opaque
-```
-
 - **Pull Secret**: This is a Secret that contains the access credentials for the Registry access (Internal or External)
 
 ```yaml
