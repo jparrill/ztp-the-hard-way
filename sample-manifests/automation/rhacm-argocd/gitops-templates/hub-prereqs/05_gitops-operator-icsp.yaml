@@ -1,0 +1,51 @@
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  name: gitops-operator-icsp
+spec:
+  repositoryDigestMirrors:
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-tech-preview-gitops-rhel8-operator
+    source: registry.redhat.io/openshift-gitops-1-tech-preview/gitops-rhel8-operator
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-kam-delivery-rhel8
+    source: registry.redhat.io/openshift-gitops-1/kam-delivery-rhel8
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-tech-preview-kam-delivery-rhel8
+    source: registry.redhat.io/openshift-gitops-1-tech-preview/kam-delivery-rhel8
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-gitops-rhel8
+    source: registry.redhat.io/openshift-gitops-1/gitops-rhel8
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-tech-preview-gitops-rhel8
+    source: registry.redhat.io/openshift-gitops-1-tech-preview/gitops-rhel8
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-gitops-rhel8-operator
+    source: registry.redhat.io/openshift-gitops-1/gitops-rhel8-operator
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-applicationset-rhel8
+    source: registry.redhat.io/openshift-gitops-1/applicationset-rhel8
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-tech-preview-gitops-operator-bundle
+    source: registry.redhat.io/openshift-gitops-1-tech-preview/gitops-operator-bundle
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-tech-preview-argocd-rhel8
+    source: registry.redhat.io/openshift-gitops-1-tech-preview/argocd-rhel8
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-gitops-operator-bundle
+    source: registry.redhat.io/openshift-gitops-1/gitops-operator-bundle
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift-gitops-1-argocd-rhel8
+    source: registry.redhat.io/openshift-gitops-1/argocd-rhel8
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rhel8-redis-5
+    source: registry.redhat.io/rhel8/redis-5
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/rh-sso-7-sso74-openshift-rhel8
+    source: registry.redhat.io/rh-sso-7/sso74-openshift-rhel8
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/olm/openshift4-ose-haproxy-router
+    source: registry.redhat.io/openshift4/ose-haproxy-router
+  - mirrors:
+    - bm-cluster-1-hyper.e2e.bos.redhat.com:5000/redhat_emp1/ztp-site-generator
+    source: quay.io/redhat_emp1/ztp-site-generator

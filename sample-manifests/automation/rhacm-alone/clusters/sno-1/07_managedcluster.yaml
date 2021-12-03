@@ -1,0 +1,16 @@
+---
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: sno-1
+  namespace: sno-1
+  labels:
+    name: sno-1
+    infra: "faregde"
+    server: "HP"
+    pao: "true"
+    sriov: "true"
+    sno: "true"
+spec:
+  hubAcceptsClient: true
+  leaseDurationSeconds: 60

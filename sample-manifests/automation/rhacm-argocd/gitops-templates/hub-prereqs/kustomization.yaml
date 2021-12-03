@@ -1,0 +1,7 @@
+resources:
+- 01_clusterimageset.yaml
+- 02_pull_secret.yaml
+- 03_disconnected_mirror_config.yaml
+- 04_assisted-service.yaml
+- 05_gitops-operator-icsp.yaml
+- 06_gitops-operator-install.yaml

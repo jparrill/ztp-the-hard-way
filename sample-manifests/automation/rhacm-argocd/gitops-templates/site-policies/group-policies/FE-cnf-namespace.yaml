@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: group-du-sno
+  labels:
+    name: group-du-sno

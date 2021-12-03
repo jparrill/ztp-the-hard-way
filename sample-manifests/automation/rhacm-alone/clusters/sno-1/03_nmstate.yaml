@@ -1,0 +1,34 @@
+apiVersion: agent-install.openshift.io/v1beta1
+kind: NMStateConfig
+metadata:
+  name: sno-1
+  namespace: sno-1
+  labels:
+    acm-ai-sno: sno-1
+spec:
+  config:
+    interfaces:
+      - name: ens1f0.304
+        type: vlan
+        state: up
+        vlan:
+          base-iface: ens1f0
+          id: 304
+        'ipv6':
+          enabled: true
+          address:
+            - ip: fd00:4888:2000:1182::100
+              prefix-length: 64
+          dhcp: false
+    dns-resolver:
+      config:
+        server:
+        - fd00:4888:2000:1181::20
+    routes:
+      config:
+        - destination: '::/0'
+          next-hop-address: 'fd00:4888:2000:1182::'
+          next-hop-interface: ens1f0.304
+  interfaces:
+    - name: "ens1f0"
+      macAddress: b4:86:11:c3:bb:94

@@ -1,0 +1,34 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sno-1-master0
+  namespace: sno-1
+data:
+  username: YWRtaW4=
+  password: YWRyb2dhbGxvcA==
+type: Opaque
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: sno-1-master0
+  namespace: sno-1
+  labels:
+    infraenvs.agent-install.openshift.io: "sno-1"
+  annotations:
+    ## Set Static rHhostname
+    bmac.agent-install.openshift.io/hostname: "master-0.sno-1.faredge.lab"
+    ## Set Static Role
+    bmac.agent-install.openshift.io/role: "master"
+spec:
+  online: true
+  bootMACAddress: b4:86:11:c3:bb:94
+  automatedCleaningMode: disabled
+  bootMode: UEFI
+  bmc:
+    address: redfish-virtualmedia://[fd00:4888:2000:1185::25]/redfish/v1/Systems/1
+    credentialsName: sno-1-master0
+    disableCertificateVerification: true
+    rootDeviceHints:
+      deviceName: "/dev/nvme0n1"
