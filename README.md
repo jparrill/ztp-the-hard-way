@@ -59,6 +59,8 @@ Well, we can discover how to deal with ZTP following these steps:
 - [Disconnected ZTP Flow Hub deployment](/docs/disconnected-ZTP-flow-hub-deployment.md)
 - [Connected ZTP Flow Hub deployment](/docs/connected-ZTP-flow-hub-deployment.md)
 
+**NOTE:** A series of demonstration videos showing the entire process for disconnected environments is available [here](https://www.youtube.com/playlist?list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td)
+
 From here we can experiment a bit more with the massive Deployments and Policies with ACM, for that we will create a new section
 
 - [Automation and Massive deployments with ZTP](/docs/automation-massive-deployments-ztp.md)
