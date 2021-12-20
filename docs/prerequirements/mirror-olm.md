@@ -5,6 +5,7 @@ Table of contents:
 - [Mirror OLM Marketplace](#mirror-olm-marketplace)
   - [Helpers](#helpers)
     - [OLM Sync Script](#olm-sync-script)
+- [Demo video](https://www.youtube.com/watch?v=RKTX_2a1b-g&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=8)
 
 <!-- /TOC -->
 
