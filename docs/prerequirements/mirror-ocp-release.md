@@ -3,6 +3,7 @@ Table of contents:
 <!-- TOC GFM -->
 
 - [Mirror the OCP Release](#mirror-the-ocp-release)
+- [Demo video](https://www.youtube.com/watch?v=V-0n1-pBtjw&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=5)
 
 <!-- /TOC -->
 
