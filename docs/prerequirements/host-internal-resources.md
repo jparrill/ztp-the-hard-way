@@ -6,6 +6,7 @@ Table of contents:
   - [HTTPD Server deployment and Configuration](#httpd-server-deployment-and-configuration)
   - [Internal Registry Deployment and Configuration](#internal-registry-deployment-and-configuration)
   - [Download the desired OpenShift ISO and RootFS](#download-the-desired-openshift-iso-and-rootfs)
+  - [Demo video](https://www.youtube.com/watch?v=JUdOzmk4v38&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=4)
 
 <!-- /TOC -->
 
