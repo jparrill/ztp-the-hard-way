@@ -3,10 +3,9 @@ Table of contents:
 <!-- TOC -->
 
 - [Host Internal resources](#host-internal-resources)
-  - [HTTPD Server deployment and Configuration](#httpd-server-deployment-and-configuration)
-  - [Internal Registry Deployment and Configuration](#internal-registry-deployment-and-configuration)
-  - [Download the desired OpenShift ISO and RootFS](#download-the-desired-openshift-iso-and-rootfs)
-  - [Demo video](https://www.youtube.com/watch?v=JUdOzmk4v38&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=4)
+    - [HTTPD Server deployment and Configuration](#httpd-server-deployment-and-configuration)
+    - [Internal Registry Deployment and Configuration](#internal-registry-deployment-and-configuration)
+    - [Download the desired OpenShift ISO and RootFS](#download-the-desired-openshift-iso-and-rootfs)
 
 <!-- /TOC -->
 
@@ -28,6 +27,10 @@ systemctl enable --now httpd
 firewall-cmd --add-service http --permanent
 firewall-cmd --reload
 ```
+
+If you decided to host over HTTPS ensure the certificate it's included in any way (via ignition) in the ISO created, if not the ISO and RootFS will not be able to be downloaded from the Agent on the destination node.
+
+:warning: **The URL set on the osImages section should be a trusted one, if not the image download and creation will fail during the process. The untrusted HTTPS servers are not supported**
 
 ## Internal Registry Deployment and Configuration
 

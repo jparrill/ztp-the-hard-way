@@ -3,25 +3,16 @@ Table of contents:
 <!-- TOC -->
 
 - [Disconnected ZTP Flow Hub deployment](#disconnected-ztp-flow-hub-deployment)
-  - [Pre Requirements Phase](#pre-requirements-phase)
-  - [ACM Deployment in a disconnected Environment](#acm-deployment-in-a-disconnected-environment)
-  - [Manifest Creation Phase](#manifest-creation-phase)
-    - [Hub Basic elements creation](#hub-basic-elements-creation)
-    - [Spoke cluster definition](#spoke-cluster-definition)
-      - [SNO Cluster Definition](#sno-cluster-definition)
-      - [Multi Node Cluster Definition](#multi-node-cluster-definition)
-    - [Spoke cluster deployment](#spoke-cluster-deployment)
-      - [Fully Automated ZTP](#fully-automated-ztp)
-      - [Manual Spoke cluster deployment](#manual-spoke-cluster-deployment)
-  - Demo videos:
-    - [Setup and Deploy Dual-Stack DNS and DHCP Servers](https://www.youtube.com/watch?v=Eq86phrMz_4&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=3)
-    - [Setup and Deploy an HTTP Server along with OS images](https://www.youtube.com/watch?v=JUdOzmk4v38&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=3)
-    - [Setup and Deploy a Disconnected internal Registry](https://www.youtube.com/watch?v=RnqP9ZRRfaQ&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=4)
-    - [Mirror a Red Hat OpenShift Container Platform Release](https://www.youtube.com/watch?v=V-0n1-pBtjw&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=5)
-    - [Deploy Red Hat OpenShift Container Platform Hub Cluster from Disconnected Registry using IPI method](https://www.youtube.com/watch?v=lKEi73D1tMY&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=6)
-    - [Mirror Operator Lifecycle Manager Marketplace Catalogs](https://www.youtube.com/watch?v=RKTX_2a1b-g&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=7)
-    - [Mirror and Deploy Red Hat OpenShift Advanced Cluster Manager Downstream Operator](https://www.youtube.com/watch?v=JSkPCkuO16s&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=8)
-    - [Deploy Dual-Stack Disconnected SNO Spoke Cluster](https://www.youtube.com/watch?v=NsHg4a-no8g&list=PLaR6Rq6Z4IqecDatkODye7IWMJUc5r6td&index=9)
+    - [Pre Requirements Phase](#pre-requirements-phase)
+    - [ACM Deployment in a disconnected Environment](#acm-deployment-in-a-disconnected-environment)
+    - [Manifest Creation Phase](#manifest-creation-phase)
+        - [Hub Basic elements creation](#hub-basic-elements-creation)
+        - [Spoke cluster definition](#spoke-cluster-definition)
+            - [SNO Cluster Definition](#sno-cluster-definition)
+            - [Multi Node Cluster Definition](#multi-node-cluster-definition)
+        - [Spoke cluster deployment](#spoke-cluster-deployment)
+            - [Fully Automated ZTP](#fully-automated-ztp)
+            - [Manual Spoke cluster deployment](#manual-spoke-cluster-deployment)
 
 <!-- /TOC -->
 
@@ -232,6 +223,8 @@ spec:
 ```
 
 **NOTE**: Ensure you put the right IP or name of the server you are hosting from the ISO and the RootFS.
+
+:warning: **The URL set on the osImages section should be a trusted one, if not the image download and creation will fail during the process. The untrusted HTTPS servers are not supported**
 
 Once created all of these manifests we need to wait until a pod similar to `assisted-service-XXxxxXXX-XXXxxxx` is created and in READY state.
 

@@ -3,17 +3,17 @@ Table of contents:
 <!-- TOC -->
 
 - [Connected ZTP Flow Hub deployment](#connected-ztp-flow-hub-deployment)
-  - [ACM Deployment Connected](#acm-deployment-connected)
-  - [Manifest Creation Phase](#manifest-creation-phase)
-    - [Hub Basic elements creation](#hub-basic-elements-creation)
-    - [Spoke cluster definition](#spoke-cluster-definition)
-      - [SNO Cluster Definition](#sno-cluster-definition)
-      - [Multi Node Cluster Definition](#multi-node-cluster-definition)
-  - [Spoke cluster deployment](#spoke-cluster-deployment)
-    - [Fully Automated ZTP](#fully-automated-ztp)
-    - [Manual Spoke cluster deployment](#manual-spoke-cluster-deployment)
-  - [Side scenario](#side-scenario)
-    - [ACM Downstream on Connected environment cannot download the images from `registry.redhat.io/rhacm2`](#acm-downstream-on-connected-environment-cannot-download-the-images-from-registryredhatiorhacm2)
+    - [ACM Deployment Connected](#acm-deployment-connected)
+    - [Manifest Creation Phase](#manifest-creation-phase)
+        - [Hub Basic elements creation](#hub-basic-elements-creation)
+        - [Spoke cluster definition](#spoke-cluster-definition)
+            - [SNO Cluster Definition](#sno-cluster-definition)
+            - [Multi Node Cluster Definition](#multi-node-cluster-definition)
+    - [Spoke cluster deployment](#spoke-cluster-deployment)
+        - [Fully Automated ZTP](#fully-automated-ztp)
+        - [Manual Spoke cluster deployment](#manual-spoke-cluster-deployment)
+    - [Side scenario](#side-scenario)
+        - [ACM Downstream on Connected environment cannot download the images from `registry.redhat.io/rhacm2`](#acm-downstream-on-connected-environment-cannot-download-the-images-from-registryredhatiorhacm2)
 
 <!-- /TOC -->
 
@@ -157,6 +157,8 @@ spec:
 ```
 
 **NOTE**: Ensure you put the right IP or name of the server you are hosting from the ISO and the RootFS.
+
+:warning: **The URL set on the osImages section should be a trusted one, if not the image download and creation will fail during the process. The untrusted HTTPS servers are not supported**
 
 Once created all of these manifests we need to wait until a pod similar to `assisted-service-XXxxxXXX-XXXxxxx` is created and in READY state.
 
@@ -772,5 +774,7 @@ spec:
       url: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live.x86_64.iso"
       rootFSUrl: "https://releases-rhcos-art.cloud.privileged.psi.redhat.com/storage/releases/rhcos-4.8/48.84.202106070419-0/x86_64/rhcos-48.84.202106070419-0-live-rootfs.x86_64.img"
 ```
+
+:warning: **The URL set on the osImages section should be a trusted one, if not the image download and creation will fail during the process. The untrusted HTTPS servers are not supported**
 
 With that, should be ok to work with Downstream ACM spoke deployments.
