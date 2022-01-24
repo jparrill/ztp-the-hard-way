@@ -4,9 +4,9 @@
 
 - [Pre-requisites for the automation](#pre-requisites-for-the-automation)
 - [Automation](#automation)
-  - [Cluster Deployments](#cluster-deployments)
-  - [CNF Operator Deployments](#cnf-operator-deployments)
-  - [CNF Configurations](#cnf-configurations)
+    - [Cluster Deployments](#cluster-deployments)
+    - [CNF Operator Deployments](#cnf-operator-deployments)
+    - [CNF Configurations](#cnf-configurations)
 - [Samples](#samples)
 
 <!-- /TOC -->
@@ -120,7 +120,7 @@ where:
 
 And this is basically the process:
 
-![img](../assets/ztp-pre-reqs.png)
+![img](../../assets/ztp-pre-reqs.png)
 
 From this point, all the automation will be in a "chain" and the steps are linked between themselves. Ensure that all the resources are well created before continue.
 
