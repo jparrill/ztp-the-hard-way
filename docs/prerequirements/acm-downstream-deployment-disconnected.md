@@ -46,7 +46,7 @@ rm -rf ${BUILD_FOLDER}
 echo
 echo ">>>>>>>>>>>>>>> Cloning the Index and Bundle images..."
 skopeo copy --authfile ${PULL_SECRET_JSON} docker://quay.io/acm-d/acm-custom-registry:${SNAPSHOT} docker://${LOCAL_REGISTRY}/rhacm2/acm-custom-registry:${SNAPSHOT} --all
-skopeo copy --authfile ${PULL_SECRET_JSON}  docker://quay.io/acm-d/acm-operator-bundle:${ACM_OP_BUNDLE} docker://${LOCAL_REGISTRY}/rhacm2/acm-operator-bundle:${ACM_OP_BUNDLE} --all
+skopeo copy --authfile ${PULL_SECRET_JSON} docker://quay.io/acm-d/acm-operator-bundle:${ACM_OP_BUNDLE} docker://${LOCAL_REGISTRY}/rhacm2/acm-operator-bundle:${ACM_OP_BUNDLE} --all
 
 # Generate Mapping.txt
 echo
