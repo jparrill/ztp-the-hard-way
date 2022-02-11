@@ -59,7 +59,7 @@ sed -i s#registry.redhat.io/rhacm2/#${REMOTE_REGISTRY}/# ${BUILD_FOLDER}/mapping
 # Mirror the images into your mirror registry.
 echo
 echo ">>>>>>>>>>>>>>> Mirroring images..."
-#oc image mirror -f ${BUILD_FOLDER}/mapping.txt -a ${PULL_SECRET_JSON} --filter-by-os=.* --keep-manifest-list --continue-on-error=true
+oc image mirror -f ${BUILD_FOLDER}/mapping.txt -a ${PULL_SECRET_JSON} --filter-by-os=.* --keep-manifest-list --continue-on-error=true
 
 echo ">>>>>>>>>>>>>>> Copying images via skopeo..."
 for image in $(cat ${BUILD_FOLDER}/mapping.txt)
