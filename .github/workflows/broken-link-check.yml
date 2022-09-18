@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: "0 0 * * *" # daily
+    - cron: "0 22 * * 1-5"
   repository_dispatch: # run manually
     types: [check-link]
   # push:
