@@ -25,11 +25,23 @@ export COMM_OP_INDEX="registry.redhat.io/redhat/community-operator-index:v${OCP_
 export MARKETPLACE_OP_INDEX="registry.redhat.io/redhat-marketplace-index:v${OCP_RELEASE}"
 export RH_OP_PACKAGES='advanced-cluster-management,local-storage-operator,ocs-operator,performance-addon-operator,ptp-operator,sriov-network-operator'
 export COMM_OP_PACKAGES='hive-operator'
+export CERT_OP_PACKAGES=""
 
 if [ $# -lt 1 ]; then
 	echo "Usage : $0 mirror|mirror-olm|upgrade"
 	exit
 fi
+
+# Apply the ISV GPG key as specified in https://access.redhat.com/solutions/6542281
+setup-gpg-if-needed() {
+	if [ ! -f /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-isv ]; then
+	    echo "WARNING: GPG key for certified operators not found. setting it up now..."
+		sudo curl -s -o /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-isv https://www.redhat.com/security/data/55A34A82.txt
+		sudo cp /etc/containers/policy.json /etc/containers/policy.json_bck
+		jq '.transports.docker."registry.redhat.io/redhat/certified-operator-index" += [{"type": "signedBy","keyType": "GPGKeys","keyPath": "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-isv"}]' /etc/containers/policy.json >> temp-policy.json
+        sudo mv temp-policy.json /etc/containers/policy.json
+	fi
+}
 
 mirror() {
 	# Check for credentials for OPM
@@ -68,7 +80,31 @@ EOF
 	fi
 
 	if [ "${CERT_OP}" = true ]; then
-		"echo 1"
+		echo "opm index prune --from-index $CERT_OP_INDEX --packages $CERT_OP_PACKAGES --tag $LOCAL_REGISTRY/$LOCAL_REGISTRY_INDEX_TAG"
+		opm index prune --from-index $CERT_OP_INDEX --packages $CERT_OP_PACKAGES --tag $LOCAL_REGISTRY/$LOCAL_REGISTRY_INDEX_TAG
+		GODEBUG=x509ignoreCN=0 podman push --tls-verify=false $LOCAL_REGISTRY/$LOCAL_REGISTRY_INDEX_TAG --authfile $OCP_PULLSECRET_AUTHFILE
+		GODEBUG=x509ignoreCN=0 oc adm catalog mirror $LOCAL_REGISTRY/$LOCAL_REGISTRY_INDEX_TAG $LOCAL_REGISTRY/$LOCAL_REGISTRY_IMAGE_TAG --registry-config=$OCP_PULLSECRET_AUTHFILE
+
+		cat >certified-operator-index-manifests/catalogsource.yaml <<EOF
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: my-certified-operator-catalog
+  namespace: openshift-marketplace
+spec:
+  sourceType: grpc
+  image: $LOCAL_REGISTRY/$LOCAL_REGISTRY_INDEX_TAG
+  displayName: Temp Lab
+  publisher: templab
+  updateStrategy:
+    registryPoll:
+      interval: 30m
+EOF
+
+		echo ""
+		echo "To apply the Red Hat Operators catalog mirror configuration to your cluster, do the following once per cluster:"
+		echo "oc apply -f ./certified-operator-index-manifests/imageContentSourcePolicy.yaml"
+		echo "oc apply -f ./certified-operator-index-manifests/catalogsource.yaml"
 	fi
 
 	if [ "${COMM_OP}" = true ]; then
@@ -154,12 +190,15 @@ EOF
 
 case "$1" in
 mirror)
+    setup-gpg-if-needed
 	mirror
 	;;
 mirror-olm)
+    setup-gpg-if-needed
 	mirror-olm
 	;;
 upgrade)
+    setup-gpg-if-needed
 	upgrade
 	;;
 *)
